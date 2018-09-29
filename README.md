@@ -2,9 +2,6 @@
 
 The Volunteer Matching project is a web app that assists in better management of volunteer matching operations. It will track and provide matching suggestions of volunteer partners, opportunities for volunteers, and volunteers. Later features could include communications to build out functionality similar to a CRM.
 
-[//]: # (## Getting Started
-- TODO: Technical documentation to clone, install and run the project goes here.)
-
 ## Contributing
 
 We welcome new contributors.  Be sure to check out the guide on [contributing][contributing], which includes instructions on how to fork, clone, branch, commit, pull request and sync your fork.
