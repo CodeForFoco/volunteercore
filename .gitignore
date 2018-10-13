@@ -7,6 +7,7 @@ __pycache__
 # Local development ignores
 venv
 *.sqlite
+*.env
 
 # Production config
 local.cfg
@@ -15,3 +16,4 @@ local.cfg
 static/libs/*
 
 # Other stuff here
+*.db
