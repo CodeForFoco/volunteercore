@@ -11,11 +11,11 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 #from volunteermatching import views
-#from volunteermatching.models import Role, User
+from volunteermatching.models import Role, User
 
 # Setup Flask-Security
-#user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-#security = Security(app, user_datastore)
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security(app, user_datastore)
 
 if __name__ == '__main__':
     app.run()
