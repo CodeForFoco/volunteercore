@@ -12,5 +12,7 @@ migrate = Migrate(app, db)
 from .auth import bp_auth
 app.register_blueprint(bp_auth)
 
+from . import views
+
 if __name__ == '__main__':
     app.run()
