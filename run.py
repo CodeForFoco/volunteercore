@@ -1,5 +1,5 @@
 from volunteermatching import app, db
-from volunteermatching.models import Role, User
+from volunteermatching.auth.models import Role, User
 
 if __name__ == "__main__":
     app.run(debug=True)

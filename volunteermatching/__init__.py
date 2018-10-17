@@ -8,8 +8,9 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-#from volunteermatching import views
-from volunteermatching.models import Role, User
+# Register blueprints
+from .auth import bp_auth
+app.register_blueprint(bp_auth)
 
 if __name__ == '__main__':
     app.run()
