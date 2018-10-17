@@ -1,5 +1,7 @@
 from volunteermatching import db
+from volunteermatching.auth import login_manager
 from passlib.apps import custom_app_context as pwd_context
+from flask_login import UserMixin
 
 # Define models
 roles_users = db.Table('roles_users',
@@ -11,7 +13,7 @@ class Role(db.Model):
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), index=True, unique=True)
     password_hash = db.Column(db.String(255))
@@ -25,3 +27,7 @@ class User(db.Model):
 
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
