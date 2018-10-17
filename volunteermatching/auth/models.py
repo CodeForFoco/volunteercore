@@ -13,7 +13,7 @@ class Role(db.Model):
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(255), unique=True)
+    email = db.Column(db.String(255), index=True, unique=True)
     password_hash = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
