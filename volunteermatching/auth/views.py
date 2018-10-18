@@ -1,6 +1,6 @@
 from volunteermatching import app, db
 from .models import User
-from .forms import LoginForm, CreateUser
+from .forms import LoginForm, CreateUser, EditUser
 from flask import render_template, request, flash, url_for, redirect
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
@@ -38,3 +38,18 @@ def create_user():
         db.session.commit()
         return redirect(url_for('index'))
     return render_template('auth/create_user.html', title='Create User', form=form)
+
+@app.route('/admin/edit_user/<id>', methods=["GET", "POST"])
+@login_required
+def edit_user(id):
+    user = User.query.filter_by(id=id).first()
+    form = EditUser()
+    if form.validate_on_submit():
+        user = User(email=form.email.data)
+        user.hash_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('index'))
+    elif request.method == "GET":
+        form.email.data = user.email
+    return render_template('auth/edit_user.html', title='Edit User', form=form)
