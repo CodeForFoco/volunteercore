@@ -51,7 +51,7 @@ def edit_user(id):
     user = User.query.filter_by(id=id).first()
     form = EditUser()
     if form.validate_on_submit():
-        user = User(email=form.email.data)
+        user.email = form.email.data
         user.hash_password(form.password.data)
         db.session.add(user)
         db.session.commit()
