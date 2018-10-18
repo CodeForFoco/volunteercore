@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Admin</h1>
+{% for user in users %}
+<p><a href="{{ url_for('edit_user', id=user.id) }}">Edit</a> | {{ user.email }}</p>
+{% endfor %}
+
+{% endblock %}

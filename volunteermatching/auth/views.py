@@ -36,8 +36,14 @@ def create_user():
         user.hash_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('admin'))
     return render_template('auth/create_user.html', title='Create User', form=form)
+
+@app.route('/admin/')
+@login_required
+def admin():
+    users = User.query.all()
+    return render_template('auth/admin.html', title='Admin', users=users)
 
 @app.route('/admin/edit_user/<id>', methods=["GET", "POST"])
 @login_required
@@ -49,7 +55,7 @@ def edit_user(id):
         user.hash_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('admin'))
     elif request.method == "GET":
         form.email.data = user.email
     return render_template('auth/edit_user.html', title='Edit User', form=form)
