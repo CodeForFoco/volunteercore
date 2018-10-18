@@ -19,3 +19,14 @@ class CreateUser(FlaskForm):
         user = User.query.filter_by(email = email.data).first()
         if user is not None:
             raise ValidationError("This is email is already registered")
+
+class EditUser(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = StringField('Password', validators=[DataRequired()])
+    password2 = StringField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Save')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email = email.data).first()
+        if user is not None:
+            raise ValidationError("This is email is already registered")
