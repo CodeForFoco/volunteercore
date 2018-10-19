@@ -1,6 +1,6 @@
 from volunteermatching import app, db
 from .models import User
-from .forms import LoginForm, CreateUser, EditUser
+from .forms import LoginForm, CreateUser, EditUser, DeleteUser
 from flask import render_template, request, flash, url_for, redirect
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
@@ -59,3 +59,14 @@ def edit_user(id):
     elif request.method == "GET":
         form.email.data = user.email
     return render_template('auth/edit_user.html', title='Edit User', form=form)
+
+@app.route('/admin/delete_user/<id>', methods=["GET", "POST"])
+@login_required
+def delete_user(id):
+    user = User.query.filter_by(id=id).first()
+    form = DeleteUser()
+    if form.validate_on_submit():
+        db.session.delete(user)
+        db.session.commit()
+        return redirect(url_for('admin'))
+    return render_template('auth/delete_user.html', title='Delete User', form=form, user=user)
