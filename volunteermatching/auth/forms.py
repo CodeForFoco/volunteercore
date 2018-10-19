@@ -30,3 +30,8 @@ class EditUser(FlaskForm):
         user = User.query.filter_by(email = email.data).first()
         if user is not None:
             raise ValidationError("This is email is already registered")
+
+class DeleteUser(FlaskForm):
+    confirm = BooleanField('Confirm Delete User',
+        validators=[DataRequired("You must check the box to confirm user delete!")])
+    submit = SubmitField('Delete')
