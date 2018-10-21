@@ -11,6 +11,8 @@ migrate = Migrate(app, db)
 # Register blueprints
 from .auth import bp_auth
 app.register_blueprint(bp_auth)
+from .volops import bp_volops
+app.register_blueprint(bp_volops)
 
 from . import views
 
