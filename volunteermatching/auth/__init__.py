@@ -1,5 +1,5 @@
 from flask import Blueprint
-from volunteermatching import db, app
+from volunteermatching import app
 from flask_login import LoginManager
 
 login_manager = LoginManager(app)

@@ -5,13 +5,17 @@ from flask_login import UserMixin
 
 # Define models
 roles_users = db.Table('roles_users',
-        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+                       db.Column('user_id', db.Integer(),
+                                 db.ForeignKey('user.id')),
+                       db.Column('role_id', db.Integer(),
+                                 db.ForeignKey('role.id')))
+
 
 class Role(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,6 +31,7 @@ class User(UserMixin, db.Model):
 
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
+
 
 @login_manager.user_loader
 def load_user(id):

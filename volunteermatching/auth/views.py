@@ -5,6 +5,7 @@ from flask import render_template, request, flash, url_for, redirect
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 
+
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
@@ -22,10 +23,12 @@ def login():
         return redirect(next_page)
     return render_template('auth/login.html', title='Sign In', form=form)
 
+
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
 
 @app.route('/admin/create_user', methods=["GET", "POST"])
 @login_required
@@ -37,13 +40,16 @@ def create_user():
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('admin'))
-    return render_template('auth/create_user.html', title='Create User', form=form)
+    return render_template('auth/create_user.html', title='Create User',
+                           form=form)
+
 
 @app.route('/admin/')
 @login_required
 def admin():
     users = User.query.all()
     return render_template('auth/admin.html', title='Admin', users=users)
+
 
 @app.route('/admin/edit_user/<id>', methods=["GET", "POST"])
 @login_required
@@ -60,6 +66,7 @@ def edit_user(id):
         form.email.data = user.email
     return render_template('auth/edit_user.html', title='Edit User', form=form)
 
+
 @app.route('/admin/delete_user/<id>', methods=["GET", "POST"])
 @login_required
 def delete_user(id):
@@ -69,4 +76,5 @@ def delete_user(id):
         db.session.delete(user)
         db.session.commit()
         return redirect(url_for('admin'))
-    return render_template('auth/delete_user.html', title='Delete User', form=form, user=user)
+    return render_template('auth/delete_user.html', title='Delete User',
+                           form=form, user=user)
