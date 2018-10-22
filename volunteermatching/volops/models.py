@@ -15,6 +15,12 @@ skills = db.Table('skills',
     db.Column('skills_id', db.Integer, db.ForeignKey('skill.id'))
 )
 
+frequencies = db.Table('frequencies',
+    db.Column('opportunity_id', db.Integer, db.ForeignKey('opportunity.id')),
+    db.Column('frequencies_id', db.Integer, db.ForeignKey('frequency.id'))
+)
+
+
 class Partner(db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
     name = db.Column(db.String(200), index=True, unique=True)
@@ -48,6 +54,8 @@ class Opportunity(db.Model):
         backref=db.backref('opportunities', lazy=True))
     skills = db.relationship('Skill', secondary='skills', lazy='subquery',
         backref=db.backref('opportunities', lazy=True))
+    frequencies = db.relationship('Frequency', secondary='frequencies', lazy='subquery',
+        backref=db.backref('opportunities', lazy=True))
 
     def __repr__(self):
         return '<Opportunity {}>'.format(self.name)
@@ -59,6 +67,7 @@ class Passion(db.Model):
 
     def __repr__(self):
         return '<Passion {}>'.format(self.name)
+
 
 class AgeGroupInterest(db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
@@ -74,3 +83,11 @@ class Skill(db.Model):
 
     def __repr__(self):
         return '<Skill {}>'.format(self.name)
+
+
+class Frequency(db.Model):
+    id = db.Column(db.Integer(), primary_key=True, index=True)
+    name = db.Column(db.String(50))
+
+    def __repr__(self):
+        return '<Frequency {}>'.format(self.name)
