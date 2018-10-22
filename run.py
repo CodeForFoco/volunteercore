@@ -1,7 +1,7 @@
 from volunteermatching import app, db
 from volunteermatching.auth.models import Role, User
 from volunteermatching.volops.models import Partner, Opportunity, Passion, \
-    AgeGroupInterest
+    AgeGroupInterest, Skill
 
 if __name__ == "__main__":
     app.run(debug=True)
@@ -15,5 +15,6 @@ def make_shell_context():
         'Partner': Partner,
         'Opportunity': Opportunity,
         'Passion': Passion,
-        'AgeGroupInterest': AgeGroupInterest
+        'AgeGroupInterest': AgeGroupInterest,
+        'Skill': Skill
     }
