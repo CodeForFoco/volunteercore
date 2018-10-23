@@ -1,0 +1,24 @@
+{% extends 'admin.html' %}
+
+{% block admin %}
+
+<p>
+Passions<br>
+{% for passion in passions %}
+{{ passion.name }}
+{% endfor %}
+</p>
+
+<div>Add a passion:
+<form action="" method="post">
+  {{ passion_form.hidden_tag() }}
+  <p>
+    {{ passion_form.name(size=20) }}
+    {% for error in passion_form.name.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>{{ passion_form.submit() }}
+</form>
+
+{% endblock %}
