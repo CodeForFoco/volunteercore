@@ -5,7 +5,7 @@
 <p>
 Passions<br>
 {% for passion in passions %}
-{{ passion.name }}
+{{ passion.name }} <a href="{{ url_for('admin_passions_delete', id=passion.id) }}">X</a>
 {% endfor %}
 </p>
 

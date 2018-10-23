@@ -17,3 +17,13 @@ def admin_categories():
         return redirect(url_for('admin_categories'))
     return render_template('volops/categories.html', title='Admin Passions',
                            passions=passions, passion_form=passion_form)
+
+@app.route('/admin/categories/passions/<id>', methods=["GET", "POST"])
+@login_required
+def admin_passions_delete(id):
+    passion = Passion.query.filter_by(id=id).first()
+    if passion is not None:
+        db.session.delete(passion)
+        db.session.commit()
+        return redirect(url_for('admin_categories'))
+    return redirect(url_for('admin_categories'))
