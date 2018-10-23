@@ -44,11 +44,11 @@ def create_user():
                            form=form)
 
 
-@app.route('/admin/')
+@app.route('/admin/users')
 @login_required
-def admin():
+def users():
     users = User.query.all()
-    return render_template('auth/admin.html', title='Admin', users=users)
+    return render_template('auth/users.html', title='Admin Users', users=users)
 
 
 @app.route('/admin/edit_user/<id>', methods=["GET", "POST"])
