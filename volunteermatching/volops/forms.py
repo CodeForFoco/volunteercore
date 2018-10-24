@@ -10,6 +10,17 @@ class PassionForm(FlaskForm):
     submit = SubmitField('Create')
 
     def validate_passion(self, name):
-        name = Passion.query.filter_by(name=name.data).first()
-        if name is not None:
+        passion = Passion.query.filter_by(name=name.data).first()
+        if passion is not None:
             raise ValidationError("This passion is already available")
+
+
+class AgeGroupInterestForm(FlaskForm):
+    name = StringField('AgeGroupInterest', validators=[DataRequired()])
+    submit_agi = SubmitField('Create')
+
+    def validate_agi(self, name):
+        agi = AgeGroupInterest.query.filter_by(name=name.data).first()
+        if agi is not None:
+            raise ValidationError("This age group interest is already \
+                                  available")

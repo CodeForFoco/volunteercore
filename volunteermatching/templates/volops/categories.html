@@ -18,7 +18,28 @@ Passions<br>
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
-  <p>{{ passion_form.submit() }}
+  <p>{{ passion_form.submit() }}</p>
+</form>
+
+<p>
+Age Group Interests<br>
+{% for age_group_interest in age_group_interests %}
+{{ age_group_interest.name }}
+<a href="{{ url_for('admin_age_group_interest_delete',
+           id=age_group_interest.id) }}">X</a>
+{% endfor %}
+</p>
+
+<div>Add an age group interest:
+<form action="" method="post">
+  {{ agi_form.hidden_tag() }}
+  <p>
+    {{ agi_form.name(size=20) }}
+    {% for error in agi_form.name.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>{{ agi_form.submit_agi() }}</p>
 </form>
 
 {% endblock %}
