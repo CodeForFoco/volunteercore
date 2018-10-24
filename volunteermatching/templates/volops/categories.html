@@ -63,4 +63,25 @@ Skills<br>
   <p>{{ skill_form.submit_skill() }}</p>
 </form>
 
+<p>
+Frequencies<br>
+{% for frequency in frequencies %}
+{{ frequency.name }}
+<a href="{{ url_for('frequency_delete',
+           id=frequency.id) }}">X</a>
+{% endfor %}
+</p>
+
+<div>Add a frequency:
+<form action="" method="post">
+  {{ frequency_form.hidden_tag() }}
+  <p>
+    {{ frequency_form.name(size=20) }}
+    {% for error in frequency_form.name.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>{{ frequency_form.submit_frequency() }}</p>
+</form>
+
 {% endblock %}

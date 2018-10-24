@@ -33,3 +33,13 @@ class SkillForm(FlaskForm):
         skill = Skill.query.filter_by(name=name.data).first()
         if skill is not None:
             raise ValidationError("This skill is already available")
+
+
+class FrequencyForm(FlaskForm):
+    name = StringField('Frequency', validators=[DataRequired()])
+    submit_frequency = SubmitField('Create')
+
+    def validate_frequency(self, name):
+        frequency = Frequency.query.filter_by(name=name.data).first()
+        if frequency is not None:
+            raise ValidationError("This skill is already available")
