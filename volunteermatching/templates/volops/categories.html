@@ -42,4 +42,25 @@ Age Group Interests<br>
   <p>{{ agi_form.submit_agi() }}</p>
 </form>
 
+<p>
+Skills<br>
+{% for skill in skills %}
+{{ skill.name }}
+<a href="{{ url_for('skill_delete',
+           id=skill.id) }}">X</a>
+{% endfor %}
+</p>
+
+<div>Add a skill:
+<form action="" method="post">
+  {{ skill_form.hidden_tag() }}
+  <p>
+    {{ skill_form.name(size=20) }}
+    {% for error in skill_form.name.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>{{ skill_form.submit_skill() }}</p>
+</form>
+
 {% endblock %}

@@ -24,3 +24,12 @@ class AgeGroupInterestForm(FlaskForm):
         if agi is not None:
             raise ValidationError("This age group interest is already \
                                   available")
+
+class SkillForm(FlaskForm):
+    name = StringField('Skill', validators=[DataRequired()])
+    submit_skill = SubmitField('Create')
+
+    def validate_skill(self, name):
+        skill = Skill.query.filter_by(name=name.data).first()
+        if skill is not None:
+            raise ValidationError("This skill is already available")

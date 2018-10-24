@@ -1,7 +1,7 @@
 from volunteermatching import app, db
 from .models import Partner, Opportunity, Passion, AgeGroupInterest, Skill, \
     Frequency
-from .forms import PassionForm, AgeGroupInterestForm
+from .forms import PassionForm, AgeGroupInterestForm, SkillForm
 from flask import render_template, request, flash, url_for, redirect
 from flask_login import login_required
 
@@ -12,6 +12,8 @@ def admin_categories():
     passion_form = PassionForm()
     age_group_interests = AgeGroupInterest.query.all()
     agi_form = AgeGroupInterestForm()
+    skills = Skill.query.all()
+    skill_form = SkillForm()
     if passion_form.validate_on_submit() and passion_form.submit.data:
         name = Passion(name=passion_form.name.data)
         db.session.add(name)
@@ -22,11 +24,17 @@ def admin_categories():
         db.session.add(name)
         db.session.commit()
         return redirect(url_for('admin_categories'))
+    elif skill_form.validate_on_submit() and skill_form.submit_skill.data:
+        name = Skill(name=skill_form.name.data)
+        db.session.add(name)
+        db.session.commit()
+        return redirect(url_for('admin_categories'))
 
     return render_template('volops/categories.html', title='Admin Passions',
                            passions=passions, passion_form=passion_form,
                            age_group_interests=age_group_interests,
-                           agi_form=agi_form)
+                           agi_form=agi_form, skills=skills,
+                           skill_form=skill_form)
 
 
 @app.route('/admin/categories/passions/<id>', methods=["GET", "POST"])
@@ -46,6 +54,16 @@ def admin_age_group_interest_delete(id):
     age_group_interest = AgeGroupInterest.query.filter_by(id=id).first()
     if age_group_interest is not None:
         db.session.delete(age_group_interest)
+        db.session.commit()
+        return redirect(url_for('admin_categories'))
+    return redirect(url_for('admin_categories'))
+
+@app.route('/admin/categories/skill/<id>', methods=["GET", "POST"])
+@login_required
+def skill_delete(id):
+    skill = Skill.query.filter_by(id=id).first()
+    if skill is not None:
+        db.session.delete(skill)
         db.session.commit()
         return redirect(url_for('admin_categories'))
     return redirect(url_for('admin_categories'))
