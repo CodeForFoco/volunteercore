@@ -20,7 +20,7 @@ class CheckFieldUnique(object):
 class PassionForm(FlaskForm):
     passion_name = StringField('Passion', validators=[DataRequired(),
         CheckFieldUnique(Passion, "This passion is already available")])
-    submit = SubmitField('Create')
+    submit_passion = SubmitField('Create')
 
 
 class AgeGroupInterestForm(FlaskForm):
