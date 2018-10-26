@@ -65,7 +65,7 @@ class Opportunity(db.Model):
 
 class Passion(db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
-    name = db.Column(db.String(50))
+    name = db.Column(db.String(50), index=True, unique=True)
 
     def __repr__(self):
         return '<Passion {}>'.format(self.name)
@@ -73,7 +73,7 @@ class Passion(db.Model):
 
 class AgeGroupInterest(db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
-    name = db.Column(db.String(50))
+    name = db.Column(db.String(50), index=True, unique=True)
 
     def __repr__(self):
         return '<AgeGroupInterest {}>'.format(self.name)
@@ -81,7 +81,7 @@ class AgeGroupInterest(db.Model):
 
 class Skill(db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
-    name = db.Column(db.String(50))
+    name = db.Column(db.String(50), index=True, unique=True)
 
     def __repr__(self):
         return '<Skill {}>'.format(self.name)
@@ -89,7 +89,7 @@ class Skill(db.Model):
 
 class Frequency(db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
-    name = db.Column(db.String(50))
+    name = db.Column(db.String(50), index=True, unique=True)
 
     def __repr__(self):
         return '<Frequency {}>'.format(self.name)
