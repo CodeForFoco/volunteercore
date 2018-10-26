@@ -5,6 +5,7 @@ from .forms import PassionForm, AgeGroupInterestForm, SkillForm, FrequencyForm
 from flask import render_template, request, flash, url_for, redirect
 from flask_login import login_required
 
+
 @app.route('/admin/categories', methods=["GET", "POST"])
 @login_required
 def admin_categories():
@@ -39,11 +40,10 @@ def admin_categories():
         return redirect(url_for('admin_categories'))
 
     return render_template('volops/categories.html', title='Admin Passions',
-                           passions=passions, passion_form=passion_form,
-                           age_group_interests=age_group_interests,
-                           agi_form=agi_form, skills=skills,
-                           skill_form=skill_form, frequencies=frequencies,
-                           frequency_form=frequency_form)
+        passions=passions, passion_form=passion_form,
+        age_group_interests=age_group_interests,
+        agi_form=agi_form, skills=skills, skill_form=skill_form,
+        frequencies=frequencies, frequency_form=frequency_form)
 
 
 @app.route('/admin/categories/passions/<id>', methods=["GET", "POST"])
