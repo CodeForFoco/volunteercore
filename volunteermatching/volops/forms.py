@@ -1,45 +1,42 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
+from wtforms.validators import DataRequired, ValidationError, Email, \
+    EqualTo, NoneOf
 from .models import Partner, Opportunity, Passion, AgeGroupInterest, Skill, \
     Frequency
 
 
-class PassionForm(FlaskForm):
-    name = StringField('Passion', validators=[DataRequired()])
-    submit = SubmitField('Create')
+class CheckFieldUnique(object):
+    def __init__(self, model, message=None):
+        self.model = model
+        self.message = message
 
-    def validate_passion(self, name):
-        passion = Passion.query.filter_by(name=name.data).first()
-        if passion is not None:
-            raise ValidationError("This passion is already available")
+    def __call__(self, form, field):
+        validator = self.model.query.filter_by(name=field.data).first()
+        if validator is not None:
+            raise ValidationError(self.message)
+
+
+class PassionForm(FlaskForm):
+    passion_name = StringField('Passion', validators=[DataRequired(),
+        CheckFieldUnique(Passion, "This passion is already available")])
+    submit = SubmitField('Create')
 
 
 class AgeGroupInterestForm(FlaskForm):
-    name = StringField('AgeGroupInterest', validators=[DataRequired()])
+    agi_name = StringField('AgeGroupInterest', validators=[DataRequired(),
+        CheckFieldUnique(AgeGroupInterest, "This age group interest is \
+        already available")])
     submit_agi = SubmitField('Create')
 
-    def validate_agi(self, name):
-        agi = AgeGroupInterest.query.filter_by(name=name.data).first()
-        if agi is not None:
-            raise ValidationError("This age group interest is already \
-                                  available")
 
 class SkillForm(FlaskForm):
-    name = StringField('Skill', validators=[DataRequired()])
+    skill_name = StringField('Skill', validators=[DataRequired(),
+        CheckFieldUnique(Skill, "This skill is already available")])
     submit_skill = SubmitField('Create')
-
-    def validate_skill(self, name):
-        skill = Skill.query.filter_by(name=name.data).first()
-        if skill is not None:
-            raise ValidationError("This skill is already available")
 
 
 class FrequencyForm(FlaskForm):
-    name = StringField('Frequency', validators=[DataRequired()])
+    frequency_name = StringField('Frequency', validators=[DataRequired(),
+        CheckFieldUnique(Frequency, "This frequency is already available")])
     submit_frequency = SubmitField('Create')
-
-    def validate_frequency(self, name):
-        frequency = Frequency.query.filter_by(name=name.data).first()
-        if frequency is not None:
-            raise ValidationError("This skill is already available")
