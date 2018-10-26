@@ -16,24 +16,24 @@ def admin_categories():
     skill_form = SkillForm()
     frequencies = Frequency.query.all()
     frequency_form = FrequencyForm()
-    if passion_form.validate_on_submit() and passion_form.submit.data:
-        name = Passion(name=passion_form.name.data)
+    if passion_form.submit.data and passion_form.validate_on_submit():
+        name = Passion(name=passion_form.passion_name.data)
         db.session.add(name)
         db.session.commit()
         return redirect(url_for('admin_categories'))
-    elif agi_form.validate_on_submit() and agi_form.submit_agi.data:
-        name = AgeGroupInterest(name=agi_form.name.data)
+    elif agi_form.submit_agi.data and agi_form.validate_on_submit():
+        name = AgeGroupInterest(name=agi_form.agi_name.data)
         db.session.add(name)
         db.session.commit()
         return redirect(url_for('admin_categories'))
-    elif skill_form.validate_on_submit() and skill_form.submit_skill.data:
-        name = Skill(name=skill_form.name.data)
+    elif skill_form.submit_skill.data and skill_form.validate_on_submit():
+        name = Skill(name=skill_form.skill_name.data)
         db.session.add(name)
         db.session.commit()
         return redirect(url_for('admin_categories'))
-    elif frequency_form.validate_on_submit() and \
-        frequency_form.submit_frequency.data:
-        name = Frequency(name=frequency_form.name.data)
+    elif frequency_form.submit_frequency.data and \
+        frequency_form.validate_on_submit():
+        name = Frequency(name=frequency_form.frequency_name.data)
         db.session.add(name)
         db.session.commit()
         return redirect(url_for('admin_categories'))

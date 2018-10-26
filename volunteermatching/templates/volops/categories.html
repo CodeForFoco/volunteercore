@@ -13,13 +13,14 @@ Passions<br>
 <form action="" method="post">
   {{ passion_form.hidden_tag() }}
   <p>
-    {{ passion_form.name(size=20) }}
-    {% for error in passion_form.name.errors %}
+    {{ passion_form.passion_name(size=20) }}
+    {% for error in passion_form.passion_name.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>{{ passion_form.submit() }}</p>
 </form>
+</div>
 
 <p>
 Age Group Interests<br>
@@ -34,13 +35,14 @@ Age Group Interests<br>
 <form action="" method="post">
   {{ agi_form.hidden_tag() }}
   <p>
-    {{ agi_form.name(size=20) }}
-    {% for error in agi_form.name.errors %}
+    {{ agi_form.agi_name(size=20) }}
+    {% for error in agi_form.agi_name.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>{{ agi_form.submit_agi() }}</p>
 </form>
+</div>
 
 <p>
 Skills<br>
@@ -55,13 +57,14 @@ Skills<br>
 <form action="" method="post">
   {{ skill_form.hidden_tag() }}
   <p>
-    {{ skill_form.name(size=20) }}
-    {% for error in skill_form.name.errors %}
+    {{ skill_form.skill_name(size=20) }}
+    {% for error in skill_form.skill_name.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>{{ skill_form.submit_skill() }}</p>
 </form>
+</div>
 
 <p>
 Frequencies<br>
@@ -76,12 +79,13 @@ Frequencies<br>
 <form action="" method="post">
   {{ frequency_form.hidden_tag() }}
   <p>
-    {{ frequency_form.name(size=20) }}
-    {% for error in frequency_form.name.errors %}
+    {{ frequency_form.frequency_name(size=20) }}
+    {% for error in frequency_form.frequency_name.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>{{ frequency_form.submit_frequency() }}</p>
 </form>
+</div>
 
 {% endblock %}
