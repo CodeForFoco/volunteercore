@@ -1,4 +1,5 @@
 from volunteermatching import app, db
+from volunteermatching.decorators import requires_roles
 from .models import User
 from .forms import LoginForm, CreateUser, EditUser, DeleteUser
 from flask import render_template, request, flash, url_for, redirect
@@ -32,6 +33,7 @@ def logout():
 
 @app.route('/admin/create_user', methods=["GET", "POST"])
 @login_required
+@requires_roles('Admin','User')
 def create_user():
     form = CreateUser()
     if form.validate_on_submit():
@@ -46,6 +48,7 @@ def create_user():
 
 @app.route('/admin/users')
 @login_required
+@requires_roles('Admin','User')
 def users():
     users = User.query.all()
     return render_template('auth/users.html', title='Admin Users', users=users)
@@ -53,6 +56,7 @@ def users():
 
 @app.route('/admin/edit_user/<id>', methods=["GET", "POST"])
 @login_required
+@requires_roles('Admin','User')
 def edit_user(id):
     user = User.query.filter_by(id=id).first()
     form = EditUser()
@@ -69,6 +73,7 @@ def edit_user(id):
 
 @app.route('/admin/delete_user/<id>', methods=["GET", "POST"])
 @login_required
+@requires_roles('Admin','User')
 def delete_user(id):
     user = User.query.filter_by(id=id).first()
     form = DeleteUser()
