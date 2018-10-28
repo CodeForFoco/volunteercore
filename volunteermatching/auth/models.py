@@ -32,6 +32,11 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
 
+    def get_user_roles(self):
+        role_names = []
+        for r in self.roles:
+            role_names.append(r.name)
+        return role_names
 
 @login_manager.user_loader
 def load_user(id):
