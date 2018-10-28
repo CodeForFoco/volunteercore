@@ -4,10 +4,12 @@ from .models import Partner, Opportunity, Passion, AgeGroupInterest, Skill, \
 from .forms import PassionForm, AgeGroupInterestForm, SkillForm, FrequencyForm
 from flask import render_template, request, flash, url_for, redirect
 from flask_login import login_required
+from volunteermatching.decorators import requires_roles
 
 
 @app.route('/admin/categories', methods=["GET", "POST"])
 @login_required
+@requires_roles('Admin','User')
 def admin_categories():
     passions = Passion.query.all()
     passion_form = PassionForm()
@@ -48,6 +50,7 @@ def admin_categories():
 
 @app.route('/admin/categories/passions/<id>', methods=["GET", "POST"])
 @login_required
+@requires_roles('Admin','User')
 def admin_passions_delete(id):
     passion = Passion.query.filter_by(id=id).first()
     if passion is not None:
@@ -59,6 +62,7 @@ def admin_passions_delete(id):
 
 @app.route('/admin/categories/agegroupinterest/<id>', methods=["GET", "POST"])
 @login_required
+@requires_roles('Admin','User')
 def admin_age_group_interest_delete(id):
     age_group_interest = AgeGroupInterest.query.filter_by(id=id).first()
     if age_group_interest is not None:
@@ -70,6 +74,7 @@ def admin_age_group_interest_delete(id):
 
 @app.route('/admin/categories/skill/<id>', methods=["GET", "POST"])
 @login_required
+@requires_roles('Admin','User')
 def skill_delete(id):
     skill = Skill.query.filter_by(id=id).first()
     if skill is not None:
@@ -81,6 +86,7 @@ def skill_delete(id):
 
 @app.route('/admin/categories/frequency/<id>', methods=["GET", "POST"])
 @login_required
+@requires_roles('Admin','User')
 def frequency_delete(id):
     frequency = Frequency.query.filter_by(id=id).first()
     if frequency is not None:
