@@ -17,7 +17,7 @@ def admin_categories():
     skill_form = SkillForm()
     frequencies = Frequency.query.all()
     frequency_form = FrequencyForm()
-    if passion_form.submit.data and passion_form.validate_on_submit():
+    if passion_form.submit_passion.data and passion_form.validate_on_submit():
         name = Passion(name=passion_form.passion_name.data)
         db.session.add(name)
         db.session.commit()
