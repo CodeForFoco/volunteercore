@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Opportunities</h1>
+{% for opportunity in opportunities %}
+<p>{{ opportunity.name }} | {{ opportunity.partner.name }}</p>
+{% endfor %}
+
+{% endblock %}
