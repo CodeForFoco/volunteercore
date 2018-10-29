@@ -1,7 +1,8 @@
 from volunteermatching import app, db
 from .models import Partner, Opportunity, Passion, AgeGroupInterest, Skill, \
     Frequency
-from .forms import PassionForm, AgeGroupInterestForm, SkillForm, FrequencyForm
+from .forms import PassionForm, AgeGroupInterestForm, SkillForm, \
+    FrequencyForm, CreatePartner
 from flask import render_template, request, flash, url_for, redirect
 from flask_login import login_required
 from volunteermatching.decorators import requires_roles
@@ -94,3 +95,16 @@ def frequency_delete(id):
         db.session.commit()
         return redirect(url_for('admin_categories'))
     return redirect(url_for('admin_categories'))
+
+
+@app.route('/partners/create_partner', methods=["GET", "POST"])
+@login_required
+def create_partner():
+    form = CreatePartner()
+    if form.validate_on_submit():
+        partner = Partner(name=form.name.data)
+        db.session.add(partner)
+        db.session.commit()
+        return redirect(url_for('partners'))
+    return render_template('volops/create_partner.html', title="Create \
+        Partner", form=form)

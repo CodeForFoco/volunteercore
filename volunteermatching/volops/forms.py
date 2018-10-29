@@ -40,3 +40,7 @@ class FrequencyForm(FlaskForm):
     frequency_name = StringField('Frequency', validators=[DataRequired(),
         CheckFieldUnique(Frequency, "This frequency is already available")])
     submit_frequency = SubmitField('Create')
+
+class CreatePartner(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    submit = SubmitField('Create')
