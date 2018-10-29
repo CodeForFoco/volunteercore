@@ -97,6 +97,14 @@ def frequency_delete(id):
     return redirect(url_for('admin_categories'))
 
 
+@app.route('/partners')
+@login_required
+def partners():
+    partners = Partner.query.all()
+    return render_template('volops/partners.html', title="Partners",
+        partners=partners)
+
+
 @app.route('/partners/create_partner', methods=["GET", "POST"])
 @login_required
 def create_partner():

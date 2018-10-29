@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Partners</h1>
+{% for partner in partners %}
+<p>{{ partner.name }} | # of Active Opportunities</p>
+{% endfor %}
+
+{% endblock %}
