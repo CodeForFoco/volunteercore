@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Admin</h1>
+<div class="tabs">
+  <ul>
+    <li><a href="{{ url_for('users') }}">Users</a></li>
+    <li><a href="{{ url_for('admin_categories') }}">Categories</a></li>
+  </ul>
+</div>
 
 {% block admin %}
 {% endblock %}
