@@ -2,7 +2,7 @@ from volunteermatching import app, db
 from .models import Partner, Opportunity, Passion, AgeGroupInterest, Skill, \
     Frequency
 from .forms import PassionForm, AgeGroupInterestForm, SkillForm, \
-    FrequencyForm, CreatePartner
+    FrequencyForm, CreatePartner, CreateOpportunity
 from flask import render_template, request, flash, url_for, redirect
 from flask_login import login_required
 from volunteermatching.decorators import requires_roles
@@ -117,8 +117,37 @@ def create_partner():
         Partner", form=form)
 
 
-@app.route('/opportunities')
+@app.route('/opportunities/')
 def opportunities():
     opportunities = Opportunity.query.all()
     return render_template('volops/opportunities.html', title="Opportunities",
         opportunities=opportunities)
+
+
+@app.route('/opportunities/create_opportunity', methods=["GET", "POST"])
+@login_required
+def create_opportunity():
+    form = CreateOpportunity(partners=Partner.query.all())
+    partners = Partner.query.all()
+    partner_names = []
+    for partner in partners:
+        partner_names.append((partner.id, partner.name))
+    form.partner_id.choices = partner_names
+    if form.validate_on_submit():
+        opportunity = Opportunity(
+            name=form.name.data,
+            active=form.active.data,
+            job_number=form.job_number.data,
+            description=form.description.data,
+            shift_hours=form.shift_hours.data,
+            commitment_length=form.commitment_length.data,
+            start_date=form.start_date.data,
+            end_date=form.end_date.data,
+            training_time_required=form.training_time_required.data,
+            volunteers_needed=form.volunteers_needed.data,
+            partner_id=int(form.partner_id.data))
+        db.session.add(opportunity)
+        db.session.commit()
+        return redirect(url_for('opportunities'))
+    return render_template('volops/create_opportunity.html', title="Create \
+        Opportunity", form=form)
