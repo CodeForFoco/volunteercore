@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, \
+    TextAreaField, DecimalField, DateField, IntegerField, SelectField
 from wtforms.validators import DataRequired, ValidationError, Email, \
-    EqualTo, NoneOf
+    EqualTo, NoneOf, Optional
 from .models import Partner, Opportunity, Passion, AgeGroupInterest, Skill, \
     Frequency
 
@@ -41,6 +42,22 @@ class FrequencyForm(FlaskForm):
         CheckFieldUnique(Frequency, "This frequency is already available")])
     submit_frequency = SubmitField('Create')
 
+
 class CreatePartner(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
+    submit = SubmitField('Create')
+
+
+class CreateOpportunity(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    active = BooleanField('Active', default='checked')
+    job_number = StringField('Job Number', validators=[DataRequired()])
+    description = TextAreaField('Description')
+    shift_hours = DecimalField('Shift Length (hours)', validators=[Optional()], places=1)
+    commitment_length = DecimalField('Commitment Length (months)', validators=[Optional()], places=1)
+    start_date = DateField('Start Date', validators=[Optional()], format='%d-%m-%Y')
+    end_date = DateField('End Date', validators=[Optional()], format='%d-%m-%Y')
+    training_time_required = IntegerField('Training Time Required (hours)', validators=[Optional()])
+    volunteers_needed = IntegerField('Number of Volunteers Needed', validators=[Optional()])
+    partner_id = SelectField('Partner', coerce=int)
     submit = SubmitField('Create')
