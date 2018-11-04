@@ -1,91 +1,125 @@
 {% extends 'admin.html' %}
 
 {% block admin %}
+<div class="tile is-ancestor">
+  <div class="tile is-vertical is-4">
 
-<p>
-Passions<br>
-{% for passion in passions %}
-{{ passion.name }} <a href="{{ url_for('admin_passions_delete', id=passion.id) }}">X</a>
-{% endfor %}
-</p>
+    <div class="tile is-vertical">
+      <p class="is-size-4">Passions</p>
+      <div class="field is-grouped is-grouped-multiline">
+        {% for passion in passions %}
+        <div class="control">
+          <div class="tags has-addons">
+            <span class="tag is-link is-medium">{{ passion.name }}</span>
+            <a class="tag is-delete is-medium" href="{{ url_for('admin_passions_delete', id=passion.id) }}"></a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <form action="" method="post">
+        {{ passion_form.hidden_tag() }}
+        <div class="field">
+          <div class="control has-icons-left">
+            {{ passion_form.passion_name(class="input", placeholder="Add Passion") }}
+            <span class="icon is-left">
+              <i class="fas fa-plus-circle"></i>
+            </span>
+            {% for error in passion_form.passion_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+        </div>
+        {{ passion_form.submit_passion(style="display: none;") }}
+      </form>
+    </div>
 
-<div>Add a passion:
-<form action="" method="post">
-  {{ passion_form.hidden_tag() }}
-  <p>
-    {{ passion_form.passion_name(size=20) }}
-    {% for error in passion_form.passion_name.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>{{ passion_form.submit_passion() }}</p>
-</form>
+    <div class="tile is-vertical">
+      <p class="is-size-4">Age Group Interests</p>
+      <div class="field is-grouped is-grouped-multiline">
+        {% for age_group_interest in age_group_interests %}
+        <div class="control">
+          <div class="tags has-addons">
+            <span class="tag is-link is-medium">{{ age_group_interest.name }}</span>
+            <a class="tag is-delete is-medium" href="{{ url_for('admin_age_group_interest_delete',
+                 id=age_group_interest.id) }}"></a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <form action="" method="post">
+        {{ agi_form.hidden_tag() }}
+        <div class="field">
+          <div class="control has-icons-left">
+            {{ agi_form.agi_name(class="input", placeholder="Add an age group interest") }}
+            <span class="icon is-left">
+              <i class="fas fa-plus-circle"></i>
+            </span>
+            {% for error in agi_form.agi_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+        </div>
+        {{ agi_form.submit_agi(style="display: none;") }}
+      </form>
+    </div>
+
+    <div class="tile is-vertical">
+      <p class="is-size-4">Skills</p>
+      <div class="field is-grouped is-grouped-multiline">
+        {% for skill in skills %}
+        <div class="control">
+          <div class="tags has-addons">
+            <span class="tag is-link is-medium">{{ skill.name }}</span>
+            <a class="tag is-delete is-medium" href="{{ url_for('skill_delete', id=skill.id) }}"></a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <form action="" method="post">
+        {{ skill_form.hidden_tag() }}
+        <div class="field">
+          <div class="control has-icons-left">
+            {{ skill_form.skill_name(class="input", placeholder="Add a skill") }}
+            <span class="icon is-left">
+              <i class="fas fa-plus-circle"></i>
+            </span>
+            {% for error in skill_form.skill_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+        </div>
+        {{ skill_form.submit_skill(style="display: none;") }}
+      </form>
+    </div>
+
+    <div class="tile is-vertical">
+      <p class="is-size-4">Frequencies</p>
+      <div class="field is-grouped is-grouped-multiline">
+        {% for frequency in frequencies %}
+        <div class="control">
+          <div class="tags has-addons">
+            <span class="tag is-link is-medium">{{ frequency.name }}</span>
+            <a class="tag is-delete is-medium" href="{{ url_for('frequency_delete', id=frequency.id) }}">X</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <form action="" method="post">
+        {{ frequency_form.hidden_tag() }}
+        <div class="field">
+          <div class="control has-icons-left">
+            {{ frequency_form.frequency_name(class="input", placeholder="Add a frequency") }}
+            <span class="icon is-left">
+              <i class="fas fa-plus-circle"></i>
+            </span>
+            {% for error in frequency_form.frequency_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+        </div>
+        {{ frequency_form.submit_frequency(style="display: none;") }}
+      </form>
+    </div>
+  </div>
 </div>
-
-<p>
-Age Group Interests<br>
-{% for age_group_interest in age_group_interests %}
-{{ age_group_interest.name }}
-<a href="{{ url_for('admin_age_group_interest_delete',
-           id=age_group_interest.id) }}">X</a>
-{% endfor %}
-</p>
-
-<div>Add an age group interest:
-<form action="" method="post">
-  {{ agi_form.hidden_tag() }}
-  <p>
-    {{ agi_form.agi_name(size=20) }}
-    {% for error in agi_form.agi_name.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>{{ agi_form.submit_agi() }}</p>
-</form>
-</div>
-
-<p>
-Skills<br>
-{% for skill in skills %}
-{{ skill.name }}
-<a href="{{ url_for('skill_delete',
-           id=skill.id) }}">X</a>
-{% endfor %}
-</p>
-
-<div>Add a skill:
-<form action="" method="post">
-  {{ skill_form.hidden_tag() }}
-  <p>
-    {{ skill_form.skill_name(size=20) }}
-    {% for error in skill_form.skill_name.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>{{ skill_form.submit_skill() }}</p>
-</form>
-</div>
-
-<p>
-Frequencies<br>
-{% for frequency in frequencies %}
-{{ frequency.name }}
-<a href="{{ url_for('frequency_delete',
-           id=frequency.id) }}">X</a>
-{% endfor %}
-</p>
-
-<div>Add a frequency:
-<form action="" method="post">
-  {{ frequency_form.hidden_tag() }}
-  <p>
-    {{ frequency_form.frequency_name(size=20) }}
-    {% for error in frequency_form.frequency_name.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>{{ frequency_form.submit_frequency() }}</p>
-</form>
-</div>
-
 {% endblock %}
