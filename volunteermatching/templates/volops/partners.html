@@ -2,6 +2,9 @@
 
 {% block content %}
 <h1>Partners</h1>
+{% if current_user.is_authenticated and 'User' in current_user.get_user_roles() %}
+<a href="{{ url_for('create_partner') }}">Create Partner</a>
+{% endif %}
 {% for partner in partners %}
 <p>{{ partner.name }} | # of Active Opportunities</p>
 {% endfor %}
