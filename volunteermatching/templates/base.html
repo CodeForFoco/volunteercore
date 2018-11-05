@@ -30,11 +30,17 @@
           </div>
           <div class="navbar-end">
             <div class="navbar-item">
-              {% if current_user.is_anonymous %}
-              <a class="button" href="{{ url_for('login') }}">Log In</a>
-              {% else %}
-              <a class="button" href="{{ url_for('logout') }}">Log Out</a>
-              {% endif %}
+              <div class="buttons">
+                {% if current_user.is_authenticated and 'Admin' in current_user.get_user_roles() %}
+                <a class="button is-link" href="{{ url_for('admin') }}">Admin</a>
+                {% endif %}
+                {% if current_user.is_anonymous %}
+                <a class="button" href="{{ url_for('login') }}">Log In</a>
+                {% else %}
+                <a class="button" href="{{ url_for('logout') }}">Log Out</a>
+                {% endif %}
+              </div>
+            </div>
           </div>
         </div>
       </div>
