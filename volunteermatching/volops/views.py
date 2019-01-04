@@ -145,7 +145,10 @@ def create_opportunity():
             end_date=form.end_date.data,
             training_time_required=form.training_time_required.data,
             volunteers_needed=form.volunteers_needed.data,
-            partner_id=int(form.partner_id.data))
+            partner_id=int(form.partner_id.data),
+            location_street=form.location_street.data,
+            location_city=form.location_city.data,
+            location_zip=form.location_zip.data)
         db.session.add(opportunity)
         db.session.commit()
         return redirect(url_for('opportunities'))

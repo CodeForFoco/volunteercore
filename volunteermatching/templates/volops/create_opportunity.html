@@ -19,6 +19,27 @@
     {% endfor %}
   </p>
   <p>
+    {{ form.location_street.label }}<br>
+    {{ form.location_street }}<br>
+    {% for error in form.location_street.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.location_city.label }}<br>
+    {{ form.location_city }}<br>
+    {% for error in form.location_city.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.location_zip.label }}<br>
+    {{ form.location_zip }}<br>
+    {% for error in form.location_zip.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
     {{ form.active.label }}<br>
     {{ form.active }}<br>
     {% for error in form.active.errors %}
