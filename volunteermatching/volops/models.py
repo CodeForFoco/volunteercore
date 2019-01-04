@@ -44,6 +44,9 @@ class Opportunity(db.Model):
     end_date = db.Column(db.Date())
     training_time_required = db.Column(db.Integer())
     volunteers_needed = db.Column(db.Integer())
+    location_street = db.Column(db.String(100))
+    location_city = db.Column(db.String(50))
+    location_zip = db.Column(db.String(10))
 
     # One to many relationships
     partner_id = db.Column(db.Integer, db.ForeignKey('partner.id'))
