@@ -1,4 +1,5 @@
 from volunteermatching import db
+from volunteermatching.mixins import PagininatedAPIMixin
 
 passions = db.Table('passions',
     db.Column('opportunity_id', db.Integer, db.ForeignKey('opportunity.id')),
@@ -22,11 +23,24 @@ frequencies = db.Table('frequencies',
 )
 
 
-class Partner(db.Model):
+class Partner(PagininatedAPIMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
     name = db.Column(db.String(200), index=True, unique=True)
     opportunities = db.relationship('Opportunity', backref='partner',
                                     lazy='dynamic')
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'name': self.name,
+            'opportunity_count': self.opportunities.count()
+        }
+        return data
+
+    def from_dict(self, data, new_partner=False):
+        for field in ['name']:
+            if field in data:
+                setattr(self, field, data[field])
 
     def __repr__(self):
         return '<Partner {}>'.format(self.name)
