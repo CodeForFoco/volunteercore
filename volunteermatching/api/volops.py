@@ -1,0 +1,44 @@
+from flask import jsonify, request, url_for
+from volunteermatching import app, db
+from volunteermatching.volops.models import Partner
+from .errors import bad_request
+
+
+@app.route('/api/partners/<int:id>', methods=['GET'])
+def get_partner_api(id):
+    return jsonify(Partner.query.get_or_404(id).to_dict())
+
+@app.route('/api/partners', methods=['GET'])
+def get_partners_api():
+    page = request.args.get('page', 1, type=int)
+    per_page = min(request.args.get('per_page', 10, type=int), 100)
+    data = Partner.to_colletion_dict(Partner.query, page, per_page,
+        'get_partners_api')
+    return jsonify(data)
+
+@app.route('/api/partners', methods=['POST'])
+def create_partner_api():
+    data = request.get_json() or {}
+    if 'name' not in data:
+        return bad_request('must include partner name field')
+    if Partner.query.filter_by(name=data['name']).first():
+        return bad_request('this partner already exists')
+    partner = Partner()
+    partner.from_dict(data, new_partner=True)
+    db.session.add(partner)
+    db.session.commit()
+    response = jsonify(partner.to_dict())
+    response.status_code = 201
+    response.headers['Location'] = url_for('get_partner_api', id=partner.id)
+    return response
+
+@app.route('/api/partners/<int:id>', methods=['PUT'])
+def update_partner_api(id):
+    partner = Partner.query.get_or_404(id)
+    data = request.get_json() or {}
+    if 'name' in data and data['name'] != partner.name and \
+            Partner.query.filter_by(name=data['name']).first():
+        return bad_request('please use a different partner name')
+    partner.from_dict(data, new_partner=False)
+    db.session.commit()
+    return jsonify(partner.to_dict())
