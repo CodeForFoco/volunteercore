@@ -3,11 +3,13 @@ from volunteermatching import app, db
 from volunteermatching.volops.models import Partner
 from .errors import bad_request
 
-
+# API GET endpoint returns individual partner from given id
 @app.route('/api/partners/<int:id>', methods=['GET'])
 def get_partner_api(id):
     return jsonify(Partner.query.get_or_404(id).to_dict())
 
+# API GET endpoint returns all partners, paginated with given page and
+# quantity per page
 @app.route('/api/partners', methods=['GET'])
 def get_partners_api():
     page = request.args.get('page', 1, type=int)
@@ -16,6 +18,7 @@ def get_partners_api():
         'get_partners_api')
     return jsonify(data)
 
+# API POST endpoint to create a new partner
 @app.route('/api/partners', methods=['POST'])
 def create_partner_api():
     data = request.get_json() or {}
@@ -32,6 +35,7 @@ def create_partner_api():
     response.headers['Location'] = url_for('get_partner_api', id=partner.id)
     return response
 
+# API PUT endpoint to update a partner
 @app.route('/api/partners/<int:id>', methods=['PUT'])
 def update_partner_api(id):
     partner = Partner.query.get_or_404(id)

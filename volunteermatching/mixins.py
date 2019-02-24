@@ -1,7 +1,7 @@
 from flask import url_for
-# from volunteermatching import db
 
-
+# Mixin to return paginated dictionary objects for use with long list type
+# API endpoints
 class PagininatedAPIMixin(object):
     @staticmethod
     def to_colletion_dict(query, page, per_page, endpoint, **kwargs):
