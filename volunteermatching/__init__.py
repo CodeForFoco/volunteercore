@@ -13,6 +13,8 @@ from .auth import bp_auth
 app.register_blueprint(bp_auth)
 from .volops import bp_volops
 app.register_blueprint(bp_volops)
+from .api import bp_api
+app.register_blueprint(bp_api, url_prefix='/api')
 
 from . import views
 
