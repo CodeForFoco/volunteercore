@@ -2,6 +2,7 @@ from volunteermatching import db
 from volunteermatching.auth import login_manager
 from passlib.apps import custom_app_context as pwd_context
 from flask_login import UserMixin
+from volunteermatching.mixins import PagininatedAPIMixin
 
 # Define models
 roles_users = db.Table('roles_users',
@@ -17,7 +18,7 @@ class Role(db.Model):
     description = db.Column(db.String(255))
 
 
-class User(UserMixin, db.Model):
+class User(PagininatedAPIMixin, UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), index=True, unique=True)
     password_hash = db.Column(db.String(255))
@@ -37,6 +38,22 @@ class User(UserMixin, db.Model):
         for r in self.roles:
             role_names.append(r.name)
         return role_names
+
+    def to_dict(self, include_email=False):
+        data = {
+            'id': self.id,
+            'roles': self.get_user_roles()
+        }
+        if include_email:
+            data['email'] = self.email
+        return data
+
+    def from_dict(self, data, new_user=False):
+        for field in ['email']:
+            if field in data:
+                setattr(self, field, data[field])
+        if new_user and 'password' in data:
+            self.hash_password(data['password'])
 
 @login_manager.user_loader
 def load_user(id):
