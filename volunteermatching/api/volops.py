@@ -46,3 +46,13 @@ def update_partner_api(id):
     partner.from_dict(data, new_partner=False)
     db.session.commit()
     return jsonify(partner.to_dict())
+
+# API DELETE endpoint to delete a partner
+@app.route('/api/partners/<int:id>', methods=['DELETE'])
+def delete_partner_api(id):
+    if not Partner.query.filter_by(id=id).first():
+        return bad_request('this partner does not exist')
+    partner = Partner.query.get_or_404(id)
+    db.session.delete(partner)
+    db.session.commit()
+    return '', 204
