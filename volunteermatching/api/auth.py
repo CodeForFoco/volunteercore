@@ -18,8 +18,9 @@ def get_users_api():
     include_email = request.args.get('include_email', False)
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
-    data = User.to_colletion_dict(User.query, page, per_page,
-        'get_partners_api', include_email=include_email)
+    data = User.to_colletion_dict(
+            User.query, page, per_page, 'get_partners_api',
+            include_email=include_email)
     return jsonify(data)
 
 # API POST endpoint to create a new user

@@ -1,23 +1,27 @@
 from volunteermatching import db
 from volunteermatching.mixins import PagininatedAPIMixin
 
-passions = db.Table('passions',
+passions = db.Table(
+    'passions',
     db.Column('opportunity_id', db.Integer, db.ForeignKey('opportunity.id')),
     db.Column('passion_id', db.Integer, db.ForeignKey('passion.id'))
 )
 
-age_group_interests = db.Table('age_group_interests',
+age_group_interests = db.Table(
+    'age_group_interests',
     db.Column('opportunity_id', db.Integer, db.ForeignKey('opportunity.id')),
     db.Column('age_group_interests_id', db.Integer,
               db.ForeignKey('age_group_interest.id'))
 )
 
-skills = db.Table('skills',
+skills = db.Table(
+    'skills',
     db.Column('opportunity_id', db.Integer, db.ForeignKey('opportunity.id')),
     db.Column('skills_id', db.Integer, db.ForeignKey('skill.id'))
 )
 
-frequencies = db.Table('frequencies',
+frequencies = db.Table(
+    'frequencies',
     db.Column('opportunity_id', db.Integer, db.ForeignKey('opportunity.id')),
     db.Column('frequencies_id', db.Integer, db.ForeignKey('frequency.id'))
 )
@@ -66,15 +70,18 @@ class Opportunity(db.Model):
     partner_id = db.Column(db.Integer, db.ForeignKey('partner.id'))
 
     # Many to many relations
-    passions = db.relationship('Passion', secondary='passions',
-        lazy='subquery', backref=db.backref('opportunities', lazy=True))
-    age_group_interests = db.relationship('AgeGroupInterest',
-        secondary='age_group_interests', lazy='subquery',
+    passions = db.relationship(
+        'Passion', secondary='passions', lazy='subquery',
         backref=db.backref('opportunities', lazy=True))
-    skills = db.relationship('Skill', secondary='skills', lazy='subquery',
+    age_group_interests = db.relationship(
+        'AgeGroupInterest', secondary='age_group_interests', lazy='subquery',
         backref=db.backref('opportunities', lazy=True))
-    frequencies = db.relationship('Frequency', secondary='frequencies',
-        lazy='subquery', backref=db.backref('opportunities', lazy=True))
+    skills = db.relationship(
+        'Skill', secondary='skills', lazy='subquery',
+        backref=db.backref('opportunities', lazy=True))
+    frequencies = db.relationship(
+        'Frequency', secondary='frequencies', lazy='subquery',
+        backref=db.backref('opportunities', lazy=True))
 
     def __repr__(self):
         return '<Opportunity {}>'.format(self.name)

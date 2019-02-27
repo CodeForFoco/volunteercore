@@ -55,6 +55,7 @@ class User(PagininatedAPIMixin, UserMixin, db.Model):
         if new_user and 'password' in data:
             self.hash_password(data['password'])
 
+
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
