@@ -1,6 +1,6 @@
 from flask import jsonify, request, url_for
 from volunteermatching import app, db
-from volunteermatching.auth.models import User
+from volunteermatching.auth.models import User, Role
 from .errors import bad_request
 
 
@@ -31,6 +31,10 @@ def create_user_api():
         return bad_request('must include user email and password field')
     if User.query.filter_by(email=data['email']).first():
         return bad_request('this user already exists')
+    if 'roles' in data:
+        for role in data['roles']:
+            if not Role.query.filter_by(name=role).first():
+                return bad_request('that is not an existing role')
     user = User()
     user.from_dict(data, new_user=True)
     db.session.add(user)
@@ -41,7 +45,6 @@ def create_user_api():
     return response
 
 # API PUT endpoint to update a user
-# Need to complete ability to add roles to user
 @app.route('/api/users/<int:id>', methods=['PUT'])
 def update_user_api(id):
     user = User.query.get_or_404(id)
@@ -49,6 +52,10 @@ def update_user_api(id):
     if 'email' in data and data['email'] != user.email and \
             User.query.filter_by(email=data['email']).first():
         return bad_request('please use a different email')
+    if 'roles' in data:
+        for role in data['roles']:
+            if not Role.query.filter_by(name=role).first():
+                return bad_request('that is not an existing role')
     user.from_dict(data, new_user=False)
     db.session.commit()
     return jsonify(user.to_dict())
