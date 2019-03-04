@@ -14,7 +14,9 @@ app.register_blueprint(bp_auth)
 from .volops import bp_volops
 app.register_blueprint(bp_volops)
 from .api import bp_api
-app.register_blueprint(bp_api, url_prefix='/api')
+app.register_blueprint(bp_api)
+from .errors import bp_errors
+app.register_blueprint(bp_errors)
 
 from . import views
 
