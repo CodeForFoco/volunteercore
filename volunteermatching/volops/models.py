@@ -26,6 +26,12 @@ frequencies = db.Table(
     db.Column('frequencies_id', db.Integer, db.ForeignKey('frequency.id'))
 )
 
+tags = db.Table(
+    'tags',
+    db.Column('opportunity_id', db.Integer, db.ForeignKey('opportunity.id')),
+    db.Column('tags_id', db.Integer, db.ForeignKey('tag.id'))
+)
+
 
 class Partner(PagininatedAPIMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
@@ -82,15 +88,36 @@ class Opportunity(db.Model):
     frequencies = db.relationship(
         'Frequency', secondary='frequencies', lazy='subquery',
         backref=db.backref('opportunities', lazy=True))
+    tags = db.relationship(
+        'Tag', secondary='tags', lazy='subquery',
+        backref=db.backref('opportunities', lazy=True))
 
     def __repr__(self):
         return '<Opportunity {}>'.format(self.name)
 
 
+class TagCategory(db.Model):
+    id = db.Column(db.Integer(), primary_key=True, index=True)
+    name = db.Column(db.String(60), index=True, unique=True)
+    tags = db.relationship('Tag', backref='tag_category',
+                                    lazy='dynamic')
+
+    def __repr__(self):
+        return '<Tag Category {}>'.format(self.name)
+
+
+class Tag(db.Model):
+    id = db.Column(db.Integer(), primary_key=True, index=True)
+    name = db.Column(db.String(60), index=True, unique=True)
+    tag_category_id = db.Column(db.Integer, db.ForeignKey('tag_category.id'))
+
+    def __repr__(self):
+        return '<Tag {}>'.format(self.name)
+
+
 class Passion(db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
     name = db.Column(db.String(50), index=True, unique=True)
-
     def __repr__(self):
         return '<Passion {}>'.format(self.name)
 
