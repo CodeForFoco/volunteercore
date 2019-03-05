@@ -1,24 +1,6 @@
 from volunteermatching import db
 from volunteermatching.mixins import PagininatedAPIMixin
 
-passions = db.Table(
-    'passions',
-    db.Column('opportunity_id', db.Integer, db.ForeignKey('opportunity.id')),
-    db.Column('passion_id', db.Integer, db.ForeignKey('passion.id'))
-)
-
-age_group_interests = db.Table(
-    'age_group_interests',
-    db.Column('opportunity_id', db.Integer, db.ForeignKey('opportunity.id')),
-    db.Column('age_group_interests_id', db.Integer,
-              db.ForeignKey('age_group_interest.id'))
-)
-
-skills = db.Table(
-    'skills',
-    db.Column('opportunity_id', db.Integer, db.ForeignKey('opportunity.id')),
-    db.Column('skills_id', db.Integer, db.ForeignKey('skill.id'))
-)
 
 frequencies = db.Table(
     'frequencies',
@@ -76,15 +58,6 @@ class Opportunity(db.Model):
     partner_id = db.Column(db.Integer, db.ForeignKey('partner.id'))
 
     # Many to many relations
-    passions = db.relationship(
-        'Passion', secondary='passions', lazy='subquery',
-        backref=db.backref('opportunities', lazy=True))
-    age_group_interests = db.relationship(
-        'AgeGroupInterest', secondary='age_group_interests', lazy='subquery',
-        backref=db.backref('opportunities', lazy=True))
-    skills = db.relationship(
-        'Skill', secondary='skills', lazy='subquery',
-        backref=db.backref('opportunities', lazy=True))
     frequencies = db.relationship(
         'Frequency', secondary='frequencies', lazy='subquery',
         backref=db.backref('opportunities', lazy=True))
@@ -113,29 +86,6 @@ class Tag(db.Model):
 
     def __repr__(self):
         return '<Tag {}>'.format(self.name)
-
-
-class Passion(db.Model):
-    id = db.Column(db.Integer(), primary_key=True, index=True)
-    name = db.Column(db.String(50), index=True, unique=True)
-    def __repr__(self):
-        return '<Passion {}>'.format(self.name)
-
-
-class AgeGroupInterest(db.Model):
-    id = db.Column(db.Integer(), primary_key=True, index=True)
-    name = db.Column(db.String(50), index=True, unique=True)
-
-    def __repr__(self):
-        return '<AgeGroupInterest {}>'.format(self.name)
-
-
-class Skill(db.Model):
-    id = db.Column(db.Integer(), primary_key=True, index=True)
-    name = db.Column(db.String(50), index=True, unique=True)
-
-    def __repr__(self):
-        return '<Skill {}>'.format(self.name)
 
 
 class Frequency(db.Model):
