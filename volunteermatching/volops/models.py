@@ -2,12 +2,6 @@ from volunteermatching import db
 from volunteermatching.mixins import PagininatedAPIMixin
 
 
-frequencies = db.Table(
-    'frequencies',
-    db.Column('opportunity_id', db.Integer, db.ForeignKey('opportunity.id')),
-    db.Column('frequencies_id', db.Integer, db.ForeignKey('frequency.id'))
-)
-
 tags = db.Table(
     'tags',
     db.Column('opportunity_id', db.Integer, db.ForeignKey('opportunity.id')),
@@ -56,11 +50,9 @@ class Opportunity(db.Model):
 
     # One to many relationships
     partner_id = db.Column(db.Integer, db.ForeignKey('partner.id'))
+    frequency_id = db.Column(db.Integer, db.ForeignKey('frequency.id'))
 
     # Many to many relations
-    frequencies = db.relationship(
-        'Frequency', secondary='frequencies', lazy='subquery',
-        backref=db.backref('opportunities', lazy=True))
     tags = db.relationship(
         'Tag', secondary='tags', lazy='subquery',
         backref=db.backref('opportunities', lazy=True))
@@ -72,8 +64,7 @@ class Opportunity(db.Model):
 class TagCategory(db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
     name = db.Column(db.String(60), index=True, unique=True)
-    tags = db.relationship('Tag', backref='tag_category',
-                                    lazy='dynamic')
+    tags = db.relationship('Tag', backref='tag_category', lazy='dynamic')
 
     def __repr__(self):
         return '<Tag Category {}>'.format(self.name)
@@ -91,6 +82,8 @@ class Tag(db.Model):
 class Frequency(db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
     name = db.Column(db.String(50), index=True, unique=True)
+    opportunities = db.relationship(
+                    'Opportunity', backref='frequency', lazy='dynamic')
 
     def __repr__(self):
         return '<Frequency {}>'.format(self.name)
