@@ -18,7 +18,5 @@ app.register_blueprint(bp_api)
 from .errors import bp_errors
 app.register_blueprint(bp_errors)
 
-from . import views
-
 if __name__ == '__main__':
     app.run()

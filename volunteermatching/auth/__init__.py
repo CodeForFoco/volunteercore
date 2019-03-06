@@ -8,4 +8,3 @@ login_manager.login_view = 'login'
 bp_auth = Blueprint('auth', __name__, template_folder="templates")
 
 from .models import Role, User
-from . import views, forms
