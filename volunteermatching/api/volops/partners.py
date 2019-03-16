@@ -1,7 +1,8 @@
 from flask import jsonify, request, url_for
 from volunteermatching import app, db
 from volunteermatching.volops.models import Partner
-from .errors import bad_request
+from volunteermatching.api.errors import bad_request
+from volunteermatching.api.auth import token_auth
 
 
 # API GET endpoint returns individual partner from given id
@@ -16,10 +17,11 @@ def get_partners_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
     data = Partner.to_colletion_dict(
-            Partner.query, page, per_page, 'get_partners_api')
+        Partner.query, page, per_page, 'get_partners_api')
     return jsonify(data)
 
 # API POST endpoint to create a new partner
+@token_auth.login_required
 @app.route('/api/partners', methods=['POST'])
 def create_partner_api():
     data = request.get_json() or {}
@@ -37,6 +39,7 @@ def create_partner_api():
     return response
 
 # API PUT endpoint to update a partner
+@token_auth.login_required
 @app.route('/api/partners/<int:id>', methods=['PUT'])
 def update_partner_api(id):
     partner = Partner.query.get_or_404(id)
@@ -49,6 +52,7 @@ def update_partner_api(id):
     return jsonify(partner.to_dict())
 
 # API DELETE endpoint to delete a partner
+@token_auth.login_required
 @app.route('/api/partners/<int:id>', methods=['DELETE'])
 def delete_partner_api(id):
     if not Partner.query.filter_by(id=id).first():
