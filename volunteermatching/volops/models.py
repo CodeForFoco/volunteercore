@@ -10,6 +10,8 @@ tags = db.Table(
 
 
 class Partner(PagininatedAPIMixin, db.Model):
+    __searchable__ = ['name']
+
     id = db.Column(db.Integer(), primary_key=True, index=True)
     name = db.Column(db.String(200), index=True, unique=True)
     opportunities = db.relationship(
@@ -33,6 +35,9 @@ class Partner(PagininatedAPIMixin, db.Model):
 
 
 class Opportunity(PagininatedAPIMixin, db.Model):
+    __searchable__ = ['name', 'job_number', 'location_city', 'location_zip',
+                      'tags_string']
+
     id = db.Column(db.Integer(), primary_key=True, index=True)
     active = db.Column(db.Boolean())
     name = db.Column(db.String(100), index=True, unique=True)
@@ -47,6 +52,7 @@ class Opportunity(PagininatedAPIMixin, db.Model):
     location_street = db.Column(db.String(100))
     location_city = db.Column(db.String(50))
     location_zip = db.Column(db.String(10))
+    tags_string = db.Column(db.String(200))
 
     # One to many relationships
     partner_id = db.Column(db.Integer, db.ForeignKey('partner.id'))
@@ -63,23 +69,34 @@ class Opportunity(PagininatedAPIMixin, db.Model):
         else:
             return None
 
-    def get_tags(self):
+    def get_tags(self, categorized=True):
         if self.tags:
-            tag_categories = []
-            for category in TagCategory.query.all():
-                tag_categories.append(category.name)
-            tag_data = {}
-            for category in tag_categories:
-                tags = []
-                for tag in TagCategory.query.filter_by(
-                        name=category).first().tags:
-                    if tag in self.tags:
-                        tags.append(tag.name)
-                if tags:
-                    tag_data[category] = tags
+            if categorized:
+                tag_categories = []
+                for category in TagCategory.query.all():
+                    tag_categories.append(category.name)
+                tag_data = {}
+                for category in tag_categories:
+                    tags = []
+                    for tag in TagCategory.query.filter_by(
+                            name=category).first().tags:
+                        if tag in self.tags:
+                            tags.append(tag.name)
+                    if tags:
+                        tag_data[category] = tags
+            else:
+                tag_data = []
+                for tag in self.tags:
+                    tag_data.append(tag.name)
             return tag_data
         else:
             return None
+
+    def update_tag_strings(self):
+        tags_string_total = ""
+        for tag in self.tags:
+            tags_string_total = tags_string_total + tag.name + " "
+        self.tags_string = tags_string_total
 
     def to_dict(self):
         data = {
