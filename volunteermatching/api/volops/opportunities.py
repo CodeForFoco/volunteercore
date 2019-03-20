@@ -10,13 +10,19 @@ def get_opportunity_api(id):
     return jsonify(Opportunity.query.get_or_404(id).to_dict())
 
 # API GET endpoint returns all opportunities, paginated with given page and
-# quantity per page
+# quantity per page. Accepts search argument to filter with Whoosh search.
 @app.route('/api/opportunities', methods=['GET'])
 def get_opportunities_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
-    data = Opportunity.to_colletion_dict(
-        Opportunity.query, page, per_page, 'get_opportunities_api')
+    search = request.args.get('search')
+    if search:
+        data = Opportunity.to_colletion_dict(
+            Opportunity.query.whoosh_search(search), page, per_page,
+            'get_opportunities_api')
+    else:
+        data = Opportunity.to_colletion_dict(
+            Opportunity.query, page, per_page, 'get_opportunities_api')
     return jsonify(data)
 
 # API PUT endpoint to update an opportunity
