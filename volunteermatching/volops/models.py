@@ -1,6 +1,6 @@
 from volunteermatching import db
 from volunteermatching.mixins import PagininatedAPIMixin
-
+import flask_whooshalchemyplus
 
 tags = db.Table(
     'tags',
@@ -35,8 +35,9 @@ class Partner(PagininatedAPIMixin, db.Model):
 
 
 class Opportunity(PagininatedAPIMixin, db.Model):
+    __tablename__ = 'opportunity'
     __searchable__ = ['name', 'job_number', 'location_city', 'location_zip',
-                      'tags_string']
+                      'tags_string', 'partner_string']
 
     id = db.Column(db.Integer(), primary_key=True, index=True)
     active = db.Column(db.Boolean())
@@ -53,6 +54,7 @@ class Opportunity(PagininatedAPIMixin, db.Model):
     location_city = db.Column(db.String(50))
     location_zip = db.Column(db.String(10))
     tags_string = db.Column(db.String(200))
+    partner_string = db.Column(db.String(100))
 
     # One to many relationships
     partner_id = db.Column(db.Integer, db.ForeignKey('partner.id'))
@@ -98,6 +100,9 @@ class Opportunity(PagininatedAPIMixin, db.Model):
             tags_string_total = tags_string_total + tag.name + " "
         self.tags_string = tags_string_total
 
+    def update_partner_string(self):
+        self.partner_string = self.partner.name
+
     def to_dict(self):
         data = {
             'id': self.id,
@@ -117,6 +122,7 @@ class Opportunity(PagininatedAPIMixin, db.Model):
             'tag_count': len(self.tags),
             'partner_name': Partner.query.filter_by(
                 id=self.partner_id).first().name,
+            'partner_string': self.partner_string,
             'frequency': self.get_frequency()
         }
         if self.tags:

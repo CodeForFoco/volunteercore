@@ -2,6 +2,7 @@ from flask import jsonify, request, url_for
 from volunteermatching import app, db
 from volunteermatching.volops.models import Partner, Opportunity, Frequency
 from volunteermatching.api.errors import bad_request
+import flask_whooshalchemyplus
 
 
 # API GET endpoint returns individual opportunity from given id
@@ -37,6 +38,8 @@ def update_opportunity_api(id):
         data['partner_id'] = Partner.query.filter_by(
             name=data['partner_name']).first().id
     opportunity.from_dict(data, new_opportunity=False)
+    opportunity.update_partner_string()
+    db.session.add(opportunity)
     db.session.commit()
     return jsonify(opportunity.to_dict())
 
@@ -52,6 +55,7 @@ def create_opportunity_api():
         name=data['partner_name']).first().id
     opportunity = Opportunity()
     opportunity.from_dict(data, new_opportunity=True)
+    opportunity.partner_string = Partner.query.filter_by(id=opportunity.partner_id).first().name
     db.session.add(opportunity)
     db.session.commit()
     response = jsonify(opportunity.to_dict())
