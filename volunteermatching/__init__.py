@@ -15,8 +15,8 @@ login_manager = LoginManager(app)
 # Register blueprints
 from volunteermatching.auth import bp as auth_bp
 app.register_blueprint(auth_bp)
-from .volops import bp_volops
-app.register_blueprint(bp_volops)
+from volunteermatching.volops import bp as volops_bp
+app.register_blueprint(volops_bp)
 from volunteermatching.api import bp as api_bp
 app.register_blueprint(api_bp)
 from volunteermatching.errors import bp as errors_bp
