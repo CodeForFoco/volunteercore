@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-bp_api = Blueprint('api', __name__)
+bp = Blueprint('api', __name__)
 
-from . import errors, auth, tokens
-from .volops import opportunities, partners, tags
+from volunteermatching.api import errors, auth, tokens
+from volunteermatching.api.volops import opportunities, partners, tags

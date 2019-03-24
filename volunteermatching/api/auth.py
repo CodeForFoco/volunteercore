@@ -1,8 +1,9 @@
 from flask import jsonify, request, url_for, g
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
-from volunteermatching import app, db
+from volunteermatching import db
+from volunteermatching.api import bp
 from volunteermatching.auth.models import User, Role
-from .errors import bad_request, error_response
+from volunteermatching.api.errors import bad_request, error_response
 
 basic_auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth()
@@ -36,7 +37,7 @@ def token_error_handle():
 
 # API GET endpoint returns an individual user. The users email is only returned
 # when the include_email argument is pass as True.
-@app.route('/api/users/<int:id>', methods=['GET'])
+@bp.route('/api/users/<int:id>', methods=['GET'])
 @token_auth.login_required
 def get_user_api(id):
     include_email = request.args.get('include_email', False)
@@ -44,7 +45,7 @@ def get_user_api(id):
 
 # API GET endpoint return all users, paginated with given page and quantity
 # per page.
-@app.route('/api/users', methods=['GET'])
+@bp.route('/api/users', methods=['GET'])
 @token_auth.login_required
 def get_users_api():
     include_email = request.args.get('include_email', False)
@@ -56,7 +57,7 @@ def get_users_api():
     return jsonify(data)
 
 # API POST endpoint to create a new user
-@app.route('/api/users', methods=['POST'])
+@bp.route('/api/users', methods=['POST'])
 @token_auth.login_required
 def create_user_api():
     data = request.get_json() or {}
@@ -78,7 +79,7 @@ def create_user_api():
     return response
 
 # API PUT endpoint to update a user
-@app.route('/api/users/<int:id>', methods=['PUT'])
+@bp.route('/api/users/<int:id>', methods=['PUT'])
 @token_auth.login_required
 def update_user_api(id):
     user = User.query.get_or_404(id)
@@ -95,7 +96,7 @@ def update_user_api(id):
     return jsonify(user.to_dict())
 
 # API DELETE endpoint to delete a user
-@app.route('/api/users/<int:id>', methods=['DELETE'])
+@bp.route('/api/users/<int:id>', methods=['DELETE'])
 @token_auth.login_required
 def delete_user_api(id):
     if not User.query.filter_by(id=id).first():

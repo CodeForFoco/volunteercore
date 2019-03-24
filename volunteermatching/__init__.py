@@ -15,8 +15,8 @@ from .auth import bp_auth
 app.register_blueprint(bp_auth)
 from .volops import bp_volops
 app.register_blueprint(bp_volops)
-from .api import bp_api
-app.register_blueprint(bp_api)
+from volunteermatching.api import bp as api_bp
+app.register_blueprint(api_bp)
 from .errors import bp_errors
 app.register_blueprint(bp_errors)
 

@@ -1,17 +1,18 @@
 from flask import jsonify, request, url_for
-from volunteermatching import app, db
+from volunteermatching import db
+from volunteermatching.api import bp
 from volunteermatching.volops.models import TagCategory, Tag
 from volunteermatching.api.errors import bad_request
 
 
 # API GET endpoint returns individial tag category with given id
-@app.route('/api/tag_categories/<int:id>', methods=['GET'])
+@bp.route('/api/tag_categories/<int:id>', methods=['GET'])
 def get_tag_category_api(id):
     return jsonify(TagCategory.query.get_or_404(id).to_dict())
 
 # API GET endpoint returns all tag categories with tags, paginated with given
 # page and quantity per page
-@app.route('/api/tag_categories', methods=['GET'])
+@bp.route('/api/tag_categories', methods=['GET'])
 def get_tag_categories_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
@@ -20,7 +21,7 @@ def get_tag_categories_api():
     return jsonify(data)
 
 # API PUSH endpoint to update a tag category
-@app.route('/api/tag_categories/<int:id>', methods=['PUT'])
+@bp.route('/api/tag_categories/<int:id>', methods=['PUT'])
 def update_tag_category_api(id):
     tag_category = TagCategory.query.get_or_404(id)
     data = request.get_json() or {}
@@ -37,7 +38,7 @@ def update_tag_category_api(id):
     return jsonify(tag_category.to_dict())
 
 # API POST endpost to create a new tag category
-@app.route('/api/tag_categories', methods=['POST'])
+@bp.route('/api/tag_categories', methods=['POST'])
 def create_tag_category_api():
     data = request.get_json() or {}
     if 'category_name' not in data:
@@ -60,7 +61,7 @@ def create_tag_category_api():
     return response
 
 # API DELETE endpoint to delete a tag category
-@app.route('/api/tag_categories/<int:id>', methods=['DELETE'])
+@bp.route('/api/tag_categories/<int:id>', methods=['DELETE'])
 def delete_tag_categories_api(id):
     if not TagCategory.query.filter_by(id=id).first():
         return bad_request('this tag category does not exist')
@@ -70,13 +71,13 @@ def delete_tag_categories_api(id):
     return '', 204
 
 # API GET endpoint returns a single tag by id
-@app.route('/api/tags/<int:id>', methods=['GET'])
+@bp.route('/api/tags/<int:id>', methods=['GET'])
 def get_tag_api(id):
     return jsonify(Tag.query.get_or_404(id).to_dict())
 
 # API GET endpoint returns all tags, paginated with given page and quantity
 # per page
-@app.route('/api/tags', methods=['GET'])
+@bp.route('/api/tags', methods=['GET'])
 def get_tags_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
@@ -85,7 +86,7 @@ def get_tags_api():
     return jsonify(data)
 
 # API PUSH endpoint to update a tag
-@app.route('/api/tags/<int:id>', methods=['PUT'])
+@bp.route('/api/tags/<int:id>', methods=['PUT'])
 def update_tag_api(id):
     tag = Tag.query.get_or_404(id)
     data = request.get_json() or {}
@@ -97,7 +98,7 @@ def update_tag_api(id):
     return jsonify(tag.to_dict())
 
 # API POST endpoint to create a new tag
-@app.route('/api/tags', methods=['POST'])
+@bp.route('/api/tags', methods=['POST'])
 def create_tag_api():
     data = request.get_json() or {}
     if 'name' not in data:
@@ -115,7 +116,7 @@ def create_tag_api():
     return response
 
 # API DELETE endpoint to delete a tag
-@app.route('/api/tags/<int:id>', methods=['DELETE'])
+@bp.route('/api/tags/<int:id>', methods=['DELETE'])
 def delete_tag_api(id):
     if not Tag.query.filter_by(id=id).first():
         return bad_request('this tag does not exist')
