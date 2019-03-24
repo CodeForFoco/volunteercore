@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-bp_errors = Blueprint('errors', __name__, template_folder="templates")
+bp = Blueprint('errors', __name__)
 
-from . import handlers
+from volunteermatching.errors import handlers

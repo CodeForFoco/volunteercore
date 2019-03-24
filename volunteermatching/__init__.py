@@ -19,8 +19,8 @@ from .volops import bp_volops
 app.register_blueprint(bp_volops)
 from volunteermatching.api import bp as api_bp
 app.register_blueprint(api_bp)
-from .errors import bp_errors
-app.register_blueprint(bp_errors)
+from volunteermatching.errors import bp as errors_bp
+app.register_blueprint(errors_bp)
 
 if __name__ == '__main__':
     app.run()
