@@ -17,7 +17,7 @@ def get_tag_categories_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
     data = TagCategory.to_colletion_dict(
-        TagCategory.query, page, per_page, 'get_tag_categories_api')
+        TagCategory.query, page, per_page, 'api.get_tag_categories_api')
     return jsonify(data)
 
 # API PUSH endpoint to update a tag category
@@ -57,7 +57,7 @@ def create_tag_category_api():
     response = jsonify(tag_category.to_dict())
     response.status_code = 201
     response.headers['Location'] = url_for(
-        'get_tag_category_api', id=tag_category.id)
+        'api.get_tag_category_api', id=tag_category.id)
     return response
 
 # API DELETE endpoint to delete a tag category
@@ -82,7 +82,7 @@ def get_tags_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
     data = Tag.to_colletion_dict(
-        Tag.query, page, per_page, 'get_tags_api')
+        Tag.query, page, per_page, 'api.get_tags_api')
     return jsonify(data)
 
 # API PUSH endpoint to update a tag
@@ -112,7 +112,7 @@ def create_tag_api():
     response = jsonify(tag.to_dict())
     response.status_code = 201
     response.headers['Location'] = url_for(
-        'get_tag_api', id=tag.id)
+        'api.get_tag_api', id=tag.id)
     return response
 
 # API DELETE endpoint to delete a tag
