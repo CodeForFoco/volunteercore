@@ -3,7 +3,7 @@ from volunteermatching import db
 from volunteermatching.api import bp
 from volunteermatching.volops.models import Partner, Opportunity, Frequency
 from volunteermatching.api.errors import bad_request
-import flask_whooshalchemyplus
+from flask_whooshalchemyplus import index_one_record
 
 
 # API GET endpoint returns individual opportunity from given id
@@ -20,7 +20,7 @@ def get_opportunities_api():
     search = request.args.get('search')
     if search:
         data = Opportunity.to_colletion_dict(
-            Opportunity.query.whoosh_search(search), page, per_page,
+            Opportunity.query.whoosh_search(search, or_=True), page, per_page,
             'api.get_opportunities_api')
     else:
         data = Opportunity.to_colletion_dict(
@@ -40,8 +40,10 @@ def update_opportunity_api(id):
             name=data['partner_name']).first().id
     opportunity.from_dict(data, new_opportunity=False)
     opportunity.update_partner_string()
+    opportunity.update_tag_strings()
     db.session.add(opportunity)
     db.session.commit()
+    index_one_record(opportunity)
     return jsonify(opportunity.to_dict())
 
 # API POST endpoint to create a new opportunity
@@ -59,6 +61,7 @@ def create_opportunity_api():
     opportunity.partner_string = Partner.query.filter_by(id=opportunity.partner_id).first().name
     db.session.add(opportunity)
     db.session.commit()
+    index_one_record(opportunity)
     response = jsonify(opportunity.to_dict())
     response.status_code = 201
     response.headers['Location'] = url_for(
@@ -73,6 +76,7 @@ def delete_opportunity_api(id):
     opportunity = Opportunity.query.get_or_404(id)
     db.session.delete(opportunity)
     db.session.commit()
+    index_one_record(opportunity, delete=True)
     return '', 204
 
 # API GET endpoint returns individual frequency by id

@@ -4,6 +4,7 @@ from volunteermatching.api import bp
 from volunteermatching.volops.models import Partner
 from volunteermatching.api.errors import bad_request
 from volunteermatching.api.auth import token_auth
+from flask_whooshalchemyplus import index_one_record
 
 
 # API GET endpoint returns individual partner from given id
@@ -20,7 +21,7 @@ def get_partners_api():
     search = request.args.get('search')
     if search:
         data = Partner.to_colletion_dict(
-            Partner.query.whoosh_search(search), page, per_page,
+            Partner.query.whoosh_search(search, or_=True), page, per_page,
             'api.get_partners_api')
     else:
         data = Partner.to_colletion_dict(
@@ -40,6 +41,7 @@ def create_partner_api():
     partner.from_dict(data, new_partner=True)
     db.session.add(partner)
     db.session.commit()
+    index_one_record(partner)
     response = jsonify(partner.to_dict())
     response.status_code = 201
     response.headers['Location'] = url_for('api.get_partner_api', id=partner.id)
@@ -56,6 +58,7 @@ def update_partner_api(id):
         return bad_request('please use a different partner name')
     partner.from_dict(data, new_partner=False)
     db.session.commit()
+    index_one_record(partner)
     return jsonify(partner.to_dict())
 
 # API DELETE endpoint to delete a partner
@@ -67,4 +70,5 @@ def delete_partner_api(id):
     partner = Partner.query.get_or_404(id)
     db.session.delete(partner)
     db.session.commit()
+    index_one_record(partner, delete=True)
     return '', 204
