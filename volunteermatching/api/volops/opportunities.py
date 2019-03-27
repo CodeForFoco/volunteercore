@@ -58,7 +58,8 @@ def create_opportunity_api():
         name=data['partner_name']).first().id
     opportunity = Opportunity()
     opportunity.from_dict(data, new_opportunity=True)
-    opportunity.partner_string = Partner.query.filter_by(id=opportunity.partner_id).first().name
+    opportunity.partner_string = Partner.query.filter_by(
+        id=opportunity.partner_id).first().name
     db.session.add(opportunity)
     db.session.commit()
     index_one_record(opportunity)

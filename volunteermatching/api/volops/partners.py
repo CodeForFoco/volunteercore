@@ -44,7 +44,8 @@ def create_partner_api():
     index_one_record(partner)
     response = jsonify(partner.to_dict())
     response.status_code = 201
-    response.headers['Location'] = url_for('api.get_partner_api', id=partner.id)
+    response.headers['Location'] = url_for(
+        'api.get_partner_api', id=partner.id)
     return response
 
 # API PUT endpoint to update a partner
