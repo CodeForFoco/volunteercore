@@ -1,0 +1,10 @@
+@import '../../utils/_variables.scss';
+
+.opportunity-thumb {
+  padding: 15px;
+  margin-bottom: 25px;
+  &:hover {
+    cursor: pointer;
+  }
+  transition: 0.1s ease-in-out;
+}

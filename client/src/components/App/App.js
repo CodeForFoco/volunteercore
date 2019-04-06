@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import ROUTES from './routes.js';
 import './App.scss';
+
+import Nav from '../../components/Nav/Nav.js';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <Nav/>
+        <div className='container-fluid'>
+          <div className='row justify-content-center'>
+            <div className='col-sm-12 col-md-9 col-lg-8'>
+              <br/><br/>
+              {ROUTES.map((route) => {
+                return (<Route exact {...route}  />);
+              })}
+            </div>
+          </div>
+        </div>
+      </Router>
     );
   }
 }
