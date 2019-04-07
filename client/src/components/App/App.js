@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ROUTES from './routes.js';
 import './App.scss';
 
@@ -12,11 +12,14 @@ class App extends Component {
         <Nav/>
         <div className='container-fluid'>
           <div className='row justify-content-center'>
-            <div className='col-sm-12 col-md-9 col-lg-8'>
+            <div className='col-sm-12 col-md-9 col-lg-6'>
               <br/><br/>
-              {ROUTES.map((route) => {
-                return (<Route exact {...route}  />);
-              })}
+              <Switch>
+                {ROUTES.map((route) => {
+                  return (<Route exact {...route}  />);
+                })}
+              </Switch>
+              <br/><br/>
             </div>
           </div>
         </div>
