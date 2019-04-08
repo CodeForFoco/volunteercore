@@ -3,6 +3,7 @@ from volunteermatching import db
 from volunteermatching.api import bp
 from volunteermatching.volops.models import TagCategory, Tag
 from volunteermatching.api.errors import bad_request
+from flask_jwt_extended import jwt_required
 
 
 # API GET endpoint returns individial tag category with given id
@@ -22,6 +23,7 @@ def get_tag_categories_api():
 
 # API PUSH endpoint to update a tag category
 @bp.route('/api/tag_categories/<int:id>', methods=['PUT'])
+@jwt_required
 def update_tag_category_api(id):
     tag_category = TagCategory.query.get_or_404(id)
     data = request.get_json() or {}
@@ -39,6 +41,7 @@ def update_tag_category_api(id):
 
 # API POST endpost to create a new tag category
 @bp.route('/api/tag_categories', methods=['POST'])
+@jwt_required
 def create_tag_category_api():
     data = request.get_json() or {}
     if 'category_name' not in data:
@@ -62,6 +65,7 @@ def create_tag_category_api():
 
 # API DELETE endpoint to delete a tag category
 @bp.route('/api/tag_categories/<int:id>', methods=['DELETE'])
+@jwt_required
 def delete_tag_categories_api(id):
     if not TagCategory.query.filter_by(id=id).first():
         return bad_request('this tag category does not exist')
@@ -87,6 +91,7 @@ def get_tags_api():
 
 # API PUSH endpoint to update a tag
 @bp.route('/api/tags/<int:id>', methods=['PUT'])
+@jwt_required
 def update_tag_api(id):
     tag = Tag.query.get_or_404(id)
     data = request.get_json() or {}
@@ -99,6 +104,7 @@ def update_tag_api(id):
 
 # API POST endpoint to create a new tag
 @bp.route('/api/tags', methods=['POST'])
+@jwt_required
 def create_tag_api():
     data = request.get_json() or {}
     if 'name' not in data:
@@ -117,6 +123,7 @@ def create_tag_api():
 
 # API DELETE endpoint to delete a tag
 @bp.route('/api/tags/<int:id>', methods=['DELETE'])
+@jwt_required
 def delete_tag_api(id):
     if not Tag.query.filter_by(id=id).first():
         return bad_request('this tag does not exist')

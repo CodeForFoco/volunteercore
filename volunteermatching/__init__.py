@@ -4,10 +4,12 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from config import Config
 import flask_whooshalchemyplus
+from flask_jwt_extended import JWTManager
 
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
+jwt = JWTManager()
 
 
 def create_app(config_class=Config):
@@ -17,6 +19,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     login_manager.init_app(app)
     flask_whooshalchemyplus.init_app(app)
+    jwt.init_app(app)
 
     # Register blueprints
     from volunteermatching.auth import bp as auth_bp

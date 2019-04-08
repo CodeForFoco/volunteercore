@@ -4,6 +4,7 @@ from volunteermatching.api import bp
 from volunteermatching.volops.models import Partner, Opportunity, Frequency
 from volunteermatching.api.errors import bad_request
 from flask_whooshalchemyplus import index_one_record
+from flask_jwt_extended import jwt_required
 
 
 # API GET endpoint returns individual opportunity from given id
@@ -29,6 +30,7 @@ def get_opportunities_api():
 
 # API PUT endpoint to update an opportunity
 @bp.route('/api/opportunities/<int:id>', methods=['PUT'])
+@jwt_required
 def update_opportunity_api(id):
     opportunity = Opportunity.query.get_or_404(id)
     data = request.get_json() or {}
@@ -48,6 +50,7 @@ def update_opportunity_api(id):
 
 # API POST endpoint to create a new opportunity
 @bp.route('/api/opportunities', methods=['POST'])
+@jwt_required
 def create_opportunity_api():
     data = request.get_json() or {}
     if 'name' not in data or 'partner_name' not in data:
@@ -71,6 +74,7 @@ def create_opportunity_api():
 
 # API DELETE endpoint to delete an opportunity
 @bp.route('/api/opportunities/<int:id>', methods=['DELETE'])
+@jwt_required
 def delete_opportunity_api(id):
     if not Opportunity.query.filter_by(id=id).first():
         return bad_request('this opportunity does not exist')
@@ -98,6 +102,7 @@ def get_frequencies_api():
 
 # API PUT endpoint to update a frequency
 @bp.route('/api/frequencies/<int:id>', methods=['PUT'])
+@jwt_required
 def update_frequency_api(id):
     frequency = Frequency.query.get_or_404(id)
     data = request.get_json() or {}
@@ -110,6 +115,7 @@ def update_frequency_api(id):
 
 # API POST endpoint to create a frequency
 @bp.route('/api/frequencies', methods=['POST'])
+@jwt_required
 def create_frequency_api():
     data = request.get_json() or {}
     if 'name' not in data:
@@ -126,6 +132,7 @@ def create_frequency_api():
 
 # API DELETE endpoint to delete a frequency
 @bp.route('/api/frequencies/<int:id>', methods=['DELETE'])
+@jwt_required
 def delete_frequency_api(id):
     if not Frequency.query.filter_by(id=id).first():
         return bad_request('this frequency does not exist')
