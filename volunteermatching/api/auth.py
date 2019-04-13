@@ -12,8 +12,8 @@ token_auth = HTTPTokenAuth()
 # Defines the HTTPBasicAuth callback function password verification used
 # when basic auth is used on a route function
 @basic_auth.verify_password
-def verify_password(useremail, password):
-    user = User.query.filter_by(email=useremail).first()
+def verify_password(username, password):
+    user = User.query.filter_by(username=username).first()
     if user is None:
         return False
     g.current_user = user
@@ -50,9 +50,9 @@ def get_users_api():
 @jwt_required
 def create_user_api():
     data = request.get_json() or {}
-    if 'email' not in data or 'password' not in data:
-        return bad_request('must include user email and password field')
-    if User.query.filter_by(email=data['email']).first():
+    if 'username' not in data or 'password' not in data:
+        return bad_request('must include username and password field')
+    if User.query.filter_by(username=data['username']).first():
         return bad_request('this user already exists')
     if 'roles' in data:
         for role in data['roles']:
@@ -73,9 +73,9 @@ def create_user_api():
 def update_user_api(id):
     user = User.query.get_or_404(id)
     data = request.get_json() or {}
-    if 'email' in data and data['email'] != user.email and \
-            User.query.filter_by(email=data['email']).first():
-        return bad_request('please use a different email')
+    if 'username' in data and data['username'] != user.username and \
+            User.query.filter_by(username=data['username']).first():
+        return bad_request('please use a different username')
     if 'roles' in data:
         for role in data['roles']:
             if not Role.query.filter_by(name=role).first():

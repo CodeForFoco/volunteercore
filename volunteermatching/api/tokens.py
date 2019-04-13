@@ -12,8 +12,8 @@ from flask_jwt_extended import (
 @bp.route('/api/token/auth', methods=['POST'])
 @basic_auth.login_required
 def login():
-    access_token = create_access_token(identity=g.current_user.email)
-    refresh_token = create_refresh_token(identity=g.current_user.email)
+    access_token = create_access_token(identity=g.current_user.username)
+    refresh_token = create_refresh_token(identity=g.current_user.username)
     resp = jsonify({'login': True})
     set_access_cookies(resp, access_token)
     set_refresh_cookies(resp, refresh_token)

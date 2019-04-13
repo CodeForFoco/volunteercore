@@ -1,8 +1,8 @@
-from volunteermatching import db
 from volunteermatching.auth import login_manager
 from passlib.apps import custom_app_context as pwd_context
 from flask_login import UserMixin
 from volunteermatching.mixins import PagininatedAPIMixin
+from volunteermatching import db
 
 # Define models
 roles_users = db.Table('roles_users',
@@ -20,7 +20,8 @@ class Role(db.Model):
 
 class User(PagininatedAPIMixin, UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(255), index=True, unique=True)
+    email = db.Column(db.String(255), unique=True)
+    username = db.Column(db.String(255), index=True, unique=True)
     password_hash = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
@@ -42,6 +43,7 @@ class User(PagininatedAPIMixin, UserMixin, db.Model):
     def to_dict(self, include_email=False):
         data = {
             'id': self.id,
+            'username': self.username,
             'roles': self.get_user_roles()
         }
         if include_email:
@@ -49,7 +51,7 @@ class User(PagininatedAPIMixin, UserMixin, db.Model):
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['email', 'roles']:
+        for field in ['email', 'username', 'roles']:
             role_ids = []
             if field in data and field == 'roles':
                 for role in data[field]:
