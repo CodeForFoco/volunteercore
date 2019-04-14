@@ -7,15 +7,17 @@ entrypoints==0.3
 flake8==3.7.7
 Flask==1.0.2
 Flask-HTTPAuth==3.2.4
+Flask-JWT-Extended==3.18.0
 Flask-Login==0.4.1
 Flask-Migrate==2.2.1
 Flask-SQLAlchemy==2.3.2
-Flask-WhooshAlchemyPlus==0.7.4
+Flask-WhooshAlchemyPlus==0.7.5
 Flask-WTF==0.14.2
 httpie==1.0.2
+httpie-jwt-auth==0.3.0
 idna==2.8
 itsdangerous==0.24
-Jinja2==2.10
+Jinja2==2.10.1
 Mako==1.0.7
 MarkupSafe==1.0
 mccabe==0.6.1
@@ -23,6 +25,7 @@ passlib==1.7.1
 pycodestyle==2.5.0
 pyflakes==2.1.0
 Pygments==2.3.1
+PyJWT==1.7.1
 python-dateutil==2.7.3
 python-dotenv==0.9.1
 python-editor==1.0.3
