@@ -14,6 +14,7 @@ You will need [git](https://git-scm.com/downloads), [python 3](https://www.pytho
 1. `pip install -r requirements.txt`
 1. `cp config.env.template .env`
 1. `flask db upgrade`
+1. Create the admin user: `flask create_admin`
 
 ### Start the Flask app
 1. `flask run`
