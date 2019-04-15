@@ -18,3 +18,5 @@ static/libs/*
 # Other stuff here
 *.db
 whoosh
+*.lock
+docs/_site
