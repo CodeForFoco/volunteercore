@@ -1,6 +1,3 @@
-title: [Volunteer Matching]
-description: [Better matching your volunteer tasks with volunteers]
-
 The Volunteer Matching project is a web app that assists in better management of volunteer matching operations. It will track and provide matching suggestions of volunteer partners, opportunities for volunteers, and volunteers. Later features could include communications to build out functionality similar to a CRM.
 
 # API
@@ -30,6 +27,7 @@ Endpoint | Method Type | Arguments | Description
 id, username, email, roles, password
 
 #### Endpoints
+
 Endpoint | Method Type | Arguments | Description
 ---------|-------------|-----------|------------
 /api/users/<int:id> | GET | include_email | Returns user data specified by id
@@ -43,6 +41,7 @@ Endpoint | Method Type | Arguments | Description
 id, name, opportunity_count
 
 #### Endpoints
+
 Endpoint | Method Type | Arguments | Description
 ---------|-------------|-----------|------------
 /api/partners/<int:id> | GET | | Returns partner data specified by id
@@ -56,6 +55,7 @@ Endpoint | Method Type | Arguments | Description
 id, active, name, job_number, description, shift_hours, commitment_length, start_date, end_date, training_time_required, volunteers_needed, location_street, location_city, location_zip, tag_count, partner_name, partner_id, partner_string, frequency, tags
 
 #### Endpoints
+
 Endpoint | Method Type | Arguments | Description
 ---------|-------------|-----------|------------
 /api/opportunities/<int:id> | GET | | Returns opportunity data specified by id
@@ -69,6 +69,7 @@ Endpoint | Method Type | Arguments | Description
 id, name, tag_category
 
 #### Endpoints
+
 Endpoint | Method Type | Arguments | Description
 ---------|-------------|-----------|------------
 /api/tags/<int:id> | GET | | Returns tag data specified by id
@@ -82,6 +83,7 @@ Endpoint | Method Type | Arguments | Description
 id, category_name, tags
 
 #### Endpoints
+
 Endpoint | Method Type | Arguments | Description
 ---------|-------------|-----------|------------
 /api/tag_categories/<int:id> | GET | | Returns tag category data specified by id
