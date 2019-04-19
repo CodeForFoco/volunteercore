@@ -2,15 +2,28 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 export default class Nav extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      open: false
+    };
+  }
+
+  toggleOpen() {
+    let other = !this.state.open;
+    this.setState({ open: other });
+  }
+
   render () {
     return (
       <nav className='navbar navbar-expand-lg navbar-light bg-light'>
         <Link className='navbar-brand' to='#'>Volunteer Force</Link>
-        <button className='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarColor03' aria-controls='navbarColor03' aria-expanded='false' aria-label='Toggle navigation'>
+        <button className='navbar-toggler' type='button' onClick={this.toggleOpen.bind(this)}>
           <span className='navbar-toggler-icon'></span>
         </button>
 
-        <div className='collapse navbar-collapse' id='navbarColor03'>
+        <div className={this.state.open ? 'navbar-collapse' : 'collapse navbar-collapse'} id='navbarColor03'>
           <ul className='navbar-nav mr-auto'>
             <li className='nav-item active'>
               <Link className='nav-link' to='/'>Home <span className='sr-only'>(current)</span></Link>

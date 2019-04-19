@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import './OpportunityThumb.scss';
+import './OppThumb.scss';
 
 export default class OpportunityThumb extends Component {
   render () {
     return (
-      <div className='opportunity-thumb'>
-        <h4><u>Prepare Shipments</u> - Volunteers of America</h4>
-        <p>405 Canyon Avenue Fort Collins, CO, 80521</p>
-        <p>1 Hour - Daily - 2019.01.01 - 2019.09.07</p>
+      <div className='opp-thumb'>
+        <h4><u>{this.props.name}</u> - {this.props.partner_name}</h4>
+        <p>{this.props.location_street} {this.props.location_city}, {this.props.location_state}, {this.props.location_zip}</p>
+        <p>{this.props.shift_hours} Hour - {this.props.frequency} - {this.props.commitment_length} - {this.props.commitment_length}</p>
         <div>
           <span className='badge badge-pill badge-primary'> Children </span>
           <span className='badge badge-pill badge-primary'> Art </span>
