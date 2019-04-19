@@ -5,8 +5,14 @@ module.exports = [{
   path: '/opportunities',
   component: require('../../pages/Opportunities/Opportunities').default
 }, {
-  path: '/addopportunity',
+  path: '/dashboard/addopportunity',
   component: require('../../pages/PostOpportunity/PostOpportunity.js').default
+}, {
+  path: '/partners',
+  component: require('../../pages/Partners/Partners.js').default
+}, {
+  path: '/dashboard',
+  component: require('../../pages/Dashboard/Dashboard.js').default
 }, {
   component: require('../../pages/Page404/Page404.js').default
 }];

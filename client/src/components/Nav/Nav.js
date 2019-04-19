@@ -18,7 +18,7 @@ export default class Nav extends Component {
   render () {
     return (
       <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-        <Link className='navbar-brand' to='#'>Volunteer Force</Link>
+        <Link className='navbar-brand' to='/'>Volunteer Force</Link>
         <button className='navbar-toggler' type='button' onClick={this.toggleOpen.bind(this)}>
           <span className='navbar-toggler-icon'></span>
         </button>
@@ -35,11 +35,14 @@ export default class Nav extends Component {
               <Link className='nav-link' to='/partners'>Partners</Link>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link' to='/login'>Login</Link>
+              <Link className='nav-link' to='/dashboard'>Dashboard (Auth)</Link>
+            </li>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/dashboard'>My Account (Auth)</Link>
             </li>
           </ul>
           <form className='form-inline my-2 my-lg-0'>
-            <input className='form-control mr-sm-2' type='text' placeholder='Search'/>
+            <input className='form-control mr-sm-2' type='text' placeholder='Search Opportunities'/>
             <button className='btn btn-secondary my-2 my-sm-0' type='submit'>Search</button>
           </form>
         </div>

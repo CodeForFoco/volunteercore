@@ -25,14 +25,16 @@ export default class Opportunties extends Component {
       <>
         <h1>Opportunities</h1>
         <form>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Search Opportunities</label>
-            <input type="text" class="form-control" placeholder="Search Opportunities"/>
-            <br/><br/>
+          <label>Search Partners</label>
+          <div className="input-group">
+            <input type="text" className="form-control" placeholder="Search Partners"/>
+            <div className="input-group-append">
+              <button className="btn btn-primary">Search</button>
+            </div>
+          </div><br/><br/>
             {this.state.opps.map((val) => {
              return <Thumb {...val}/>;
             })}
-          </div>
         </form>
       </>
     );
