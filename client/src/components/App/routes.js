@@ -1,6 +1,6 @@
 module.exports = [{
   path: '/',
-  component: require('../../pages/Opportunities/Opportunities').default
+  component: require('../../pages/Home/Home.js').default
 }, {
   path: '/opportunities',
   component: require('../../pages/Opportunities/Opportunities').default
