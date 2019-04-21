@@ -25,8 +25,8 @@ export default class Nav extends Component {
 
         <div className={this.state.open ? 'navbar-collapse' : 'collapse navbar-collapse'} id='navbarColor03'>
           <ul className='navbar-nav mr-auto'>
-            <li className='nav-item active'>
-              <Link className='nav-link' to='/'>Home <span className='sr-only'>(current)</span></Link>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/'>Home</Link>
             </li>
             <li className='nav-item'>
               <Link className='nav-link' to='/opportunities'>Opportunities</Link>
@@ -38,7 +38,7 @@ export default class Nav extends Component {
               <Link className='nav-link' to='/dashboard'>Dashboard (Auth)</Link>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link' to='/dashboard'>My Account (Auth)</Link>
+              <Link className='nav-link' to='/settings'>Settings (Auth)</Link>
             </li>
           </ul>
           <form className='form-inline my-2 my-lg-0'>

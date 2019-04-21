@@ -5,13 +5,13 @@ export default class AddOpportunity extends Component {
   render () {
     return (
       <div>
-        <h1>Add Opportunity</h1>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item"><Link to="/dashboard" className="text-info">Dashboard</Link></li>
             <li className="breadcrumb-item">Add Opportunity</li>
           </ol>
         </nav>
+        <h2>Add Opportunity</h2><br/>
         <div className='card'>
           <div className='card-header'>
             Thank you for using Volunteer Force!
@@ -50,7 +50,7 @@ class Input extends Component {
   }
 }
 
-class AddOpportunityForm extends Component {
+class PutOpportunityForm extends Component {
   render () {
     return (
       <form>

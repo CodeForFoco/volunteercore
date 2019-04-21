@@ -30,7 +30,8 @@ export default class Partners extends Component {
               <button className="btn btn-primary">Search</button>
             </div>
           </div>
-          <br/><br/>
+        </form>
+        <br/><br/>
           {this.state.opps.map((val) => {
             return (
               <div>
@@ -46,7 +47,6 @@ export default class Partners extends Component {
               </div>
             );
           })}
-        </form>
       </>
     );
   }

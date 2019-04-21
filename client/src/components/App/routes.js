@@ -14,5 +14,8 @@ module.exports = [{
   path: '/dashboard',
   component: require('../../pages/Dashboard/Dashboard.js').default
 }, {
+  path: '/settings',
+  component: require('../../pages/Account/Account.js').default
+}, {
   component: require('../../pages/Page404/Page404.js').default
 }];
