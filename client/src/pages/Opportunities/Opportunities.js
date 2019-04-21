@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Thumb from '../../components/OppThumb/OppThumb.js';
+import axios from 'axios';
 import './Opportunity.scss';
 
 export default class Opportunties extends Component {
@@ -18,6 +19,16 @@ export default class Opportunties extends Component {
         id: 'test', active: 'test', name: 'Prepare Shipments', job_number: 'test', description: 'test', shift_hours: 'test', commitment_length: 'test', start_date: 'test', end_date: 'test', training_time_required: 'test', volunteers_needed: 'test', location_street: 'test', location_city: 'test', location_zip: 'test', tag_count: 'test', partner_name: 'Prepare Shipments', partner_id: 'test', partner_string: 'test', frequency: 'test', tags: 'test'
       }]
     }
+  }
+
+  componentDidMount() {
+    axios.get('/api/opportunities')
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        alert(err);
+      });
   }
 
   render () {

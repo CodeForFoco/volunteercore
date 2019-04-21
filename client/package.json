@@ -14,7 +14,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "api": "node devServer.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -26,6 +27,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "express": "^4.16.4",
     "node-sass": "^4.11.0"
-  }
+  },
+  "proxy": "http://localhost:80"
 }
