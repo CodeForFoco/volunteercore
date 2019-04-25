@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "15b1e4a2396fb09f026c5e869c078a7b11cfcd8b9c9a13a2e2bb1d79c9f6f016"
+            "sha256": "e93b8fe3a9add54d31fce2800cfa9f10098a52e2b2f837903b4e80d6b0a72081"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -84,6 +84,14 @@
         "flask-whooshalchemyplus": {
             "editable": true,
             "git": "https://github.com/Revolution1/Flask-WhooshAlchemyPlus.git"
+        },
+        "gunicorn": {
+            "hashes": [
+                "sha256:aa8e0b40b4157b36a5df5e599f45c9c76d6af43845ba3b3b0efe2c70473c2471",
+                "sha256:fa2662097c66f920f53f70621c6c58ca4a3c4d3434205e608e121b5b3b71f4f3"
+            ],
+            "index": "pypi",
+            "version": "==19.9.0"
         },
         "itsdangerous": {
             "hashes": [
