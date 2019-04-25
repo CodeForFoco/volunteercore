@@ -1,7 +1,7 @@
 """empty message
 
 Revision ID: bcdfd59345cc
-Revises: 
+Revises:
 Create Date: 2019-03-20 18:15:34.208187
 
 """
@@ -63,7 +63,7 @@ def upgrade():
     sa.Column('active', sa.Boolean(), nullable=True),
     sa.Column('name', sa.String(length=100), nullable=True),
     sa.Column('job_number', sa.String(length=50), nullable=True),
-    sa.Column('description', sa.Text(length=500), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
     sa.Column('shift_hours', sa.Float(), nullable=True),
     sa.Column('commitment_length', sa.Float(precision=2), nullable=True),
     sa.Column('start_date', sa.Date(), nullable=True),

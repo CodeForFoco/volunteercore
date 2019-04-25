@@ -13,6 +13,7 @@ flask_whooshalchemyplus = {git = "https://github.com/Revolution1/Flask-WhooshAlc
 python-dotenv = "*"
 flask-login = "*"
 passlib = "*"
+"psycopg2" = "*"
 
 [dev-packages]
 httpie = "*"

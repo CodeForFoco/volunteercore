@@ -42,8 +42,9 @@ class Opportunity(PagininatedAPIMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
     active = db.Column(db.Boolean())
     name = db.Column(db.String(100), index=True, unique=True)
-    job_number = db.Column(db.String(50), unique=True)
-    description = db.Column(db.Text(500))
+    job_number = db.Column(db.String(50), index=True,
+                           unique=True)
+    description = db.Column(db.Text())
     shift_hours = db.Column(db.Float())
     commitment_length = db.Column(db.Float(2))
     start_date = db.Column(db.Date())
