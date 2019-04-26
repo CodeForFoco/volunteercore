@@ -1,7 +1,6 @@
 from flask import Blueprint
 
-bp_volops = Blueprint('volops', __name__, template_folder="templates")
+bp = Blueprint('volops', __name__)
 
-from .models import Partner, Opportunity, Passion, AgeGroupInterest, \
-    Skill, Frequency
-from . import views, forms
+from volunteermatching.volops.models import Partner, Opportunity, Frequency, \
+    TagCategory, Tag

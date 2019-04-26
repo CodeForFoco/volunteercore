@@ -3,21 +3,20 @@
 The Volunteer Matching project is a web app that assists in better management of volunteer matching operations. It will track and provide matching suggestions of volunteer partners, opportunities for volunteers, and volunteers. Later features could include communications to build out functionality similar to a CRM.
 
 ## Development Setup
-This setup is for use with local development only; production instructions will be included later. Do not use these instrcutions in production without turning off debug and resetting the SECRET_KEY in the .env variables.
+This setup is for use with local development only; production instructions will be included later. Do not use these instructions in production without turning off debug and resetting the SECRET_KEY in the .env variables.
 
-You will need [git](https://git-scm.com/downloads), [python 3](https://www.python.org/downloads/), python-venv, SQLite, and pip installed. Depending where you get Python from, python-venv and pip may already be included with Python.
+You will need [git](https://git-scm.com/downloads), [python 3](https://www.python.org/downloads/), pipenv, and SQLite installed. Depending where you get Python from, pipenv may already be included with Python.
 
 ### Prepare development environment
 1. Clone the repo and cd into the directory
-1. `python3 -m venv venv`
-1. `source venv/bin/activate`
-1. `pip install -r requirements.txt`
+1. `pipenv install`
+1. `pipenv shell`
 1. `cp config.env.template .env`
 1. `flask db upgrade`
+1. Create the admin user: `flask create-admin`
 
 ### Start the Flask app
 1. `flask run`
-1. Go to http://127.0.0.1:5000/ to see the running app.
 1. End the app with ctrl + c.
 
 ## Contributing

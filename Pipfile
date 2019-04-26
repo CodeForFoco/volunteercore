@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+flask-httpauth = "*"
+flask-jwt-extended = "*"
+flask-migrate = "*"
+flask-sqlalchemy = "*"
+flask_whooshalchemyplus = {git = "https://github.com/Revolution1/Flask-WhooshAlchemyPlus.git", editable = true}
+python-dotenv = "*"
+flask-login = "*"
+passlib = "*"
+
+[dev-packages]
+httpie = "*"
+"flake8" = "*"
+
+[requires]
+python_version = "3.6"

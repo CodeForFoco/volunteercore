@@ -1,11 +1,10 @@
-from volunteermatching import app, db
+from volunteermatching import create_app, db, cli
 from volunteermatching.auth.models import Role, User
-from volunteermatching.volops.models import Partner, Opportunity, Passion, \
-    AgeGroupInterest, Skill, Frequency
+from volunteermatching.volops.models import Partner, Opportunity, Frequency, \
+    TagCategory, Tag
 
-if __name__ == "__main__":
-    app.run(debug=True)
-
+app = create_app()
+cli.register(app)
 
 @app.shell_context_processor
 def make_shell_context():
@@ -15,8 +14,7 @@ def make_shell_context():
         'Role': Role,
         'Partner': Partner,
         'Opportunity': Opportunity,
-        'Passion': Passion,
-        'AgeGroupInterest': AgeGroupInterest,
-        'Skill': Skill,
-        'Frequency': Frequency
+        'Frequency': Frequency,
+        'TagCategory': TagCategory,
+        'Tag': Tag
     }

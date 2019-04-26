@@ -1,11 +1,8 @@
 from flask import Blueprint
-from volunteermatching import app
-from flask_login import LoginManager
+from volunteermatching import login_manager
 
-login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-bp_auth = Blueprint('auth', __name__, template_folder="templates")
+bp = Blueprint('auth', __name__)
 
-from .models import Role, User
-from . import views, forms
+from volunteermatching.auth.models import Role, User
