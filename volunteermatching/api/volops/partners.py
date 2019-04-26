@@ -30,7 +30,7 @@ def get_partners_api():
 
 # API POST endpoint to create a new partner
 @bp.route('/api/partners', methods=['POST'])
-@jwt_required
+#@jwt_required
 def create_partner_api():
     data = request.get_json() or {}
     if 'name' not in data:
@@ -50,7 +50,7 @@ def create_partner_api():
 
 # API PUT endpoint to update a partner
 @bp.route('/api/partners/<int:id>', methods=['PUT'])
-@jwt_required
+#@jwt_required
 def update_partner_api(id):
     partner = Partner.query.get_or_404(id)
     data = request.get_json() or {}
@@ -64,7 +64,7 @@ def update_partner_api(id):
 
 # API DELETE endpoint to delete a partner
 @bp.route('/api/partners/<int:id>', methods=['DELETE'])
-@jwt_required
+#@jwt_required
 def delete_partner_api(id):
     if not Partner.query.filter_by(id=id).first():
         return bad_request('this partner does not exist')
