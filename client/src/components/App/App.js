@@ -4,6 +4,7 @@ import ROUTES from './routes.js';
 import './App.scss';
 
 import Nav from '../../components/Nav/Nav.js';
+import Footer from '../../components/Footer/Footer.js';
 
 class App extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class App extends Component {
       user: {},
       opportunities: [],
       myOpportunities: [],
-      partners: []
+      partners: [],
+      cookie: ''
     }
   }
 
@@ -41,8 +43,10 @@ class App extends Component {
                 })}
               </Switch>
               <br/><br/>
+
             </div>
           </div>
+          <Footer/>
         </div>
       </Router>
     );

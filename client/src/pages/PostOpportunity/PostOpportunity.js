@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default class AddOpportunity extends Component {
   render () {
@@ -51,9 +52,30 @@ class Input extends Component {
 }
 
 class AddOpportunityForm extends Component {
+  handleSubmit(e) {
+    e.preventDefault();
+    axios.post('/api/token/auth', new FormData(document.getElementById('myform')))
+      .then(res => {
+        axios.post('/api/opportunity', {
+          name: 'New Opportunity',
+          description: 'test'
+        })
+          .then(res => {
+            alert(JSON.stringify(res));
+          })
+          .catch(err => {
+            alert(err);
+          });
+        alert(JSON.stringify(res));
+      })
+      .catch(err => {
+        alert(JSON.stringify(err));
+      })
+  }
+
   render () {
     return (
-      <form>
+      <form onSubmit={this.handleSubmit.bind(this)} id="myform">
         <p>Note to self: sanatize this input. Opportunity templates?</p>
         <p>* Asterisk indicates a required field.</p>
         <div className="form-group">
