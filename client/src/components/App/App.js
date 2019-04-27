@@ -39,7 +39,7 @@ class App extends Component {
                   route.component = () => {
                     return <C set={this.set.bind(this)} {...this.state}/>
                   };
-                  return (<Route exact {...route} />);
+                  return (<Route exact {...route} key={'r-' + route.path}/>);
                 })}
               </Switch>
               <br/><br/>

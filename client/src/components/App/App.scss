@@ -12,6 +12,25 @@
   }
 }
 
+.btn-group-full-form {
+  display: flex;
+  .btn {
+    flex: 1;
+    margin: 0;
+    &:first-of-type {
+      margin-right: 30px;
+    }
+  }
+}
+
+.btn {
+  cursor: pointer;
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
 textarea {
   min-height: 50px;
 }

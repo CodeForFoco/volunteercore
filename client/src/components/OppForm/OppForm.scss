@@ -1,0 +1,10 @@
+.card-header-opp-form {
+  display: flex;
+  .btn {
+    flex: 1;
+    margin: 0;
+    &:first-of-type {
+      margin-right: 30px;
+    }
+  }
+}
