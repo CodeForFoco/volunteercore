@@ -6,18 +6,13 @@ import './OppForm.scss';
 IN FORM
 name, description, shift_start, shift_end, commitment_length,
 start_date, end_date, training_time_required, volunteers_needed,
-location_street, location_city, location_zip,
-partner_name (organization), frequency, tags
+location_street, location_city, location_zip, commitment_length
+partner_string (organization), frequency, tags, shift_hours
 */
 
 /*
 NOT IN FORM (Not user input, dealt with in background)
 _id, active, job_number, tag_count, partner_id, partner_string,
-commitment_length
-
-Added: date
-Replaced: shift_hours with shift_start, shift_end
-removed: commitment_length
 */
 
 export default class OpportunityForm extends Component {
@@ -27,7 +22,7 @@ export default class OpportunityForm extends Component {
         <p><i>* Asterisk indicates a required field.</i></p>
         <Input
           label="Organization Name"
-          name="partner_name"
+          name="partner_string"
           placeholder="Enter Organization Name"
           set={this.props.setByName.bind(this)}
           value={this.props.partner_name}
@@ -63,6 +58,7 @@ export default class OpportunityForm extends Component {
               set={this.props.setByName.bind(this)}
               test={() => /^[A-Za-z]{2}$/gm.test(this.props.location_state)}
               value={this.props.location_state}
+              disabled={true}
               />
           </div>
           <div className="col-sm-12 col-md">
@@ -88,30 +84,16 @@ export default class OpportunityForm extends Component {
           set={this.props.setByName.bind(this)}
           value={this.props.name}
         />
-        <div className="row">
-          <div className="col-sm-12 col-md">
-            <Input
-              label="* Shift Start (Eg. 9am)"
-              name="shift_start"
-              placeholder="Enter Shift Start"
-              set={this.props.setByName.bind(this)}
-              value={this.props.shift_start}
-              />
-          </div>
-          <div className="col-sm-12 col-md">
-            <Input
-              label="* Shift End (Eg. 12pm)"
-              name="shift_end"
-              placeholder="Enter Shift End"
-              set={this.props.setByName.bind(this)}
-              value={this.props.shift_end}
-              />
-          </div>
-        </div>
-        <RecurringCard {...this.props} set={this.props.set.bind(this)}/>
-        <br/>
         <Input
-          label="Training Required (hours)"
+          label="* Shift Hours (Eg. 5.5 hours)"
+          name="shift_hours"
+          placeholder="Enter Shift Hours"
+          set={this.props.setByName.bind(this)}
+          value={this.props.shift_start}
+        />
+        <Recurring {...this.props}/>
+        <Input
+          label="Training Required (Eg. 5 hours)"
           name="training_time_required"
           placeholder="Enter Hours"
           test={() => true}
@@ -130,7 +112,7 @@ export default class OpportunityForm extends Component {
         />
         <Input 
           label="Tags (Eg. 'children, fun, painting')"
-          name="tags"
+          name="tags_string"
           placeholder="Enter tags (comma seperated list)"
           test={() => true}
           set={this.props.setByName.bind(this)}
@@ -152,7 +134,7 @@ export default class OpportunityForm extends Component {
   }
 }
 
-class RecurringCard extends Component {
+/*class RecurringCard extends Component {
   render () {
     return (
       <div className="card">
@@ -194,7 +176,7 @@ class OneTime extends Component {
       </>
     );
   }
-}
+}*/
 
 class Recurring extends Component {
   render () {
@@ -222,14 +204,6 @@ class Recurring extends Component {
             />
           </div>
         </div>
-        <Input
-          label="* Frequency (Eg. Every other Thursday)"
-          name="frequency"
-          placeholder="Describe Frequency"
-          set={this.props.setByName.bind(this)}
-          test={() => true}
-          value={this.props.frequency}
-        />
       </>
     );
   }

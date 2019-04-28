@@ -23,7 +23,7 @@ export default class AddOpportunity extends Component {
       location_city: '',
       location_state: '',
       location_zip: '',
-      partner_name: '',
+      partner_string: '',
       frequency: '',
       tags: '',
 
