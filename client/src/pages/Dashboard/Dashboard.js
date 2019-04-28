@@ -49,7 +49,8 @@ export default class Dashboard extends Component {
             <p>Add an opportunity below or, edit an existing one.</p>
             <div className="btn-group" role="group" aria-label="Basic example">
               <Link className="btn btn-info" to="/dashboard/addopportunity">Add Opportunity</Link>
-              <Link className="btn btn-success">Add User (Admin-only)</Link>
+              <Link className="btn btn-success">Add User (Admin)</Link>
+              <Link className="btn btn-success">Add Organization (Admin)</Link>
             </div>
           </div>
         </div>
