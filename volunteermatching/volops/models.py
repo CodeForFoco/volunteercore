@@ -53,6 +53,7 @@ class Opportunity(PagininatedAPIMixin, db.Model):
     volunteers_needed = db.Column(db.Integer())
     location_street = db.Column(db.String(100))
     location_city = db.Column(db.String(50))
+    location_state = db.Column(db.String(20))
     location_zip = db.Column(db.String(10))
     tags_string = db.Column(db.String(200))
     partner_string = db.Column(db.String(100))
@@ -119,6 +120,7 @@ class Opportunity(PagininatedAPIMixin, db.Model):
             'volunteers_needed': self.volunteers_needed,
             'location_street': self.location_street,
             'location_city': self.location_city,
+            'location_state': self.location_state,
             'location_zip': self.location_zip,
             'tag_count': len(self.tags),
             'partner_name': Partner.query.filter_by(
@@ -132,10 +134,13 @@ class Opportunity(PagininatedAPIMixin, db.Model):
 
     def from_dict(self, data, new_opportunity=False):
         field_names = [
-            'name', 'active', 'job_number', 'description', 'shift_hours',
-            'commitment_length', 'start_date', 'end_date',
-            'training_time_required', 'volunteers_needed', 'location_street',
-            'location_city', 'location_zip', 'tag_count', 'partner_id'
+            'name', 'active', 'job_number',
+            'description', 'shift_hours',
+            'commitment_length', 'start_date',
+            'end_date', 'training_time_required',
+            'volunteers_needed', 'location_street',
+            'location_city', 'location_state',
+            'location_zip', 'tag_count', 'partner_id'
         ]
         for field in field_names:
             if field in data:
