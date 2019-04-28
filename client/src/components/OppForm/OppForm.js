@@ -3,6 +3,15 @@ import Input from '../../objects/Input/Input.js';
 import './OppForm.scss';
 
 export default class OpportunityForm extends Component {
+  genButton() {
+    switch (this.props.method) {
+      case 'PUT':
+      return <input type="submit" className="btn btn-warning btn-block" value="Save Changes"/>
+      default:
+      return <input type="submit" className="btn btn-info btn-block"/>
+    }
+  }
+
   render () {
     return (
       <form onSubmit={this.props.submitForm.bind(this)}>
@@ -29,7 +38,7 @@ export default class OpportunityForm extends Component {
           set={this.props.setByName.bind(this)}
           type="number"
           test={() => { return this.props.shift_hours !== '' }}
-          value={this.props.shift_start}
+          value={this.props.shift_hours}
         />
         <Recurring {...this.props}/>
         <Input
@@ -73,9 +82,16 @@ export default class OpportunityForm extends Component {
         <br/>
         <div className="form-group">
           <label className="control-label">* Description</label>
-          <textarea className="form-control" name="description" placeholder="Enter Description (500 characters max)" style={{resize: 'none'}}/>
+          <textarea 
+            className="form-control"
+            name="description"
+            placeholder="Enter Description (500 characters max)"
+            value={this.props.description}
+            onChange={this.props.setByName.bind(this)}
+            style={{resize: 'none'}}
+          />
         </div>
-        <input type="submit" className="btn btn-success btn-block"/>
+        {this.genButton()}
       </form>
     );
   }

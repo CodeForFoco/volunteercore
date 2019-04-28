@@ -31,7 +31,8 @@ export default class AddOpportunity extends Component {
     delete data.start_date;
     delete data.end_date;
 
-    axios.post('/api/opportunities', this.state)
+
+    axios.post('/api/opportunities', data)
       .then(res => {
         alert(JSON.stringify(res.data));
       })
@@ -58,8 +59,8 @@ export default class AddOpportunity extends Component {
             <li className="breadcrumb-item">Add Opportunity</li>
           </ol>
         </nav>
-        <div className='card'>
-          <div className='card-header'>
+        <div className='card border border-info'>
+          <div className='card-header bg-info text-light border-info'>
             Thank you for using Volunteer Force!
           </div>
           <div className='card-body'>

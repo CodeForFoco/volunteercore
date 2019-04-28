@@ -1,9 +1,37 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import OppThumb from '../../components/OppThumb/OppThumb.js';
 import './Dashboard.scss';
+import axios from 'axios';
 
 export default class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      opps: {}
+    };
+  }
+
+  search(query) {
+    axios.get('/api/opportunities')
+      .then(res => {
+        this.setState({ opps: res.data });
+      })
+      .catch(err => {
+        alert('Error. Please try again');
+      })
+  }
+
+  componentDidMount() {
+    if (!this.state.opps || ! this.state.opps.items) {
+      this.search();
+    }
+  }
+
   render () {
+    const items = this.state.opps ? this.state.opps.items : [];
+
     return (
       <div>
         <h1>Dashboard</h1>
@@ -26,7 +54,7 @@ export default class Dashboard extends Component {
           </div>
         </div>
         <br/>
-        <h4>Your Opportunities</h4>
+        <h4>Opportunities</h4>
         <form>
           <label>Search Opportunities</label>
           <div className="input-group">
@@ -37,30 +65,18 @@ export default class Dashboard extends Component {
           </div>
         </form><br/>
         <ul className="list-group">
-          <li className="list-group-item d-flex align-items-center">
-            Cras justo odio
-            <div className="opp-badge">
-              <span className="badge badge-info badge-pill">View</span>
-              <span className="badge badge-warning badge-pill">Edit</span>
-              <span className="badge badge-danger badge-pill">Delete</span>
-            </div>
-          </li>
-          <li className="list-group-item d-flex align-items-center">
-            Cras justo odio
-            <div className="opp-badge">
-              <span className="badge badge-info badge-pill">View</span>
-              <span className="badge badge-warning badge-pill">Edit</span>
-              <span className="badge badge-danger badge-pill">Delete</span>
-            </div>
-          </li>
-          <li className="list-group-item d-flex align-items-center">
-            Cras justo odio
-            <div className="opp-badge">
-              <span className="badge badge-info badge-pill">View</span>
-              <span className="badge badge-warning badge-pill">Edit</span>
-              <span className="badge badge-danger badge-pill">Delete</span>
-            </div>
-          </li>
+          {items ? items.map(({ name, partner_name, id }) => {
+            return (
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                {name} - {partner_name}
+                <div>
+                  <Link className="btn btn-info btn-sm">View</Link>
+                  <Link className="btn btn-warning btn-sm" to={`/dashboard/editopportunity/${id}`}>Edit</Link>
+                  <Link className="btn btn-danger btn-sm">Delete</Link>
+                </div>
+              </li>
+            );
+          }) : 'Loading...'}
         </ul>
       </div>
     );
