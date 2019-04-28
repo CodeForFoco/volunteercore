@@ -2,41 +2,79 @@ import React, { Component } from 'react';
 import Thumb from '../../components/OppThumb/OppThumb.js';
 import helper from '../../utils/helpers.js';
 import './Opportunity.scss';
+import axios from 'axios';
 
 export default class Opportunties extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      popup: false
+      popup: false,
+      opportunities: {},
+      search: ''
     }
   }
 
+  submitSearch(e) {
+    e.preventDefault();
+    axios.get('/api/opportunities?search=' + this.state.search)
+      .then(res => {
+        this.setState({ opportunities: res.data });
+      })
+      .catch(err => {
+        alert(err);
+      })
+  }
+
+  updateSearch(e) {
+    this.setState({ search: e.target.value });
+  }
+
   componentDidMount() {
-    helper.getOpportunities((res, err) => {
-      if (err) { return alert(err); }
-      this.props.set({ opportunities: res.data });
-    });
+    axios.get('/api/opportunities')
+      .then(res => {
+        this.setState({ opportunities: res.data });
+      })
+      .catch(err => {
+        alert(err);
+      });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    Object.entries(this.props).forEach(([key, val]) =>
+    prevProps[key] !== val && console.log(`Prop '${key}' changed`)
+    );
+    Object.entries(this.state).forEach(([key, val]) =>
+      prevState[key] !== val && console.log(`State '${key}' changed`)
+    );
   }
 
   render () {
-    const validOpportunities = this.props.opportunities && this.props.opportunities.items ? true: false;
+    const items = this.state.opportunities ? this.state.opportunities.items : [];
 
     return (
       <>
         <h1>Opportunities</h1>
-        <form>
-          <label>Search Partners</label>
+        <form onSubmit={this.submitSearch.bind(this)}>
+          <label>Search Opportunities</label>
           <div className="input-group">
-            <input type="text" className="form-control" placeholder="Search Partners"/>
+            <input
+              autoComplete={'null'}
+              className="form-control"
+              name="search"
+              onChange={this.updateSearch.bind(this)}
+              placeholder="Search Opportunities"
+              value={this.state.search}
+            />
             <div className="input-group-append">
-              <button className="btn btn-primary">Search</button>
+              <input className="btn btn-primary" type="submit" value="search"/>
             </div>
-          </div><br/><br/>
-            {validOpportunities ? this.props.opportunities.items.map((val) => {
-             return <Thumb {...val}/>;
-            }): ''}
+          </div>
         </form>
+        <br/><br/>
+        {items ? items.map((val) => {
+          return <Thumb {...val}/>;
+        }): ''}
       </>
     );
   }

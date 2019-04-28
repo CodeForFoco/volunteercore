@@ -32,7 +32,7 @@ export default class Input extends Component {
           onChange={this.props.set.bind(this)}
           onBlur={this.updateValid.bind(this)}
           disabled={this.props.disabled}
-          />
+        />
       </div>
     );
   }
