@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
 import './Partners.scss';
+import axios from 'axios';
 
 export default class Partners extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      opps: [{
-        id: 'test', active: 'test', name: 'Prepare Shipments', job_number: 'test', description: 'test', shift_hours: 'test', commitment_length: 'test', start_date: 'test', end_date: 'test', training_time_required: 'test', volunteers_needed: 'test', location_street: '5555 Some Ave', location_city: 'Fort Collins', location_zip: '55555', tag_count: 'test', partner_name: 'Super Organization', partner_id: 'test', partner_string: 'test', frequency: 'test', tags: 'test'
-      }, {
-        id: 'test', active: 'test', name: 'Prepare Shipments', job_number: 'test', description: 'test', shift_hours: 'test', commitment_length: 'test', start_date: 'test', end_date: 'test', training_time_required: 'test', volunteers_needed: 'test', location_street: '5555 Some Ave', location_city: 'Fort Collins', location_zip: '55555', tag_count: 'test', partner_name: 'Super Organization', partner_id: 'test', partner_string: 'test', frequency: 'test', tags: 'test'
-      }, {
-        id: 'test', active: 'test', name: 'Prepare Shipments', job_number: 'test', description: 'test', shift_hours: 'test', commitment_length: 'test', start_date: 'test', end_date: 'test', training_time_required: 'test', volunteers_needed: 'test', location_street: '5555 Some Ave', location_city: 'Fort Collins', location_zip: '55555', tag_count: 'test', partner_name: 'Super Organization', partner_id: 'test', partner_string: 'test', frequency: 'test', tags: 'test'
-      }, {
-        id: 'test', active: 'test', name: 'Prepare Shipments', job_number: 'test', description: 'test', shift_hours: 'test', commitment_length: 'test', start_date: 'test', end_date: 'test', training_time_required: 'test', volunteers_needed: 'test', location_street: '5555 Some Ave', location_city: 'Fort Collins', location_zip: '55555', tag_count: 'test', partner_name: 'Super Organization', partner_id: 'test', partner_string: 'test', frequency: 'test', tags: 'test'
-      }]
+      partners: {}
     }
   }
 
+  componentDidMount() {
+    axios.get('/api/partners')
+      .then(res => {
+        this.setState({ partners: res.data});
+      })
+      .catch(err => {
+        alert(err);
+      });
+  }
+
   render () {
+    const items = this.state.partners ? this.state.partners.items : '';
+
     return (
       <>
         <h1>Partners</h1>
@@ -32,11 +37,11 @@ export default class Partners extends Component {
           </div>
         </form>
         <br/><br/>
-          {this.state.opps.map((val) => {
+          {items ? items.map(({ name, opportunity_count }) => {
             return (
               <div>
-                <h4><u>{val.partner_name}</u></h4>
-                <p>{`${val.location_street}, ${val.location_city}, ${val.location_zip}`}</p>
+                <h4><u>{name}</u></h4>
+                <p>{opportunity_count} opportunities</p>
                 <div>
                   <span className='badge badge-pill badge-primary'> Children </span>
                   <span className='badge badge-pill badge-primary'> Art </span>
@@ -46,7 +51,7 @@ export default class Partners extends Component {
                 <br/>
               </div>
             );
-          })}
+          }) : ''}
       </>
     );
   }
