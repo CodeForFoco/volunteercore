@@ -19,8 +19,8 @@ export default class Dashboard extends Component {
         this.setState({ opps: res.data });
       })
       .catch(err => {
-        alert('Error. Please try again');
-      })
+        console.log('/Dashboard - Display error message');
+      });
   }
 
   componentDidMount() {
@@ -49,8 +49,8 @@ export default class Dashboard extends Component {
             <p>Add an opportunity below or, edit an existing one.</p>
             <div className="btn-group" role="group" aria-label="Basic example">
               <Link className="btn btn-info" to="/dashboard/addopportunity">Add Opportunity</Link>
-              <Link className="btn btn-success">Add User (Admin)</Link>
-              <Link className="btn btn-success">Add Organization (Admin)</Link>
+              <Link className="btn btn-info" to="/dashboard/addpartner">Add Partner (Admin)</Link>
+              <Link className="btn btn-info">Add User (Admin)</Link>
             </div>
           </div>
         </div>
