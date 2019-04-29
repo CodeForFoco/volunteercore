@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import OppThumb from '../../components/OppThumb/OppThumb.js';
+import SearchBar from '../../components/SearchBar/SearchBar.js';
 import './Dashboard.scss';
 import axios from 'axios';
 
@@ -9,28 +9,27 @@ export default class Dashboard extends Component {
     super(props);
 
     this.state = {
-      opps: {}
+      searchResult: {},
+      searchError: {}
     };
   }
 
-  search(query) {
-    axios.get('/api/opportunities')
-      .then(res => {
-        this.setState({ opps: res.data });
-      })
-      .catch(err => {
-        console.log('/Dashboard - Display error message');
-      });
+  set(obj) {
+    this.setState(obj);
   }
 
   componentDidMount() {
-    if (!this.state.opps || ! this.state.opps.items) {
-      this.search();
-    }
+    axios.get('/api/opportunities')
+      .then(res => {
+        this.setState({ searchResult: res.data });
+      })
+      .catch(err => {
+
+      });
   }
 
   render () {
-    const items = this.state.opps ? this.state.opps.items : [];
+    const items = this.state.searchResult ? this.state.searchResult.items : [];
 
     return (
       <div>
@@ -56,15 +55,11 @@ export default class Dashboard extends Component {
         </div>
         <br/>
         <h4>Opportunities</h4>
-        <form>
-          <label>Search Opportunities</label>
-          <div className="input-group">
-            <input type="text" className="form-control" placeholder="Search Opportunities"/>
-            <div className="input-group-append">
-              <button className="btn btn-primary">Search</button>
-            </div>
-          </div>
-        </form><br/>
+        <SearchBar
+          url="/api/opportunities"
+          set={this.set.bind(this)}
+        />
+        <br/>
         <ul className="list-group">
           {items ? items.map(({ name, partner_name, id }) => {
             return (

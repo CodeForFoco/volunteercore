@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Thumb from '../../components/OppThumb/OppThumb.js';
-import helper from '../../utils/helpers.js';
+import SearchBar from '../../components/SearchBar/SearchBar.js';
+import Alert from '../../components/Alert/Alert.js';
 import './Opportunity.scss';
 import axios from 'axios';
 
@@ -10,67 +11,36 @@ export default class Opportunties extends Component {
 
     this.state = {
       popup: false,
-      opportunities: {},
-      search: ''
+      searchResult: {},
+      searchError: {}
     }
   }
 
-  submitSearch(e) {
-    e.preventDefault();
-    axios.get('/api/opportunities?search=' + this.state.search)
-      .then(res => {
-        this.setState({ opportunities: res.data });
-      })
-      .catch(err => {
-        alert(err);
-      })
-  }
-
-  updateSearch(e) {
-    this.setState({ search: e.target.value });
+  set(obj) {
+    this.setState(obj);
   }
 
   componentDidMount() {
     axios.get('/api/opportunities')
       .then(res => {
-        this.setState({ opportunities: res.data });
+        this.setState({ searchResult: res.data });
       })
       .catch(err => {
         alert(err);
       });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    Object.entries(this.props).forEach(([key, val]) =>
-    prevProps[key] !== val && console.log(`Prop '${key}' changed`)
-    );
-    Object.entries(this.state).forEach(([key, val]) =>
-      prevState[key] !== val && console.log(`State '${key}' changed`)
-    );
-  }
-
   render () {
-    const items = this.state.opportunities ? this.state.opportunities.items : [];
+    const items = this.state.searchResult ? this.state.searchResult.items : [];
 
     return (
       <>
         <h1>Opportunities</h1>
-        <form onSubmit={this.submitSearch.bind(this)}>
-          <label>Search Opportunities</label>
-          <div className="input-group">
-            <input
-              autoComplete={'null'}
-              className="form-control"
-              name="search"
-              onChange={this.updateSearch.bind(this)}
-              placeholder="Search Opportunities"
-              value={this.state.search}
-            />
-            <div className="input-group-append">
-              <input className="btn btn-primary" type="submit" value="search"/>
-            </div>
-          </div>
-        </form>
+        <SearchBar 
+          url="/api/opportunities"
+          set={this.set.bind(this)}
+        />
+        <Alert {...this.state.searchError}/>
         <br/><br/>
         {items ? items.map((val) => {
           return <Thumb {...val}/>;

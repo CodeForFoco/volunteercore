@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SearchBar from '../../components/SearchBar/SearchBar.js';
 import './Partners.scss';
 import axios from 'axios';
 
@@ -7,14 +8,19 @@ export default class Partners extends Component {
     super(props);
 
     this.state = {
-      partners: {}
+      searchResult: {},
+      searchError: {}
     }
+  }
+
+  set(obj) {
+    this.setState(obj);
   }
 
   componentDidMount() {
     axios.get('/api/partners')
       .then(res => {
-        this.setState({ partners: res.data});
+        this.setState({ searchResult: res.data});
       })
       .catch(err => {
         alert(err);
@@ -22,20 +28,15 @@ export default class Partners extends Component {
   }
 
   render () {
-    const items = this.state.partners ? this.state.partners.items : '';
+    const items = this.state.searchResult ? this.state.searchResult.items : '';
 
     return (
       <>
         <h1>Partners</h1>
-        <form>
-          <label>Search Partners</label>
-          <div className="input-group">
-            <input type="text" className="form-control" placeholder="Search Partners"/>
-            <div className="input-group-append">
-              <button className="btn btn-primary">Search</button>
-            </div>
-          </div>
-        </form>
+        <SearchBar
+          url="/api/partners"
+          set={this.set.bind(this)}
+        />
         <br/><br/>
           {items ? items.map(({ name, opportunity_count }) => {
             return (
