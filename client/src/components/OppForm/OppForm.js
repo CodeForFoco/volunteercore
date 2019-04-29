@@ -8,7 +8,7 @@ export default class OpportunityForm extends Component {
       case 'PUT':
       return <input type="submit" className="btn btn-warning btn-block" value="Save Changes"/>
       default:
-      return <input type="submit" className="btn btn-info btn-block"/>
+      return <input type="submit" className="btn btn-info btn-block" value="Submit"/>
     }
   }
 

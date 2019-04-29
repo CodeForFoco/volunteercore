@@ -31,7 +31,6 @@ export default class AddOpportunity extends Component {
     delete data.start_date;
     delete data.end_date;
 
-
     axios.post('/api/opportunities', data)
       .then(res => {
         alert(JSON.stringify(res.data));
@@ -43,10 +42,6 @@ export default class AddOpportunity extends Component {
 
   setByName(e) {
     this.setState({ [e.target.name]: e.target.value });
-  }
-
-  componentDidMount() {
-    //axios.post('/api/partners', { name: 'Code For FoCo' });
   }
 
   render () {
