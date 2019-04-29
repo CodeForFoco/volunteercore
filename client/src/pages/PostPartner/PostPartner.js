@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Input from '../../objects/Input/Input.js';
+import Alert from '../../components/Alert/Alert.js';
 import axios from 'axios';
 
 export default class PostPartner extends Component {
@@ -8,19 +9,34 @@ export default class PostPartner extends Component {
     super(props);
 
     this.state = {
-      name: ''
+      name: '',
+      formResult: {
+        text: '',
+        type: ''
+      }
     }
   }
 
   submitForm(e) {
     e.preventDefault();
+    const { name } = this.state;
 
-    axios.post('/api/partners', this.state)
+    axios.post('/api/partners', { name })
       .then(res => {
-        alert(JSON.stringify(res.data));
+        this.setState({
+          formResult: {
+            text: 'Partner Added!',
+            type: 'alert-success'
+          }
+        });
       })
       .catch(err => {
-        alert(err);
+        this.setState({
+          formResult: {
+            text: err.response.data.message,
+            type: 'alert-danger'
+          }
+        })
       });
   }
 
@@ -43,6 +59,7 @@ export default class PostPartner extends Component {
             Thank you for using Volunteer Force!
           </div>
           <div className='card-body'>
+            <Alert {...this.state.formResult}/>
             <PostPartnerForm
               {...this.props}
               {...this.state}
