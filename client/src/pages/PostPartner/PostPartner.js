@@ -15,6 +15,13 @@ export default class PostPartner extends Component {
   submitForm(e) {
     e.preventDefault();
 
+    axios.post('/api/partners', this.state)
+      .then(res => {
+        alert(JSON.stringify(res.data));
+      })
+      .catch(err => {
+        alert(err);
+      });
   }
 
   setByName(e) {
