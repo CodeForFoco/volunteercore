@@ -9,39 +9,53 @@ export default class Dashboard extends Component {
     super(props);
 
     this.state = {
-      searchResult: {},
-      searchError: {}
+      opportunities: {},
+      partners: {}
     };
   }
 
   deleteOpportunity(id, index) {
     axios.delete('/api/opportunities/' + id)
       .then(res => {
-        let searchResult = this.state.searchResult;
-        searchResult.items.splice(index, 1);
-        this.setState({ searchResult });
+        let opps = this.state.opportunities;
+        opps.searchResult.items.splice(index, 1);
+        this.setState({ opportunities: opps });
       })
       .catch(err => {
         alert('Error Deleting');
       });
   }
 
-  set(obj) {
-    this.setState(obj);
+  deletePartner(id, index) {
+    axios.delete('/api/partners/' + id)
+    .then(res => {
+      let partners = this.state.partners;
+      partners.searchResult.items.splice(index, 1);
+      this.setState({ partners });
+    })
+    .catch(err => {
+      alert('Error Deleting');
+    });
+  }
+
+  set(key, val) {
+    this.setState({ [key]: val});
   }
 
   componentDidMount() {
     axios.get('/api/opportunities')
       .then(res => {
-        this.setState({ searchResult: res.data });
-      })
-      .catch(err => {
-
+        this.setState({ opportunities: { searchResult: res.data} });
+      });
+    axios.get('/api/partners')
+      .then(res => {
+        this.setState({ partners: { searchResult: res.data }});
       });
   }
 
   render () {
-    const items = this.state.searchResult ? this.state.searchResult.items : [];
+    const opps = this.state.opportunities.searchResult ? this.state.opportunities.searchResult.items : [];
+    const partners = this.state.partners.searchResult ? this.state.partners.searchResult.items : [];
 
     return (
       <div>
@@ -69,11 +83,11 @@ export default class Dashboard extends Component {
         <h4>Opportunities</h4>
         <SearchBar
           url="/api/opportunities"
-          set={this.set.bind(this)}
+          set={(val) => { this.set('opportunities', val); }}
         />
         <br/>
         <ul className="list-group">
-          {items ? items.map(({ name, partner_name, id }, i) => {
+          {opps ? opps.map(({ name, partner_name, id }, i) => {
             return (
               <li className="list-group-item d-flex justify-content-between align-items-center">
                 {name} - {partner_name}
@@ -83,6 +97,30 @@ export default class Dashboard extends Component {
                   <Link 
                     className="btn btn-danger btn-sm"
                     onClick={() => {this.deleteOpportunity(id, i)}}>
+                    Delete
+                  </Link>
+                </div>
+              </li>
+            );
+          }) : 'Loading...'}
+        </ul>
+        <br/>
+        <h4>Partners</h4>
+        <SearchBar
+          url="/api/partners"
+          set={(val) => { this.set('partners', val); }}
+        />
+        <br/>
+        <ul className="list-group">
+          {partners ? partners.map(({ name, id }, i) => {
+            return (
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                {name}
+                <div>
+                  <Link className="btn btn-warning btn-sm" to={`/dashboard/editpartner/${id}`}>Edit</Link>
+                  <Link 
+                    className="btn btn-danger btn-sm"
+                    onClick={() => {this.deletePartner(id, i)}}>
                     Delete
                   </Link>
                 </div>
