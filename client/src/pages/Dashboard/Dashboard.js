@@ -78,7 +78,7 @@ export default class Dashboard extends Component {
               <li className="list-group-item d-flex justify-content-between align-items-center">
                 {name} - {partner_name}
                 <div>
-                  <Link className="btn btn-info btn-sm">View</Link>
+                  <Link className="btn btn-info btn-sm" to={'/opportunities/' + id}>View</Link>
                   <Link className="btn btn-warning btn-sm" to={`/dashboard/editopportunity/${id}`}>Edit</Link>
                   <Link 
                     className="btn btn-danger btn-sm"
