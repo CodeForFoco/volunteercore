@@ -11,18 +11,14 @@ class App extends Component {
     super(props);
     this.state = {
       user: {},
-      opportunities: [],
-      myOpportunities: [],
-      partners: [],
+      opportunities: {},
+      partners: {},
       cookie: ''
     }
   }
 
   set(obj, cb) {
     this.setState(obj, cb);
-  }
-
-  componentDidMount() {
   }
 
   render() {

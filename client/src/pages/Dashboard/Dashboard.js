@@ -1,9 +1,36 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import SearchBar from '../../components/SearchBar/SearchBar.js';
 import './Dashboard.scss';
+import axios from 'axios';
 
 export default class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      searchResult: {},
+      searchError: {}
+    };
+  }
+
+  set(obj) {
+    this.setState(obj);
+  }
+
+  componentDidMount() {
+    axios.get('/api/opportunities')
+      .then(res => {
+        this.setState({ searchResult: res.data });
+      })
+      .catch(err => {
+
+      });
+  }
+
   render () {
+    const items = this.state.searchResult ? this.state.searchResult.items : [];
+
     return (
       <div>
         <h1>Dashboard</h1>
@@ -21,46 +48,31 @@ export default class Dashboard extends Component {
             <p>Add an opportunity below or, edit an existing one.</p>
             <div className="btn-group" role="group" aria-label="Basic example">
               <Link className="btn btn-info" to="/dashboard/addopportunity">Add Opportunity</Link>
-              <Link className="btn btn-success">Add User (Admin-only)</Link>
+              <Link className="btn btn-info" to="/dashboard/addpartner">Add Partner (Admin)</Link>
+              <Link className="btn btn-info">Add User (Admin)</Link>
             </div>
           </div>
         </div>
         <br/>
-        <h4>Your Opportunities</h4>
-        <form>
-          <label>Search Opportunities</label>
-          <div className="input-group">
-            <input type="text" className="form-control" placeholder="Search Opportunities"/>
-            <div className="input-group-append">
-              <button className="btn btn-primary">Search</button>
-            </div>
-          </div>
-        </form><br/>
+        <h4>Opportunities</h4>
+        <SearchBar
+          url="/api/opportunities"
+          set={this.set.bind(this)}
+        />
+        <br/>
         <ul className="list-group">
-          <li className="list-group-item d-flex align-items-center">
-            Cras justo odio
-            <div className="opp-badge">
-              <span className="badge badge-info badge-pill">View</span>
-              <span className="badge badge-warning badge-pill">Edit</span>
-              <span className="badge badge-danger badge-pill">Delete</span>
-            </div>
-          </li>
-          <li className="list-group-item d-flex align-items-center">
-            Cras justo odio
-            <div className="opp-badge">
-              <span className="badge badge-info badge-pill">View</span>
-              <span className="badge badge-warning badge-pill">Edit</span>
-              <span className="badge badge-danger badge-pill">Delete</span>
-            </div>
-          </li>
-          <li className="list-group-item d-flex align-items-center">
-            Cras justo odio
-            <div className="opp-badge">
-              <span className="badge badge-info badge-pill">View</span>
-              <span className="badge badge-warning badge-pill">Edit</span>
-              <span className="badge badge-danger badge-pill">Delete</span>
-            </div>
-          </li>
+          {items ? items.map(({ name, partner_name, id }) => {
+            return (
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                {name} - {partner_name}
+                <div>
+                  <Link className="btn btn-info btn-sm">View</Link>
+                  <Link className="btn btn-warning btn-sm" to={`/dashboard/editopportunity/${id}`}>Edit</Link>
+                  <Link className="btn btn-danger btn-sm">Delete</Link>
+                </div>
+              </li>
+            );
+          }) : 'Loading...'}
         </ul>
       </div>
     );

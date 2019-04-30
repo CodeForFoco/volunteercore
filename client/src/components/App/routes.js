@@ -8,6 +8,12 @@ module.exports = [{
   path: '/dashboard/addopportunity',
   component: require('../../pages/PostOpportunity/PostOpportunity.js').default
 }, {
+  path: '/dashboard/editopportunity/:ID',
+  component: require('../../pages/PutOpportunity/PutOpportunity.js').default
+}, {
+  path: '/dashboard/addpartner',
+  component: require('../../pages/PostPartner/PostPartner.js').default
+}, {
   path: '/partners',
   component: require('../../pages/Partners/Partners.js').default
 }, {
