@@ -14,6 +14,18 @@ export default class Dashboard extends Component {
     };
   }
 
+  deleteOpportunity(id, index) {
+    axios.delete('/api/opportunities/' + id)
+      .then(res => {
+        let searchResult = this.state.searchResult;
+        searchResult.items.splice(index, 1);
+        this.setState({ searchResult });
+      })
+      .catch(err => {
+        alert('Error Deleting');
+      });
+  }
+
   set(obj) {
     this.setState(obj);
   }
@@ -61,14 +73,18 @@ export default class Dashboard extends Component {
         />
         <br/>
         <ul className="list-group">
-          {items ? items.map(({ name, partner_name, id }) => {
+          {items ? items.map(({ name, partner_name, id }, i) => {
             return (
               <li className="list-group-item d-flex justify-content-between align-items-center">
                 {name} - {partner_name}
                 <div>
                   <Link className="btn btn-info btn-sm">View</Link>
                   <Link className="btn btn-warning btn-sm" to={`/dashboard/editopportunity/${id}`}>Edit</Link>
-                  <Link className="btn btn-danger btn-sm">Delete</Link>
+                  <Link 
+                    className="btn btn-danger btn-sm"
+                    onClick={() => {this.deleteOpportunity(id, i)}}>
+                    Delete
+                  </Link>
                 </div>
               </li>
             );
