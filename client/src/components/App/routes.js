@@ -17,6 +17,9 @@ module.exports = [{
   path: '/dashboard/addpartner',
   component: require('../../pages/PostPartner/PostPartner.js').default
 }, {
+  path: '/dashboard/editpartner/:ID',
+  component: require('../../pages/PutPartner/PutPartner.js').default
+}, {
   path: '/partners',
   component: require('../../pages/Partners/Partners.js').default
 }, {
