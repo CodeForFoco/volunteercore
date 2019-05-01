@@ -114,7 +114,7 @@ class Content extends Component {
 
     return (
       <div className="dash-content">
-        <h3>{this.props.name}</h3>
+        <h3>{this.props.page.name}</h3>
         <SearchBar
           name={this.props.page.name}
           addLinkName={this.props.page.addLinkName}
