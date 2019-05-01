@@ -73,15 +73,15 @@ export default class Dashboard extends Component {
           <div className="card-body">
             <p>Add an opportunity below or, edit an existing one.</p>
             <div className="btn-group" role="group" aria-label="Basic example">
-              <Link className="btn btn-info" to="/dashboard/addopportunity">Add Opportunity</Link>
-              <Link className="btn btn-info" to="/dashboard/addpartner">Add Partner (Admin)</Link>
-              <Link className="btn btn-info">Add User (Admin)</Link>
+              
             </div>
           </div>
         </div>
         <br/>
         <h4>Opportunities</h4>
         <SearchBar
+          name="opportunities"
+          addLink="opportunity"
           url="/api/opportunities"
           set={(val) => { this.set('opportunities', val); }}
         />
@@ -104,9 +104,11 @@ export default class Dashboard extends Component {
             );
           }) : 'Loading...'}
         </ul>
-        <br/>
+        <br/><br/>
         <h4>Partners</h4>
         <SearchBar
+          name="Partners"
+          addLink="partner"
           url="/api/partners"
           set={(val) => { this.set('partners', val); }}
         />

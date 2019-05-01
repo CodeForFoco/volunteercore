@@ -34,6 +34,7 @@ export default class Partners extends Component {
       <>
         <h1>Partners</h1>
         <SearchBar
+          name="partners"
           url="/api/partners"
           set={this.set.bind(this)}
         />

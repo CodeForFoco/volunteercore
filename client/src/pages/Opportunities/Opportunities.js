@@ -36,7 +36,8 @@ export default class Opportunties extends Component {
     return (
       <>
         <h1>Opportunities</h1>
-        <SearchBar 
+        <SearchBar
+          name="opportunities"
           url="/api/opportunities"
           set={this.set.bind(this)}
         />
