@@ -125,24 +125,45 @@ class Content extends Component {
         <br/>
         <ul className="list-group">
           {/* Needs to be re-factored per page. Built-in Component for PAGES? */}
-          {items ? items.map(({ name, partner_name, id }, i) => {
+          {items ? items.map((item, i) => {
             return (
-              <li className="list-group-item d-flex justify-content-between align-items-center">
-                {name} - {partner_name}
-                <div>
-                  <Link className="btn btn-info btn-sm" to={`/${this.props.page.name}/${id}`}>View</Link>
-                  <Link className="btn btn-warning btn-sm" to={`${this.props.page.editLink}/${id}`}>Edit</Link>
-                  <Link 
-                    className="btn btn-danger btn-sm"
-                    onClick={() => {this.props.deleteDoc(id, i)}}>
-                    Delete
-                  </Link>
-                </div>
-              </li>
+              <DashListItem
+                name={item.name || item.partner_name || item.username}
+                id={item.id}
+                i={i}
+                view={this.props.page.view || false}
+                delete={this.props.page.delete || false}
+                {...this.props}
+              />
             );
           }) : 'Loading...'}
         </ul>
       </div>
+    );
+  }
+}
+
+class DashListItem extends Component {
+  render () {
+    return (
+      <li className="list-group-item d-flex justify-content-between align-items-center">
+        {this.props.name}
+        <div>
+          {this.props.view ? (
+            <Link className="btn btn-info btn-sm" to={`/${this.props.page.name}/${this.props.id}`}>View</Link>
+          ): ''}
+          {this.props.page.editLink ? (
+            <Link className="btn btn-warning btn-sm" to={`${this.props.page.editLink}/${this.props.id}`}>Edit</Link>
+          ): ''}
+          {this.props.delete ? (
+            <Link 
+              className="btn btn-danger btn-sm"
+              onClick={() => {this.props.deleteDoc(this.props.id, this.props.i)}}>
+              Delete
+            </Link>
+          ): ''}
+        </div>
+      </li>
     );
   }
 }
