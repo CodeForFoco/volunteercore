@@ -3,26 +3,26 @@ module.exports = [{
     addLinkName: 'Opportunity',
     addLink: '/dashboard/addopportunity',
     editLink: '/dashboard/editopportunity',
-    view: true,
-    delete: true
+    text: ['name', 'partner_name']
   }, {
     name: 'partners',
     addLinkName: 'Partner',
     addLink: '/dashboard/addpartner',
     editLink: '/dashboard/editpartner',
-    delete: true
+    text: ['name', 'opportunity_count'],
+    view: false
   }, {
     name: 'users',
     addLinkName: 'User',
     addLink: '/dashboard/adduser',
     editLink: '/dashboard/edituser',
-    view: true,
-    delete: true
+    text: ['username'],
+    view: false
   }, {
     name: 'tags',
     addLinkName: 'Tag',
     addLink: '/dashboard/addtag',
     editLink: '/dashboard/edittag',
-    delete: true
+    view: false
   }
 ]

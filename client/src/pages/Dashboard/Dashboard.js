@@ -5,7 +5,6 @@ import axios from 'axios';
 import Nav from '../../components/Nav/Nav.js';
 import Footer from '../../components/Footer/Footer.js';
 import SearchBar from '../../components/SearchBar/SearchBar.js';
-import DashItem from '../../components/DashListItem/DashListItem.js';
 import './Dashboard.scss';
 
 import PAGES from './PAGES.js';
@@ -128,11 +127,10 @@ class Content extends Component {
           {items ? items.map((item, i) => {
             return (
               <DashListItem
-                name={item.name || item.partner_name || item.username}
-                id={item.id}
-                i={i}
-                view={this.props.page.view || false}
-                delete={this.props.page.delete || false}
+                {...this.props.page}
+                {...item}
+                view={this.props.page.view || true}
+                delete={this.props.page.delete || true}
                 {...this.props}
               />
             );
@@ -147,7 +145,12 @@ class DashListItem extends Component {
   render () {
     return (
       <li className="list-group-item d-flex justify-content-between align-items-center">
-        {this.props.name}
+        {this.props.page.text.map((key, i, arr) => {
+          if (i + 1 === arr.length) {
+            return this.props[key];
+          }
+          return this.props[key] + ' - ';
+        })}
         <div>
           {this.props.view ? (
             <Link className="btn btn-info btn-sm" to={`/${this.props.page.name}/${this.props.id}`}>View</Link>
