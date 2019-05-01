@@ -1,6 +1,6 @@
 import click
 from volunteermatching import db
-from volunteermatching.auth.models import User
+from volunteermatching.auth.models import User, Role
 from flask_whooshalchemyplus import index_all
 
 
@@ -20,16 +20,29 @@ def register(app):
             click.echo('Admin user already exists')
 
     @app.cli.command()
-    def auto_create_admin():
-        """Automatically create default admin user"""
-        if not User.query.filter_by(username='admin').first():
-            admin = User(username='admin')
-            admin.hash_password('password')
-            db.session.add(admin)
-            db.session.commit()
-            click.echo('Default admin user created')
-        else:
-            click.echo('Admin user already exists')
+    def auto_setup():
+        """Automatically create default roles and admin user"""
+        def auto_create_roles():
+            if not Role.query.filter_by(name="Admin").first():
+                role = Role(name="Admin")
+                db.session.add(role)
+                db.session.commit()
+                click.echo('Admin role created')
+            else:
+                click.echo('Admin role already exists')
+        def auto_create_admin():
+            if not User.query.filter_by(username='admin').first():
+                admin = User(username='admin',
+                    roles=Role.query.filter_by(name="Admin"))
+                admin.hash_password('password')
+                db.session.add(admin)
+                db.session.commit()
+                click.echo('Default admin user created')
+            else:
+                click.echo('Admin user already exists')
+        auto_create_roles()
+        auto_create_admin()
+
 
     @app.cli.command()
     def whoosh_index_all():
