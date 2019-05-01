@@ -1,4 +1,28 @@
-.opp-badges {
-  .badge {
+@import '../../utils/variables';
+
+.dash {
+  display: flex;
+  flex-direction: column;
+  height: 100% !important;
+  @media screen and (min-width: $xs) {
+    flex-direction: row;
+  }
+}
+
+.dash-side-bar {
+  display: inline-block;
+  height: 100%;
+  padding: 1.5rem 1rem;
+  border-right: 1px solid $gray-300;
+  @media screen and (min-width: $xs) {
+    width: 300px;
+  }
+}
+
+.dash-content {
+  width: 100%;
+  padding: 2rem 5%;
+  @media screen and (min-width: $lg) {
+    padding: 2rem 15%;
   }
 }

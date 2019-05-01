@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import './SearchBar.scss';
 
 export default class SearchBar extends Component {
   constructor(props) {
@@ -50,9 +51,9 @@ export default class SearchBar extends Component {
             <input className="btn btn-primary" type="submit" value="Search"/>
             {this.props.addLink ?
               <Link 
-                className="btn btn-info" 
-                to={'/dashboard/add' + this.props.addLink}>
-                  Add {this.props.addLink}
+                className="btn btn-info add-btn" 
+                to={this.props.addLink}>
+                  Add {this.props.addLinkName}
               </Link>
             : ''}
           </div>
