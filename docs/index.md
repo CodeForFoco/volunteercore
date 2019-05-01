@@ -2,6 +2,20 @@ The Volunteer Matching project is a web app that assists in better management of
 
 # API
 
+## Authentication
+#### Basic Auth
+Basic authentication requires providing a valid user's username and password in an Authorization: Basic header. The username and password has to be Base64 encoded.
+
+Header example:  
+`headers: "Authorization": "Basic " + btoa({username} + ":" + {password})`
+
+#### Token Authentication
+Token authentication requires providing a user's valid token in an Authorization: Bearer header. An expired token will return a 401 unauthorized error.
+
+Header example:  
+`headers: "Authorization": "Bearer {token}"`
+
+
 ## Resources
 * Token
 * User
@@ -10,17 +24,19 @@ The Volunteer Matching project is a web app that assists in better management of
 * Tags
 * Tag Categories
 
+
 ### Token
 #### Variables
-access_token_cookie, refresh_token_cookie, csrf_access_token, csrf_refresh_token
+token
 
 #### Endpoints
 
-Endpoint | Method Type | Arguments | Description
----------|-------------|-----------|------------
-/api/token/auth | POST | | Requires basic auth and returns access and return token cookies
-/api/token/refresh | POST | | Requires refresh token and returns fresh access token cookie
-/api/token/logout | POST | | Log out by unsetting token cookies
+Endpoint | Method Type | Auth Required | Arguments | Description
+---------|-------------|---------------|-----------|------------
+/api/token/auth | POST | BasicAuth | | Requires basic auth and returns user token
+/api/token/logout | POST | Token | | Log out by revoking user token
+
+---
 
 ### User
 #### Variables
@@ -28,13 +44,15 @@ id, username, email, roles, password
 
 #### Endpoints
 
-Endpoint | Method Type | Arguments | Description
----------|-------------|-----------|------------
-/api/users/{id} | GET | include_email | Returns user data specified by id
-/api/users | GET | include_email | Returns all users data
-/api/users | POST | | Create a new user
-/api/users/{id} | PUT | | Update existing user specified by id
-/api/users/{id} | DELETE | | Delete user specified by id
+Endpoint | Method Type | Auth Required | Arguments | Description
+---------|-------------|---------------|-----------|------------
+/api/users/{id} | GET | Token and Admin role | include_email | Returns user data specified by id
+/api/users | GET | Token and Admin role | include_email | Returns all users data
+/api/users | POST | Token and Admin role | | Create a new user
+/api/users/{id} | PUT | Token and Admin role | | Update existing user specified by id
+/api/users/{id} | DELETE | Token and Admin role | | Delete user specified by id
+
+---
 
 ### Partners
 #### Variables
@@ -42,13 +60,15 @@ id, name, opportunity_count
 
 #### Endpoints
 
-Endpoint | Method Type | Arguments | Description
----------|-------------|-----------|------------
-/api/partners/{id} | GET | | Returns partner data specified by id
-/api/partners | GET | page, per_page, search | Returns all partners paginated and filtered by search
-/api/partners | POST | | Create a new partner
-/api/partners/{id} | PUT | | Update existing partner specified by id
-/api/partners/{id} | DELETE | | Delete partner specified by id
+Endpoint | Method Type | Auth Required | Arguments | Description
+---------|-------------|---------------|-----------|------------
+/api/partners/{id} | GET | | | Returns partner data specified by id
+/api/partners | GET | | page, per_page, search | Returns all partners paginated and filtered by search
+/api/partners | POST | Token | | Create a new partner
+/api/partners/{id} | PUT | Token | | Update existing partner specified by id
+/api/partners/{id} | DELETE | Token | | Delete partner specified by id
+
+---
 
 ### Opportunities
 #### Variables
@@ -56,13 +76,15 @@ id, active, name, job_number, description, shift_hours, commitment_length, start
 
 #### Endpoints
 
-Endpoint | Method Type | Arguments | Description
----------|-------------|-----------|------------
-/api/opportunities/{id} | GET | | Returns opportunity data specified by id
-/api/opportunities | GET | page, per_page, search | Returns all opportunities paginated and filtered by search
-/api/opportunities | POST | | Create a new opportunity
-/api/opportunities/{id} | PUT | | Update existing opportunity specified by id
-/api/opportunities/{id} | DELETE | | Delete opportunity specified by id
+Endpoint | Method Type | Auth Required | Arguments | Description
+---------|-------------|---------------|-----------|------------
+/api/opportunities/{id} | GET | | | Returns opportunity data specified by id
+/api/opportunities | GET | | page, per_page, search | Returns all opportunities paginated and filtered by search
+/api/opportunities | POST | Token | | Create a new opportunity
+/api/opportunities/{id} | PUT | Token | | Update existing opportunity specified by id
+/api/opportunities/{id} | DELETE | Token | | Delete opportunity specified by id
+
+---
 
 ### Tags
 #### Variables
@@ -70,13 +92,15 @@ id, name, tag_category
 
 #### Endpoints
 
-Endpoint | Method Type | Arguments | Description
----------|-------------|-----------|------------
-/api/tags/{id} | GET | | Returns tag data specified by id
-/api/tags | GET | page, per_page | Returns all tags paginated and filtered by search
-/api/tags | POST | | Create a new tag
-/api/tags/{id} | PUT | | Update existing tag specified by id
-/api/tags/{id} | DELETE | | Delete tag specified by id
+Endpoint | Method Type | Auth Required | Arguments | Description
+---------|-------------|---------------|-----------|------------
+/api/tags/{id} | GET | | | Returns tag data specified by id
+/api/tags | GET | | page, per_page | Returns all tags paginated and filtered by search
+/api/tags | POST | Token and Admin role | | Create a new tag
+/api/tags/{id} | PUT | Token and Admin role | | Update existing tag specified by id
+/api/tags/{id} | DELETE | Token and Admin role | | Delete tag specified by id
+
+---
 
 ### Tag Categories
 #### Variables
@@ -84,10 +108,10 @@ id, category_name, tags
 
 #### Endpoints
 
-Endpoint | Method Type | Arguments | Description
----------|-------------|-----------|------------
-/api/tag_categories/{id} | GET | | Returns tag category data specified by id
-/api/tag_categories | GET | page, per_page | Returns all tag categories paginated and filtered by search
-/api/tag_categories | POST | | Create a new tag category
-/api/tag_categories/{id} | PUT | | Update existing tag category specified by id
-/api/tag_categories/{id} | DELETE | | Delete tag category specified by id
+Endpoint | Method Type | Auth Required | Arguments | Description
+---------|-------------|---------------|-----------|------------
+/api/tag_categories/{id} | GET | | | Returns tag category data specified by id
+/api/tag_categories | GET | | page, per_page | Returns all tag categories paginated and filtered by search
+/api/tag_categories | POST | Token and Admin role | | Create a new tag category
+/api/tag_categories/{id} | PUT | Token and Admin role | | Update existing tag category specified by id
+/api/tag_categories/{id} | DELETE | Token and Admin role | | Delete tag category specified by id
