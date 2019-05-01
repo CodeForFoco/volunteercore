@@ -30,10 +30,11 @@ def register(app):
                 click.echo('Admin role created')
             else:
                 click.echo('Admin role already exists')
+
         def auto_create_admin():
             if not User.query.filter_by(username='admin').first():
                 admin = User(username='admin',
-                    roles=Role.query.filter_by(name="Admin"))
+                             roles=Role.query.filter_by(name="Admin"))
                 admin.hash_password('password')
                 db.session.add(admin)
                 db.session.commit()
@@ -42,7 +43,6 @@ def register(app):
                 click.echo('Admin user already exists')
         auto_create_roles()
         auto_create_admin()
-
 
     @app.cli.command()
     def whoosh_index_all():
