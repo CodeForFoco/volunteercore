@@ -7,7 +7,7 @@ module.exports = [{
     name: 'partners',
     addLinkName: 'Partner',
     addLink: '/dashboard/addpartner',
-    editLink: '/dashboard/editpartner/'
+    editLink: '/dashboard/editpartner'
   }, {
     name: 'users',
     addLinkName: 'User',

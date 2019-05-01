@@ -21,8 +21,16 @@ export default class Dashboard extends Component {
     };
   }
 
-  deleteDoc() {
-
+  deleteDoc(id, i) {
+    axios.delete(`/api/${this.state.page.name}/${id}`)
+      .then(res => {
+        let searchResult = this.state.searchResult;
+        searchResult.items.splice(i, 1);
+        this.setState({ searchResult });
+      })
+      .catch(err => {
+        alert(err);
+      });
   }
 
   set(obj) {
@@ -44,7 +52,9 @@ export default class Dashboard extends Component {
       this.setState( {
         page: PAGES[index],
         searchResult: {},
-        searchError: {}
+        searchError: {},
+        searchPageNum: 0,
+        searchResultCount: 10
       }, this.defaultSearch);
     }
   }
@@ -64,7 +74,8 @@ export default class Dashboard extends Component {
           />
           <Content
             {...this.state}
-            set={this.set.bind(this)}  
+            set={this.set.bind(this)}
+            deleteDoc={this.deleteDoc.bind(this)}
           />
         </div>
         <Footer/>
@@ -113,16 +124,17 @@ class Content extends Component {
         />
         <br/>
         <ul className="list-group">
+          {/* Needs to be re-factored per page. Built-in Component for PAGES? */}
           {items ? items.map(({ name, partner_name, id }, i) => {
             return (
               <li className="list-group-item d-flex justify-content-between align-items-center">
                 {name} - {partner_name}
                 <div>
-                  <Link className="btn btn-info btn-sm" to={'/{ this.props.page }/' + id}>View</Link>
-                  <Link className="btn btn-warning btn-sm" to={`/dashboard/editopportunity/${id}`}>Edit</Link>
+                  <Link className="btn btn-info btn-sm" to={`/${this.props.page.name}/${id}`}>View</Link>
+                  <Link className="btn btn-warning btn-sm" to={`${this.props.page.editLink}/${id}`}>Edit</Link>
                   <Link 
                     className="btn btn-danger btn-sm"
-                    onClick={() => {this.deleteOpportunity(id, i)}}>
+                    onClick={() => {this.props.deleteDoc(id, i)}}>
                     Delete
                   </Link>
                 </div>
