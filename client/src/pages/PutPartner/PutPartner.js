@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Wrap from '../../components/Wrap/Wrap.js';
 import Input from '../../objects/Input/Input.js';
 import Alert from '../../components/Alert/Alert.js';
 import axios from 'axios';
@@ -57,7 +58,7 @@ export default class PutPartner extends Component {
 
   render () {
     return (
-      <div>
+      <Wrap>
         <h1>Edit Partner</h1>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
@@ -79,7 +80,7 @@ export default class PutPartner extends Component {
             />
           </div>
         </div>
-      </div>
+      </Wrap>
     );
   }
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Wrap from '../../components/Wrap/Wrap.js';
 import Thumb from '../../components/OppThumb/OppThumb.js';
 import SearchBar from '../../components/SearchBar/SearchBar.js';
 import Alert from '../../components/Alert/Alert.js';
@@ -34,7 +35,7 @@ export default class Opportunties extends Component {
     const items = this.state.searchResult ? this.state.searchResult.items : [];
 
     return (
-      <>
+      <Wrap>
         <h1>Opportunities</h1>
         <SearchBar
           name="opportunities"
@@ -46,7 +47,7 @@ export default class Opportunties extends Component {
         {items ? items.map((val) => {
           return <Thumb {...val}/>;
         }): ''}
-      </>
+      </Wrap>
     );
   }
 }
