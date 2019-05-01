@@ -45,6 +45,7 @@ export default class SearchBar extends Component {
           />
           <div className="input-group-append">
             <input className="btn btn-primary" type="submit" value="Search"/>
+            <button className="btn btn-info">Add Partner</button>
           </div>
         </div>
       </form>
