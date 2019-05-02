@@ -1,1 +1,1 @@
-web: flask db upgrade; flask auto-create-admin; flask whoosh-index-all; gunicorn run:app
+web: flask db upgrade; flask auto-setup; flask whoosh-index-all; gunicorn run:app

@@ -1,3 +1,4 @@
+from datetime import datetime
 from volunteermatching import db
 from volunteermatching.mixins import PagininatedAPIMixin
 import flask_whooshalchemyplus
@@ -145,6 +146,10 @@ class Opportunity(PagininatedAPIMixin, db.Model):
         for field in field_names:
             if field in data:
                 setattr(self, field, data[field])
+        for field in ['start_date', 'end_date']:
+            if field in data:
+                setattr(self, field, datetime.strptime(data[field],
+                        '%Y%m%d').date())
         if 'frequency' in data:
             frequency = Frequency.query.filter_by(
                 name=data['frequency']).first()

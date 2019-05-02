@@ -4,7 +4,7 @@ from volunteermatching import db
 from volunteermatching.api import bp
 from volunteermatching.auth.models import User, Role
 from volunteermatching.api.errors import bad_request, error_response
-from flask_jwt_extended import jwt_required
+from volunteermatching.decorators import requires_roles
 
 basic_auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth()
@@ -21,13 +21,26 @@ def verify_password(username, password):
 
 # Defines the error response if HTTPBasicAuth fails
 @basic_auth.error_handler
-def error_handler():
+def basic_auth_error_handler():
+    return error_response(401)
+
+# Defines the HTTPTokenAuth callback function token verification used
+# when token auth is used on a route function
+@token_auth.verify_token
+def verify_token(token):
+    g.current_user = User.check_token(token) if token else None
+    return g.current_user is not None
+
+# Defines the error response if HTTPTokenAuth fails
+@token_auth.error_handler
+def token_error_handler():
     return error_response(401)
 
 # API GET endpoint returns an individual user. The users email is only
 # returned when the include_email argument is pass as True.
 @bp.route('/api/users/<int:id>', methods=['GET'])
-#@jwt_required
+@token_auth.login_required
+@requires_roles('Admin')
 def get_user_api(id):
     include_email = request.args.get('include_email', False)
     return jsonify(User.query.get_or_404(id).to_dict(include_email))
@@ -35,7 +48,8 @@ def get_user_api(id):
 # API GET endpoint return all users, paginated with given page and quantity
 # per page.
 @bp.route('/api/users', methods=['GET'])
-#@jwt_required
+@token_auth.login_required
+@requires_roles('Admin')
 def get_users_api():
     include_email = request.args.get('include_email', False)
     page = request.args.get('page', 1, type=int)
@@ -47,7 +61,8 @@ def get_users_api():
 
 # API POST endpoint to create a new user
 @bp.route('/api/users', methods=['POST'])
-#@jwt_required
+@token_auth.login_required
+@requires_roles('Admin')
 def create_user_api():
     data = request.get_json() or {}
     if 'username' not in data or 'password' not in data:
@@ -69,7 +84,8 @@ def create_user_api():
 
 # API PUT endpoint to update a user
 @bp.route('/api/users/<int:id>', methods=['PUT'])
-#@jwt_required
+@token_auth.login_required
+@requires_roles('Admin')
 def update_user_api(id):
     user = User.query.get_or_404(id)
     data = request.get_json() or {}
@@ -86,7 +102,8 @@ def update_user_api(id):
 
 # API DELETE endpoint to delete a user
 @bp.route('/api/users/<int:id>', methods=['DELETE'])
-#@jwt_required
+@token_auth.login_required
+@requires_roles('Admin')
 def delete_user_api(id):
     if not User.query.filter_by(id=id).first():
         return bad_request('this user does not exist')
