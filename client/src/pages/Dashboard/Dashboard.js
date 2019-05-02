@@ -141,6 +141,16 @@ class Content extends Component {
   }
 }
 
+class SubPage extends Component {
+  render () {
+    return (
+      <form>
+        <input className="form-input"></input>
+      </form>
+    )
+  }
+}
+
 class DashListItem extends Component {
   render () {
     return (
@@ -152,7 +162,7 @@ class DashListItem extends Component {
           return this.props[key] + ' - ';
         })}
         <div>
-          {this.props.view ? (
+          {this.props.page.view ? (
             <Link className="btn btn-info btn-sm" to={`/${this.props.page.name}/${this.props.id}`}>View</Link>
           ): ''}
           {this.props.page.editLink ? (

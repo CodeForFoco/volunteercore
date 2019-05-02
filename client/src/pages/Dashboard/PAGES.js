@@ -24,5 +24,7 @@ module.exports = [{
     addLink: '/dashboard/addtag',
     editLink: '/dashboard/edittag',
     view: false
+  }, {
+    type: ''
   }
 ]
