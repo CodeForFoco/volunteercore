@@ -11,18 +11,14 @@ class App extends Component {
     super(props);
     this.state = {
       user: {},
-      opportunities: [],
-      myOpportunities: [],
-      partners: [],
+      opportunities: {},
+      partners: {},
       cookie: ''
     }
   }
 
   set(obj, cb) {
     this.setState(obj, cb);
-  }
-
-  componentDidMount() {
   }
 
   render() {
@@ -36,14 +32,13 @@ class App extends Component {
               <Switch>
                 {ROUTES.map((route) => {
                   const C = route.component;
-                  route.component = () => {
-                    return <C set={this.set.bind(this)} {...this.state}/>
+                  route.component = (props) => {
+                    return <C set={this.set.bind(this)} {...this.state} {...props}/>
                   };
                   return (<Route exact {...route} key={'r-' + route.path}/>);
                 })}
               </Switch>
               <br/><br/>
-
             </div>
           </div>
           <Footer/>

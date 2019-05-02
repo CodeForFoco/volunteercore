@@ -37,9 +37,9 @@ export default class Nav extends Component {
             <li className='nav-item'>
               <Link className='nav-link' to='/dashboard'>Dashboard (Auth)</Link>
             </li>
-            <li className='nav-item'>
+            {/*<li className='nav-item'>
               <Link className='nav-link' to='/settings'>Settings (Auth)</Link>
-            </li>
+            </li>*/}
           </ul>
           <form className='form-inline my-2 my-lg-0'>
             <input className='form-control mr-sm-2' type='text' placeholder='Search Opportunities'/>

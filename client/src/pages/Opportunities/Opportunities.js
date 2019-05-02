@@ -1,42 +1,50 @@
 import React, { Component } from 'react';
 import Thumb from '../../components/OppThumb/OppThumb.js';
-import helper from '../../utils/helpers.js';
+import SearchBar from '../../components/SearchBar/SearchBar.js';
+import Alert from '../../components/Alert/Alert.js';
 import './Opportunity.scss';
+import axios from 'axios';
 
 export default class Opportunties extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      popup: false
+      popup: false,
+      searchResult: {},
+      searchError: {}
     }
   }
 
+  set(obj) {
+    this.setState(obj);
+  }
+
   componentDidMount() {
-    helper.getOpportunities((res, err) => {
-      if (err) { return alert(err); }
-      this.props.set({ opportunities: res.data });
-    });
+    axios.get('/api/opportunities')
+      .then(res => {
+        this.setState({ searchResult: res.data });
+      })
+      .catch(err => {
+        alert(err);
+      });
   }
 
   render () {
-    const validOpportunities = this.props.opportunities && this.props.opportunities.items ? true: false;
+    const items = this.state.searchResult ? this.state.searchResult.items : [];
 
     return (
       <>
         <h1>Opportunities</h1>
-        <form>
-          <label>Search Partners</label>
-          <div className="input-group">
-            <input type="text" className="form-control" placeholder="Search Partners"/>
-            <div className="input-group-append">
-              <button className="btn btn-primary">Search</button>
-            </div>
-          </div><br/><br/>
-            {validOpportunities ? this.props.opportunities.items.map((val) => {
-             return <Thumb {...val}/>;
-            }): ''}
-        </form>
+        <SearchBar 
+          url="/api/opportunities"
+          set={this.set.bind(this)}
+        />
+        <Alert {...this.state.searchError}/>
+        <br/><br/>
+        {items ? items.map((val) => {
+          return <Thumb {...val}/>;
+        }): ''}
       </>
     );
   }

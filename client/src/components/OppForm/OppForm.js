@@ -2,25 +2,16 @@ import React, { Component } from 'react';
 import Input from '../../objects/Input/Input.js';
 import './OppForm.scss';
 
-/*
-IN FORM
-name, description, shift_start, shift_end, commitment_length,
-start_date, end_date, training_time_required, volunteers_needed,
-location_street, location_city, location_zip,
-partner_name (organization), frequency, tags
-*/
-
-/*
-NOT IN FORM (Not user input, dealt with in background)
-_id, active, job_number, tag_count, partner_id, partner_string,
-commitment_length
-
-Added: date
-Replaced: shift_hours with shift_start, shift_end
-removed: commitment_length
-*/
-
 export default class OpportunityForm extends Component {
+  genButton() {
+    switch (this.props.method) {
+      case 'PUT':
+      return <input type="submit" className="btn btn-warning btn-block" value="Save Changes"/>
+      default:
+      return <input type="submit" className="btn btn-info btn-block" value="Submit"/>
+    }
+  }
+
   render () {
     return (
       <form onSubmit={this.props.submitForm.bind(this)}>
@@ -31,56 +22,8 @@ export default class OpportunityForm extends Component {
           placeholder="Enter Organization Name"
           set={this.props.setByName.bind(this)}
           value={this.props.partner_name}
-          />
-        <label>* Opportunity Location</label>
-        <div className="row">
-          <div className="col-sm-12 col-md">
-            <Input
-              label="* Address"
-              name="location_street"
-              placeholder="Enter Address"
-              set={this.props.setByName.bind(this)}
-              test={() => /[0-9].*/gm.test(this.props.location_street)}
-              value={this.props.location_street}
-              />
-          </div>
-          <div className="col-sm-12 col-md">
-            <Input
-              label="* City"
-              name="location_city"
-              placeholder="Enter Location"
-              set={this.props.setByName.bind(this)}
-              value={this.props.location_city}    
-              />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-sm-12 col-md">
-            <Input
-              label="* State"
-              name="location_state"
-              placeholder="Enter State"
-              set={this.props.setByName.bind(this)}
-              test={() => /^[A-Za-z]{2}$/gm.test(this.props.location_state)}
-              value={this.props.location_state}
-              />
-          </div>
-          <div className="col-sm-12 col-md">
-            <Input
-              label="* Zip"
-              name="location_zip"
-              placeholder="Enter Zip"
-              set={this.props.setByName.bind(this)}
-              test={() => {
-                return 9999 < this.props.location_zip && 
-                  this.props.location_zip < 100000 &&
-                  Number.isInteger(parseInt(this.props.location_zip));
-              }}
-              type="number"
-              value={this.props.location_zip}
-            />
-          </div>
-        </div>
+        />
+        <Location {...this.props}/>
         <Input
           label="* Name (Eg. Prepare Shipments)"
           name="name"
@@ -88,30 +31,25 @@ export default class OpportunityForm extends Component {
           set={this.props.setByName.bind(this)}
           value={this.props.name}
         />
-        <div className="row">
-          <div className="col-sm-12 col-md">
-            <Input
-              label="* Shift Start (Eg. 9am)"
-              name="shift_start"
-              placeholder="Enter Shift Start"
-              set={this.props.setByName.bind(this)}
-              value={this.props.shift_start}
-              />
-          </div>
-          <div className="col-sm-12 col-md">
-            <Input
-              label="* Shift End (Eg. 12pm)"
-              name="shift_end"
-              placeholder="Enter Shift End"
-              set={this.props.setByName.bind(this)}
-              value={this.props.shift_end}
-              />
-          </div>
-        </div>
-        <RecurringCard {...this.props} set={this.props.set.bind(this)}/>
-        <br/>
         <Input
-          label="Training Required (hours)"
+          label="* Shift Hours (Eg. 5.5 hours)"
+          name="shift_hours"
+          placeholder="Enter Shift Hours"
+          set={this.props.setByName.bind(this)}
+          type="number"
+          test={() => { return this.props.shift_hours !== '' }}
+          value={this.props.shift_hours}
+        />
+        <Recurring {...this.props}/>
+        <Input
+          label="Commitment Length (Eg. 5.5)"
+          name="commitment_length"
+          placeholder="Enter Commitment Length"
+          set={this.props.setByName.bind(this)}
+          value={this.props.commitment_length}
+        />
+        <Input
+          label="Training Required (Eg. 5 hours)"
           name="training_time_required"
           placeholder="Enter Hours"
           test={() => true}
@@ -130,7 +68,7 @@ export default class OpportunityForm extends Component {
         />
         <Input 
           label="Tags (Eg. 'children, fun, painting')"
-          name="tags"
+          name="tags_string"
           placeholder="Enter tags (comma seperated list)"
           test={() => true}
           set={this.props.setByName.bind(this)}
@@ -144,15 +82,22 @@ export default class OpportunityForm extends Component {
         <br/>
         <div className="form-group">
           <label className="control-label">* Description</label>
-          <textarea className="form-control" name="description" placeholder="Enter Description (Minimum 100 characters)"/>
+          <textarea 
+            className="form-control"
+            name="description"
+            placeholder="Enter Description (500 characters max)"
+            value={this.props.description}
+            onChange={this.props.setByName.bind(this)}
+            style={{resize: 'none'}}
+          />
         </div>
-        <input type="submit" className="btn btn-success btn-block"/>
+        {this.genButton()}
       </form>
     );
   }
 }
 
-class RecurringCard extends Component {
+/*class RecurringCard extends Component {
   render () {
     return (
       <div className="card">
@@ -194,6 +139,65 @@ class OneTime extends Component {
       </>
     );
   }
+}*/
+
+class Location extends Component {
+  render () {
+    return (
+      <>
+        <label>* Opportunity Location</label>
+        <div className="row">
+          <div className="col-sm-12 col-md">
+            <Input
+              label="* Address"
+              name="location_street"
+              placeholder="Enter Address"
+              set={this.props.setByName.bind(this)}
+              test={() => /[0-9].*/gm.test(this.props.location_street)}
+              value={this.props.location_street}
+              />
+          </div>
+          <div className="col-sm-12 col-md">
+            <Input
+              label="* City"
+              name="location_city"
+              placeholder="Enter Location"
+              set={this.props.setByName.bind(this)}
+              value={this.props.location_city}    
+              />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-12 col-md">
+            <Input
+              label="* State"
+              name="location_state"
+              placeholder="Enter State"
+              set={this.props.setByName.bind(this)}
+              test={() => /^[A-Za-z]{2}$/gm.test(this.props.location_state)}
+              value={this.props.location_state}
+              disabled={true}
+              />
+          </div>
+          <div className="col-sm-12 col-md">
+            <Input
+              label="* Zip"
+              name="location_zip"
+              placeholder="Enter Zip"
+              set={this.props.setByName.bind(this)}
+              test={() => {
+                return 9999 < this.props.location_zip && 
+                  this.props.location_zip < 100000 &&
+                  Number.isInteger(parseInt(this.props.location_zip));
+              }}
+              type="number"
+              value={this.props.location_zip}
+            />
+          </div>
+        </div>
+      </>
+    );
+  }
 }
 
 class Recurring extends Component {
@@ -208,7 +212,7 @@ class Recurring extends Component {
               placeholder="Enter Start Date"
               set={this.props.setByName.bind(this)}
               type="date"
-              value={this.props.commitment_length}
+              value={this.props.start_date}
             />
           </div>
           <div className="col">
@@ -218,18 +222,10 @@ class Recurring extends Component {
               placeholder="Enter End Date"
               set={this.props.setByName.bind(this)}
               type="date"
-              value={this.props.commitment_length}
+              value={this.props.end_date}
             />
           </div>
         </div>
-        <Input
-          label="* Frequency (Eg. Every other Thursday)"
-          name="frequency"
-          placeholder="Describe Frequency"
-          set={this.props.setByName.bind(this)}
-          test={() => true}
-          value={this.props.frequency}
-        />
       </>
     );
   }

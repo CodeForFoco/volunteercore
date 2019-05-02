@@ -2,5 +2,8 @@
 
 .opp-thumb {
   margin-bottom: 3rem;
+  &:hover {
+    cursor: pointer;
+  }
   transition: 0.1s ease-in-out;
 }

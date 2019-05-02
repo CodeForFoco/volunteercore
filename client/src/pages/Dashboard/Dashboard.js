@@ -1,9 +1,62 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import SearchBar from '../../components/SearchBar/SearchBar.js';
 import './Dashboard.scss';
+import axios from 'axios';
 
 export default class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      opportunities: {},
+      partners: {}
+    };
+  }
+
+  deleteOpportunity(id, index) {
+    axios.delete('/api/opportunities/' + id)
+      .then(res => {
+        let opps = this.state.opportunities;
+        opps.searchResult.items.splice(index, 1);
+        this.setState({ opportunities: opps });
+      })
+      .catch(err => {
+        alert('Error Deleting');
+      });
+  }
+
+  deletePartner(id, index) {
+    axios.delete('/api/partners/' + id)
+    .then(res => {
+      let partners = this.state.partners;
+      partners.searchResult.items.splice(index, 1);
+      this.setState({ partners });
+    })
+    .catch(err => {
+      alert('Error Deleting');
+    });
+  }
+
+  set(key, val) {
+    this.setState({ [key]: val});
+  }
+
+  componentDidMount() {
+    axios.get('/api/opportunities')
+      .then(res => {
+        this.setState({ opportunities: { searchResult: res.data} });
+      });
+    axios.get('/api/partners')
+      .then(res => {
+        this.setState({ partners: { searchResult: res.data }});
+      });
+  }
+
   render () {
+    const opps = this.state.opportunities.searchResult ? this.state.opportunities.searchResult.items : [];
+    const partners = this.state.partners.searchResult ? this.state.partners.searchResult.items : [];
+
     return (
       <div>
         <h1>Dashboard</h1>
@@ -21,46 +74,59 @@ export default class Dashboard extends Component {
             <p>Add an opportunity below or, edit an existing one.</p>
             <div className="btn-group" role="group" aria-label="Basic example">
               <Link className="btn btn-info" to="/dashboard/addopportunity">Add Opportunity</Link>
-              <Link className="btn btn-success">Add User (Admin-only)</Link>
+              <Link className="btn btn-info" to="/dashboard/addpartner">Add Partner (Admin)</Link>
+              <Link className="btn btn-info">Add User (Admin)</Link>
             </div>
           </div>
         </div>
         <br/>
-        <h4>Your Opportunities</h4>
-        <form>
-          <label>Search Opportunities</label>
-          <div className="input-group">
-            <input type="text" className="form-control" placeholder="Search Opportunities"/>
-            <div className="input-group-append">
-              <button className="btn btn-primary">Search</button>
-            </div>
-          </div>
-        </form><br/>
+        <h4>Opportunities</h4>
+        <SearchBar
+          url="/api/opportunities"
+          set={(val) => { this.set('opportunities', val); }}
+        />
+        <br/>
         <ul className="list-group">
-          <li className="list-group-item d-flex align-items-center">
-            Cras justo odio
-            <div className="opp-badge">
-              <span className="badge badge-info badge-pill">View</span>
-              <span className="badge badge-warning badge-pill">Edit</span>
-              <span className="badge badge-danger badge-pill">Delete</span>
-            </div>
-          </li>
-          <li className="list-group-item d-flex align-items-center">
-            Cras justo odio
-            <div className="opp-badge">
-              <span className="badge badge-info badge-pill">View</span>
-              <span className="badge badge-warning badge-pill">Edit</span>
-              <span className="badge badge-danger badge-pill">Delete</span>
-            </div>
-          </li>
-          <li className="list-group-item d-flex align-items-center">
-            Cras justo odio
-            <div className="opp-badge">
-              <span className="badge badge-info badge-pill">View</span>
-              <span className="badge badge-warning badge-pill">Edit</span>
-              <span className="badge badge-danger badge-pill">Delete</span>
-            </div>
-          </li>
+          {opps ? opps.map(({ name, partner_name, id }, i) => {
+            return (
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                {name} - {partner_name}
+                <div>
+                  <Link className="btn btn-info btn-sm" to={'/opportunities/' + id}>View</Link>
+                  <Link className="btn btn-warning btn-sm" to={`/dashboard/editopportunity/${id}`}>Edit</Link>
+                  <Link 
+                    className="btn btn-danger btn-sm"
+                    onClick={() => {this.deleteOpportunity(id, i)}}>
+                    Delete
+                  </Link>
+                </div>
+              </li>
+            );
+          }) : 'Loading...'}
+        </ul>
+        <br/>
+        <h4>Partners</h4>
+        <SearchBar
+          url="/api/partners"
+          set={(val) => { this.set('partners', val); }}
+        />
+        <br/>
+        <ul className="list-group">
+          {partners ? partners.map(({ name, id }, i) => {
+            return (
+              <li className="list-group-item d-flex justify-content-between align-items-center">
+                {name}
+                <div>
+                  <Link className="btn btn-warning btn-sm" to={`/dashboard/editpartner/${id}`}>Edit</Link>
+                  <Link 
+                    className="btn btn-danger btn-sm"
+                    onClick={() => {this.deletePartner(id, i)}}>
+                    Delete
+                  </Link>
+                </div>
+              </li>
+            );
+          }) : 'Loading...'}
         </ul>
       </div>
     );
