@@ -20,6 +20,9 @@ module.exports = [{
   path: '/dashboard/editpartner/:ID',
   component: require('../../pages/PutPartner/PutPartner.js').default
 }, {
+  path: '/dashboard/adduser',
+  component: require('../../pages/PostUser/PostUser.js').default
+}, {
   path: '/partners',
   component: require('../../pages/Partners/Partners.js').default
 }, {
