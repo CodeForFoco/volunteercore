@@ -7,17 +7,33 @@ This setup is for use with local development only; production instructions will 
 
 You will need [git](https://git-scm.com/downloads), [python 3](https://www.python.org/downloads/), pipenv, and SQLite installed. Depending where you get Python from, pipenv may already be included with Python.
 
-### Prepare development environment
-1. Clone the repo and cd into the directory
-1. `pipenv install`
-1. `pipenv shell`
-1. `cp config.env.template .env`
-1. `flask db upgrade`
-1. Create the admin user: `flask create-admin`
+You will also need [NodeJS + npm](https://nodejs.org/en/download/) for the React client.
 
-### Start the Flask app
+### Prepare Development Enviornment
+##### Prepare Flask API
+1. Clone the repo and cd into the directory
+2. `pipenv install`
+3. `pipenv shell`
+4. `cp config.env.template .env`
+5. `flask db upgrade`
+6. Create the admin user: `flask create-admin`
+
+##### Prepare React Server
+1. Clone the repo and cd into the directory 
+2. cd into _your-dir_/client
+3. `npm install`
+
+### Start the App
+##### Start Flask API
 1. `flask run`
-1. End the app with ctrl + c.
+2. End the app with ctrl + c.
+
+##### Start React Server
+1. cd into /client
+2. `npm start`
+3. End the app with ctrl + c.
+
+
 
 ## Contributing
 
