@@ -1,6 +1,15 @@
 @import '../../utils/_variables.scss';
 @import './bootstrap.min.css';
 
+body {
+  height: 100vh;
+}
+
+#root {
+  // 86.75px is the height of the navbar. :)
+  height: calc(100% - 86.75px);
+}
+
 .badge {
   padding: 8px 15px;
   margin: 0 5px;

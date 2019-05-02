@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Wrap from '../../components/Wrap/Wrap.js';
 import SearchBar from '../../components/SearchBar/SearchBar.js';
 import './Partners.scss';
 import axios from 'axios';
@@ -31,9 +32,10 @@ export default class Partners extends Component {
     const items = this.state.searchResult ? this.state.searchResult.items : '';
 
     return (
-      <>
+      <Wrap>
         <h1>Partners</h1>
         <SearchBar
+          name="partners"
           url="/api/partners"
           set={this.set.bind(this)}
         />
@@ -53,7 +55,7 @@ export default class Partners extends Component {
               </div>
             );
           }) : ''}
-      </>
+      </Wrap>
     );
   }
 }

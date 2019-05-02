@@ -1,126 +1,140 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import SearchBar from '../../components/SearchBar/SearchBar.js';
-import './Dashboard.scss';
 import axios from 'axios';
+
+import Nav from '../../components/Nav/Nav.js';
+import Footer from '../../components/Footer/Footer.js';
+import SearchBar from '../../components/SearchBar/SearchBar.js';
+import DashItem from '../../components/DashListItem/DashListItem.js';
+import './Dashboard.scss';
+
+import PAGES from './PAGES.js';
 
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      opportunities: {},
-      partners: {}
+      page: PAGES[0],
+      searchResult: {},
+      searchError: {}
     };
   }
 
-  deleteOpportunity(id, index) {
-    axios.delete('/api/opportunities/' + id)
+  deleteDoc(id, i) {
+    axios.delete(`/api/${this.state.page.name}/${id}`)
       .then(res => {
-        let opps = this.state.opportunities;
-        opps.searchResult.items.splice(index, 1);
-        this.setState({ opportunities: opps });
+        let searchResult = this.state.searchResult;
+        searchResult.items.splice(i, 1);
+        this.setState({ searchResult });
       })
       .catch(err => {
-        alert('Error Deleting');
+        alert(err);
       });
   }
 
-  deletePartner(id, index) {
-    axios.delete('/api/partners/' + id)
-    .then(res => {
-      let partners = this.state.partners;
-      partners.searchResult.items.splice(index, 1);
-      this.setState({ partners });
-    })
-    .catch(err => {
-      alert('Error Deleting');
-    });
+  set(obj) {
+    this.setState(obj);
   }
 
-  set(key, val) {
-    this.setState({ [key]: val});
+  defaultSearch() {
+    axios.get('/api/' + this.state.page.name)
+      .then(res => {
+        this.setState({ searchResult: res.data });
+      })
+      .catch(err => {
+        alert(err);
+      });
+  }
+
+  setPage(index) {
+    if (index !== this.state.pageIndex) {
+      this.setState( {
+        page: PAGES[index],
+        searchResult: {},
+        searchError: {},
+        searchPageNum: 0,
+        searchResultCount: 10
+      }, this.defaultSearch);
+    }
   }
 
   componentDidMount() {
-    axios.get('/api/opportunities')
-      .then(res => {
-        this.setState({ opportunities: { searchResult: res.data} });
-      });
-    axios.get('/api/partners')
-      .then(res => {
-        this.setState({ partners: { searchResult: res.data }});
-      });
+    this.defaultSearch();
   }
 
   render () {
-    const opps = this.state.opportunities.searchResult ? this.state.opportunities.searchResult.items : [];
-    const partners = this.state.partners.searchResult ? this.state.partners.searchResult.items : [];
+    return (
+      <>
+        <Nav/>
+        <div className="dash">
+          <Sidebar 
+            pages={PAGES}
+            setPage={this.setPage.bind(this)}
+          />
+          <Content
+            {...this.state}
+            set={this.set.bind(this)}
+            deleteDoc={this.deleteDoc.bind(this)}
+          />
+        </div>
+        <Footer/>
+      </>
+    );
+  }
+}
+
+class Sidebar extends Component {
+  render () {
+    return (
+      <div className="dash-side-bar">
+        <h4 className="text-center">Dashboard</h4>
+        <br/>
+        <div className="dash-side-bar-items">
+          {this.props.pages ? this.props.pages.map((page, index) => {
+            return (
+              <button 
+                className="btn btn-block text-left btn-secondary"
+                onClick={() => { this.props.setPage(index)}}>
+                {page.name}
+              </button>
+            );
+          }): ''}
+          <button className="btn btn-block text-left btn-secondary" disabled>Settings</button>
+          <button className="btn btn-block text-left btn-secondary" disabled>Help</button>
+        </div>
+      </div>
+    );
+  }
+}
+
+class Content extends Component {
+  render () {
+    const items = this.props.searchResult ? this.props.searchResult.items : [];
 
     return (
-      <div>
-        <h1>Dashboard</h1>
-        <nav aria-label="breadcrumb">
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item active">Dashboard</li>
-            <li className="breadcrumb-item active" aria-current="page"></li>
-          </ol>
-        </nav>
-        <div className="card mb-3">
-          <div className="card-header">
-            Welcome back, Jordan!
-          </div>
-          <div className="card-body">
-            <p>Add an opportunity below or, edit an existing one.</p>
-            <div className="btn-group" role="group" aria-label="Basic example">
-              <Link className="btn btn-info" to="/dashboard/addopportunity">Add Opportunity</Link>
-              <Link className="btn btn-info" to="/dashboard/addpartner">Add Partner (Admin)</Link>
-              <Link className="btn btn-info">Add User (Admin)</Link>
-            </div>
-          </div>
-        </div>
-        <br/>
-        <h4>Opportunities</h4>
+      <div className="dash-content">
+        <h3>{this.props.name}</h3>
         <SearchBar
-          url="/api/opportunities"
-          set={(val) => { this.set('opportunities', val); }}
+          name={this.props.page.name}
+          addLinkName={this.props.page.addLinkName}
+          addLink={this.props.page.addLink}
+          url={`/api/${this.props.page.name}`}
+          set={this.props.set.bind(this)}
         />
         <br/>
         <ul className="list-group">
-          {opps ? opps.map(({ name, partner_name, id }, i) => {
+          {/* Needs to be re-factored per page. Built-in Component for PAGES? */}
+          {items ? items.map(({ name, partner_name, id }, i) => {
             return (
               <li className="list-group-item d-flex justify-content-between align-items-center">
                 {name} - {partner_name}
                 <div>
-                  <Link className="btn btn-info btn-sm" to={'/opportunities/' + id}>View</Link>
-                  <Link className="btn btn-warning btn-sm" to={`/dashboard/editopportunity/${id}`}>Edit</Link>
+                  <Link className="btn btn-info btn-sm" to={`/${this.props.page.name}/${id}`}>View</Link>
+                  <Link className="btn btn-warning btn-sm" to={`${this.props.page.editLink}/${id}`}>Edit</Link>
                   <Link 
                     className="btn btn-danger btn-sm"
-                    onClick={() => {this.deleteOpportunity(id, i)}}>
-                    Delete
-                  </Link>
-                </div>
-              </li>
-            );
-          }) : 'Loading...'}
-        </ul>
-        <br/>
-        <h4>Partners</h4>
-        <SearchBar
-          url="/api/partners"
-          set={(val) => { this.set('partners', val); }}
-        />
-        <br/>
-        <ul className="list-group">
-          {partners ? partners.map(({ name, id }, i) => {
-            return (
-              <li className="list-group-item d-flex justify-content-between align-items-center">
-                {name}
-                <div>
-                  <Link className="btn btn-warning btn-sm" to={`/dashboard/editpartner/${id}`}>Edit</Link>
-                  <Link 
-                    className="btn btn-danger btn-sm"
-                    onClick={() => {this.deletePartner(id, i)}}>
+                    onClick={() => {this.props.deleteDoc(id, i)}}>
                     Delete
                   </Link>
                 </div>
