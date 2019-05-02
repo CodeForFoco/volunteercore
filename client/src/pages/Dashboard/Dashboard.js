@@ -123,7 +123,6 @@ class Content extends Component {
         />
         <br/>
         <ul className="list-group">
-          {/* Needs to be re-factored per page. Built-in Component for PAGES? */}
           {items ? items.map((item, i) => {
             return (
               <DashListItem
