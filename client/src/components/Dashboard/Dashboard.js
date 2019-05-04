@@ -51,17 +51,17 @@ class Sidebar extends Component {
           </Link>
           <Link 
             className="btn btn-block text-left btn-secondary"
-            onClick={() => { this.props.setPage('partners')}}>
+            to="/dashboard/partners/search">
             Partners
           </Link>
           <Link 
             className="btn btn-block text-left btn-secondary"
-            onClick={() => { this.props.setPage('tags')}}>
+            to="/dashboard/tags/search">
             Tags
           </Link>
           <Link 
             className="btn btn-block text-left btn-secondary"
-            onClick={() => { this.props.setPage('users')}}>
+            to="/dashboard/users/search">
             Users
           </Link>
           <Link className="btn btn-block text-left btn-secondary text-muted" disabled>Settings</Link>

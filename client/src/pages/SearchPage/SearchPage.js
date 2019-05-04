@@ -10,8 +10,6 @@ export default class SearchPage extends Component {
     super(props);
 
     this.state = {
-      endpoint: this.props.match.params.endpoint || 'opportunities',
-      meta: endpoints[this.props.match.params.endpoint] || {},
       searchResult: {},
       searchError: {}
     };
@@ -22,7 +20,19 @@ export default class SearchPage extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/api/${this.state.endpoint}`)
+    const endpoint = this.props.match.params.endpoint || 'opportunities';
+    axios.get(`/api/${endpoint}`)
+      .then(res => {
+        this.setState({ searchResult: res.data, searchError: {} });
+      })
+      .catch(err => {
+        this.setState({ searchError: err });
+      });
+  }
+
+  componentDidUpdate() {
+    const endpoint = this.props.match.params.endpoint || 'opportunities';
+    axios.get(`/api/${endpoint}`)
       .then(res => {
         this.setState({ searchResult: res.data, searchError: {} });
       })
@@ -33,12 +43,14 @@ export default class SearchPage extends Component {
 
   render () {
     const items = this.state.searchResult.items || [];
+    const endpoint = this.props.match.params.endpoint || 'opportunities';
+    const meta = endpoints[this.props.match.params.endpoint];
 
     return (
       <Dash>
-        <h3>Search {this.state.endpoint}</h3>
+        <h3>Search {endpoint}</h3>
         <SearchBar
-          endpoint={this.state.endpoint}
+          endpoint={endpoint}
           set={this.set.bind(this)}
           addBtn={true}
         />
@@ -48,8 +60,8 @@ export default class SearchPage extends Component {
             return (
               <DashListItem
                 key={"dash-list-item-" + i}
-                text={this.state.meta.text(data)}
-                endpoint={this.state.endpoint}
+                text={meta ? meta.text(data) : data.name || data.username}
+                endpoint={endpoint}
               />
             );
           }) : ''}
