@@ -5,7 +5,6 @@ import axios from 'axios';
 import Nav from '../../components/Nav/Nav.js';
 import Footer from '../../components/Footer/Footer.js';
 import SearchBar from '../../components/SearchBar/SearchBar.js';
-import DashItem from '../../components/DashListItem/DashListItem.js';
 import './Dashboard.scss';
 
 import PAGES from './PAGES.js';
@@ -114,7 +113,7 @@ class Content extends Component {
 
     return (
       <div className="dash-content">
-        <h3>{this.props.name}</h3>
+        <h3>{this.props.page.name}</h3>
         <SearchBar
           name={this.props.page.name}
           addLinkName={this.props.page.addLinkName}
@@ -124,25 +123,59 @@ class Content extends Component {
         />
         <br/>
         <ul className="list-group">
-          {/* Needs to be re-factored per page. Built-in Component for PAGES? */}
-          {items ? items.map(({ name, partner_name, id }, i) => {
+          {items ? items.map((item, i) => {
             return (
-              <li className="list-group-item d-flex justify-content-between align-items-center">
-                {name} - {partner_name}
-                <div>
-                  <Link className="btn btn-info btn-sm" to={`/${this.props.page.name}/${id}`}>View</Link>
-                  <Link className="btn btn-warning btn-sm" to={`${this.props.page.editLink}/${id}`}>Edit</Link>
-                  <Link 
-                    className="btn btn-danger btn-sm"
-                    onClick={() => {this.props.deleteDoc(id, i)}}>
-                    Delete
-                  </Link>
-                </div>
-              </li>
+              <DashListItem
+                {...this.props.page}
+                {...item}
+                view={this.props.page.view || true}
+                delete={this.props.page.delete || true}
+                {...this.props}
+              />
             );
           }) : 'Loading...'}
         </ul>
       </div>
+    );
+  }
+}
+
+class SubPage extends Component {
+  render () {
+    return (
+      <form>
+        <input className="form-input"></input>
+      </form>
+    )
+  }
+}
+
+class DashListItem extends Component {
+  render () {
+    return (
+      <li className="list-group-item d-flex justify-content-between align-items-center">
+        {this.props.page.text.map((key, i, arr) => {
+          if (i + 1 === arr.length) {
+            return this.props[key];
+          }
+          return this.props[key] + ' - ';
+        })}
+        <div>
+          {this.props.page.view ? (
+            <Link className="btn btn-info btn-sm" to={`/${this.props.page.name}/${this.props.id}`}>View</Link>
+          ): ''}
+          {this.props.page.editLink ? (
+            <Link className="btn btn-warning btn-sm" to={`${this.props.page.editLink}/${this.props.id}`}>Edit</Link>
+          ): ''}
+          {this.props.delete ? (
+            <Link 
+              className="btn btn-danger btn-sm"
+              onClick={() => {this.props.deleteDoc(this.props.id, this.props.i)}}>
+              Delete
+            </Link>
+          ): ''}
+        </div>
+      </li>
     );
   }
 }
