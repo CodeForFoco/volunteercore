@@ -29,7 +29,7 @@ export default class Input extends Component {
             name={this.props.name}
             placeholder={this.props.placeholder || 'Enter ' + (this.props.label || this.props.name)} 
             value={this.props.value}
-            onChange={this.props.setVal.bind(this)}
+            onChange={this.props.set.bind(this)}
             onBlur={this.updateValid.bind(this)}
             disabled={this.props.disabled}
             required={this.props.required}
@@ -41,7 +41,7 @@ export default class Input extends Component {
             name={this.props.name}
             placeholder={this.props.placeholder || 'Enter ' + (this.props.label || this.props.name)} 
             value={this.props.value}
-            onChange={this.props.setVal.bind(this)}
+            onChange={this.props.set.bind(this)}
             onBlur={this.updateValid.bind(this)}
             disabled={this.props.disabled}
             required={this.props.required}

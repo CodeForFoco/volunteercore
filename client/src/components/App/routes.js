@@ -8,11 +8,11 @@ module.exports = [{
   path: '/partners',
   component: require('../../pages/Partners/Partners.js').default
 }, {
-  path: '/dashboard',
+  path: '/dashboard/:endpoint/search',
   component: require('../../pages/SearchPage/SearchPage.js').default
 }, {
   path: '/dashboard/:endpoint/add',
-  component: require('../../pages/SearchPage/SearchPage.js').default
+  component: require('../../pages/PostPage/PostPage.js').default
 }, {
   component: require('../../pages/Page404/Page404.js').default
 }];

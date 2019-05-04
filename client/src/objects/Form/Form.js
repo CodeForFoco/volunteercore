@@ -3,7 +3,7 @@ import Input from '../Input/Input.js';
 
 export default class Form extends Component {
   render () {
-    const rows = this.props.rows;
+    const { rows } = this.props;
 
     return (
       <form onSubmit={this.props.submitForm.bind(this)}>
@@ -16,8 +16,8 @@ export default class Form extends Component {
                   <div className="col" key={'form-col-' + i}>
                     <Input 
                       {...item}
-                      value={item.value || this.props[item.name]}
-                      setVal={this.props.setVal.bind(this)}
+                      value={item.value || this.props.data[item.name]}
+                      set={this.props.set.bind(this)}
                     />
                   </div>
                 );
@@ -25,7 +25,7 @@ export default class Form extends Component {
             </div>
           );
         })}
-        <input className={`btn btn-block btn-${this.props.color || 'info'}`} type="submit"/>
+        <input className={`btn btn-block btn-${this.props.color || 'primary'}`} type="submit"/>
       </form>
     );
   }

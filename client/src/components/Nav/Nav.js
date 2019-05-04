@@ -32,7 +32,7 @@ export default class Nav extends Component {
               <Link className='nav-link' to='/partners'>Partners</Link>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link' to='/dashboard'>Dashboard (Auth)</Link>
+              <Link className='nav-link' to='/dashboard/opportunities/search'>Dashboard (Auth)</Link>
             </li>
           </ul>
           <form className='form-inline my-2 my-lg-0'>
