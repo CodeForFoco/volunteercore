@@ -72,5 +72,15 @@ module.exports = {
       name: 'description',
       type: 'textarea'
     }]]
+  },
+  partners: {
+    url: '/api/partners',
+    text: ({name, job_count}) => {
+      return `${name} - ${job_count} Jobs`;
+    },
+    rows: [[{
+      label: 'Partner Name',
+      name: 'name'
+    }]]
   }
 };
