@@ -10,10 +10,10 @@ export default class PutPartner extends Component {
     super(props);
 
     this.state = {
-      id: this.props.match.params.ID,
-      name: '',
-      partner: {
-        partner_name: 'Edit "Loading..."'
+      user: {
+        email: '',
+        username: 'Undefined',
+        roles: []
       },
       formResult: {
         text: '',
@@ -24,13 +24,11 @@ export default class PutPartner extends Component {
 
   submitForm(e) {
     e.preventDefault();
-    const { name } = this.state;
-
-    axios.put('/api/partners/' + this.state.id, { name })
+    axios.put('/api/users/' + this.props.match.params.ID, this.state.user)
       .then(res => {
         this.setState({
           formResult: {
-            text: 'Partner Edited!',
+            text: 'User Edited!',
             type: 'alert-warning'
           }
         });
@@ -50,20 +48,21 @@ export default class PutPartner extends Component {
   }
 
   componentDidMount() {
-    axios.get('/api/partners/' + this.state.id)
+    axios.get('/api/users/' + this.props.match.params.ID)
       .then(res => {
-        this.setState({ partner: res.data, name: res.data.name });
+        console.log(res.data);
+        this.setState({ user: res.data });
       });
   }
 
   render () {
     return (
       <Wrap>
-        <h1>Edit Partner</h1>
+        <h1>Edit User</h1>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item"><Link to="/dashboard" className="text-info">Dashboard</Link></li>
-            <li className="breadcrumb-item">Edit Partner</li>
+            <li className="breadcrumb-item">Edit User</li>
           </ol>
         </nav>
         <div className='card border border-warning'>
@@ -72,9 +71,9 @@ export default class PutPartner extends Component {
           </div>
           <div className='card-body'>
             <Alert {...this.state.formResult}/>
-            <PutPartnerForm
+            <PutUserForm
               {...this.props}
-              {...this.state}
+              {...this.state.user}
               submitForm={this.submitForm.bind(this)}
               setByName={this.setByName.bind(this)}
             />
@@ -85,20 +84,36 @@ export default class PutPartner extends Component {
   }
 }
 
-class PutPartnerForm extends Component {
+class PutUserForm extends Component {
   render () {
     return (
       <form onSubmit={this.props.submitForm.bind(this)}>
-        <h3>Edit <u>{this.props.partner.name}</u></h3>
+        <h3>Edit <u>{this.props.username}</u></h3>
         <p>Asterisk * indicates a required field.</p>
         <Input
-          label="Organization Name"
-          name="name"
-          placeholder="Enter Name"
+          label="* Username"
+          name="username"
+          placeholder="Enter Username"
           set={this.props.setByName.bind(this)}
-          value={this.props.name}
+          value={this.props.username}
         />
-        <input className="btn btn-warning btn-block" type="submit" value="Submit Changes"/>
+        <Input
+          label="Email"
+          name="email"
+          placeholder="Enter Email"
+          set={this.props.setByName.bind(this)}
+          type="email"
+          value={this.props.email}
+        />
+        <Input
+          label="* Password"
+          name="password"
+          placehlder="Enter Password"
+          set={this.props.setByName.bind(this)}
+          type="password"
+          value={this.props.password}
+        />
+        <input className="btn btn-warning btn-block" type="submit" value="Submit"/>
       </form>
     );
   }

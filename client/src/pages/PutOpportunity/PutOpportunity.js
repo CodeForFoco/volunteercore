@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Wrap from '../../components/Wrap/Wrap.js';
 import OppForm from '../../components/OppForm/OppForm.js';
 import axios from 'axios';
 
@@ -65,7 +66,7 @@ export default class PutOpportuinty extends Component {
 
   render () {
     return (
-      <div>
+      <Wrap>
         <h1>Edit Opportunity</h1>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
@@ -86,7 +87,7 @@ export default class PutOpportuinty extends Component {
               />
           </div>
         </div>
-      </div>
+      </Wrap>
     );
   }
 }

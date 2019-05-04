@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import './SearchBar.scss';
 
 export default class SearchBar extends Component {
   constructor(props) {
@@ -32,9 +34,11 @@ export default class SearchBar extends Component {
   }
 
   render () {
+    const upper = this.props.name ? this.props.name[0].toUpperCase() + this.props.name.substr(1) : '';
+
     return (
       <form onSubmit={this.submitSearch.bind(this)}>
-        <label>Search Opportunities</label>
+        <label>Search {upper}</label>
         <div className="input-group">
           <input
             className="form-control"
@@ -45,6 +49,13 @@ export default class SearchBar extends Component {
           />
           <div className="input-group-append">
             <input className="btn btn-primary" type="submit" value="Search"/>
+            {this.props.addLink ?
+              <Link 
+                className="btn btn-info add-btn" 
+                to={this.props.addLink}>
+                  Add {this.props.addLinkName}
+              </Link>
+            : ''}
           </div>
         </div>
       </form>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Wrap from '../../components/Wrap/Wrap.js';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -25,7 +26,7 @@ export default class Opportunity extends Component {
   render () {
     const opp = this.state.opportunity;
     return (
-      <div>
+      <Wrap>
         <h1>{opp.partner_name || 'Loading...'}</h1>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
@@ -54,7 +55,7 @@ export default class Opportunity extends Component {
             <p>Commitment length: {opp.commitment_length}</p>
           </div>
         </div>
-      </div>
+      </Wrap>
     );
   }
 }
