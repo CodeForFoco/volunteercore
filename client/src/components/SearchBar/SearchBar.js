@@ -49,13 +49,7 @@ export default class SearchBar extends Component {
           />
           <div className="input-group-append">
             <input className="btn btn-primary" type="submit" value="Search"/>
-            {this.props.addLink ?
-              <Link 
-                className="btn btn-info add-btn" 
-                to={this.props.addLink}>
-                  Add {this.props.addLinkName}
-              </Link>
-            : ''}
+            {this.props.add}
           </div>
         </div>
       </form>
