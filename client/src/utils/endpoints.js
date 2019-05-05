@@ -82,5 +82,34 @@ module.exports = {
       label: 'Partner Name',
       name: 'name'
     }]]
+  },
+  tags: {
+    url: '/api/tags',
+    text: ({ name }) => {
+      return name;
+    },
+    rows: [[{
+      label: 'Tag Name',
+      name: 'name'
+    }], [{
+      label: 'Tag Category',
+      name: 'tag_category'
+    }]]
+  },
+  users: {
+    url: '/api/users',
+    text: ({ username }) => {
+      return username;
+    },
+    rows: [[{
+      label: 'Username',
+      name: 'username'
+    }], [{
+      label: 'Email',
+      name: 'email'
+    }], [{
+      label: 'Password',
+      name: 'password'
+    }]]
   }
 };

@@ -17,5 +17,8 @@ module.exports = [{
   path: '/dashboard/:endpoint/edit/:id',
   component: require('../../pages/PutPage/PutPage.js').default
 }, {
+  path: '/dashboard/:endpoint/view/:id',
+  component: require('../../pages/ViewPage/ViewPage.js').default
+}, {
   component: require('../../pages/Page404/Page404.js').default
 }];

@@ -19,7 +19,8 @@ export default class PostPage extends Component {
 
   submitForm(e) {
     e.preventDefault();
-    const { endpoint, data } = this.state;
+    const { data } = this.state;
+    const endpoint = this.props.match.params.endpoint;
 
     axios.put(`/api/${endpoint}/${data.id}`, data)
       .then(() => {

@@ -25,7 +25,9 @@ export default class Form extends Component {
             </div>
           );
         })}
-        <input className={`btn btn-block btn-${this.props.color || 'primary'}`} type="submit"/>
+        {this.props.disableSubmit ? '' : (
+          <input className={`btn btn-block btn-${this.props.color || 'primary'}`} type="submit"/>
+        )}
       </form>
     );
   }
