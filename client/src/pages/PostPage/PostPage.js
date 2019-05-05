@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Dash from '../../components/Dashboard/Dashboard.js';
 import Form from '../../objects/Form/Form.js';
 import Alert from '../../components/Alert/Alert.js';
@@ -34,7 +35,8 @@ export default class PostPage extends Component {
 
   submitForm(e) {
     e.preventDefault();
-    const { endpoint, data } = this.state;
+    const { data } = this.state;
+    const endpoint = this.props.match.params.endpoint;
 
     axios.post(`/api/${endpoint}`, data)
       .then(res => {
@@ -68,7 +70,20 @@ export default class PostPage extends Component {
     return (
       <Dash>
         <h3>Add {endpoint}</h3>
-        <br/>
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
+              <Link 
+                className="text-info"
+                to={`/dashboard/${endpoint}/search`}>
+                Search {endpoint}
+              </Link>
+            </li>
+            <li className="breadcrumb-item">
+              Add {endpoint}
+            </li>
+          </ol>
+        </nav>
         <div className="card border-info">
           <div className="card-header bg-info border-info text-light">
             Thanks for using Volunteer Force!

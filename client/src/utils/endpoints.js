@@ -83,17 +83,17 @@ module.exports = {
       name: 'name'
     }]]
   },
-  tags: {
-    url: '/api/tags',
-    text: ({ name }) => {
-      return name;
+  tag_categories: {
+    url: '/api/tag_categories',
+    text: ({ category_name, tags }) => {
+      return `${category_name}`;
     },
     rows: [[{
-      label: 'Tag Name',
-      name: 'name'
-    }], [{
       label: 'Tag Category',
-      name: 'tag_category'
+      name: 'category_name'
+    }], [{
+      label: 'Tags',
+      name: 'tags'
     }]]
   },
   users: {
