@@ -37,14 +37,12 @@ class Partner(PagininatedAPIMixin, db.Model):
 
 class Opportunity(PagininatedAPIMixin, db.Model):
     __tablename__ = 'opportunity'
-    __searchable__ = ['name', 'job_number', 'location_city', 'location_zip',
+    __searchable__ = ['name', 'location_city', 'location_zip',
                       'tags_string', 'partner_string']
 
     id = db.Column(db.Integer(), primary_key=True, index=True)
     active = db.Column(db.Boolean())
     name = db.Column(db.String(100), index=True, unique=True)
-    job_number = db.Column(db.String(50), index=True,
-                           unique=True)
     description = db.Column(db.Text())
     shift_hours = db.Column(db.Float())
     commitment_length_months = db.Column(db.Float(2))
@@ -111,7 +109,6 @@ class Opportunity(PagininatedAPIMixin, db.Model):
             'id': self.id,
             'active': self.active,
             'name': self.name,
-            'job_number': self.job_number,
             'description': self.description,
             'shift_hours': self.shift_hours,
             'commitment_length_months': self.commitment_length_months,
@@ -135,8 +132,7 @@ class Opportunity(PagininatedAPIMixin, db.Model):
 
     def from_dict(self, data, new_opportunity=False):
         field_names = [
-            'name', 'active', 'job_number',
-            'description', 'shift_hours',
+            'name', 'active', 'description', 'shift_hours',
             'commitment_length_months', 'start_date',
             'end_date', 'training_time_hours',
             'volunteers_needed', 'location_street',
