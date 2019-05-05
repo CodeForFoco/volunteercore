@@ -27,7 +27,7 @@ export default class Opportunties extends Component {
         this.setState({ searchResult: res.data });
       })
       .catch(err => {
-        alert(err);
+        this.setState({ searchError: err });
       });
   }
 
@@ -36,10 +36,9 @@ export default class Opportunties extends Component {
 
     return (
       <Wrap>
-        <h1>Opportunities</h1>
+        <h2>Search Opportunities</h2>
         <SearchBar
-          name="opportunities"
-          url="/api/opportunities"
+          endpoint='opportunities'
           set={this.set.bind(this)}
         />
         <Alert {...this.state.searchError}/>

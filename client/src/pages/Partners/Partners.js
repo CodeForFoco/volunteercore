@@ -35,8 +35,7 @@ export default class Partners extends Component {
       <Wrap>
         <h1>Partners</h1>
         <SearchBar
-          name="partners"
-          url="/api/partners"
+          endpoint="partners"
           set={this.set.bind(this)}
         />
         <br/><br/>
