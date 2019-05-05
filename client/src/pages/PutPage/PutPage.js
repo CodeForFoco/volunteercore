@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Dash from '../../components/Dashboard/Dashboard.js';
 import Form from '../../objects/Form/Form.js';
 import Alert from '../../components/Alert/Alert.js';
@@ -11,23 +12,7 @@ export default class PostPage extends Component {
     super(props);
 
     this.state = {
-      data: {
-        name: 'Code',
-        description: 'Code',
-        shift_hours: 5,
-        commitment_length: 5,
-        frequency: 'Every Monday',
-        /*start_date: 'Tue, 22 Nov 2011 06:00:00 GMT',
-        end_date: 'Tue, 22 Nov 2011 06:00:00 GMT',*/
-        training_time_required: 5,
-        volunteers_needed: 5,
-        location_street: 555,
-        location_city: 'Fort Collins',
-        location_state: 'CO',
-        location_zip: 55555,
-        partner_name: 'Code For FoCo',
-        tags_string: 'coding, children, painting'
-      },
+      data: {},
       response: {}
     };
   }
@@ -36,8 +21,8 @@ export default class PostPage extends Component {
     e.preventDefault();
     const { endpoint, data } = this.state;
 
-    axios.post(`/api/${endpoint}`, data)
-      .then(res => {
+    axios.put(`/api/${endpoint}/${data.id}`, data)
+      .then(() => {
         this.setState({
           response: {
             type: 'alert-success',
@@ -62,24 +47,46 @@ export default class PostPage extends Component {
     this.setState({ data });
   }
 
+  componentDidMount() {
+    axios.get(`/api/${this.props.match.params.endpoint}/${this.props.match.params.id}`)
+      .then(res => {
+        this.setState({ data: res.data });
+      })
+      .catch(err => {
+        this.setState({ response: err });
+      })
+  }
+
   render () {
     const endpoint = this.props.match.params.endpoint;
-    console.log(endpoint);
     return (
       <Dash>
-        <h3>Add {endpoint}</h3>
-        <br/>
-        <div className="card border-info">
-          <div className="card-header bg-info border-info text-light">
+        <h3>Edit {endpoint}</h3>
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
+              <Link 
+                className="text-info"
+                to={`/dashboard/${endpoint}/search`}>
+                Search {endpoint}
+              </Link>
+            </li>
+            <li className="breadcrumb-item">
+              Edit {endpoint}
+            </li>
+          </ol>
+        </nav>
+        <div className="card border-warning">
+          <div className="card-header bg-warning border-warning text-light">
             Thanks for using Volunteer Force!
           </div>
           <div className="card-body">
             <Form
               submitForm={this.submitForm.bind(this)}
               data={this.state.data}
-              rows={endpoints[endpoint].rows}
+              rows={endpoints[endpoint].rows || []}
               set={this.setByName.bind(this)}
-              color='info'
+              color='warning'
             />
             <br/>
             <Alert type={this.state.response.type} text={this.state.response.text}/>

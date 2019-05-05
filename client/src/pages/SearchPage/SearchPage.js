@@ -11,9 +11,20 @@ export default class SearchPage extends Component {
 
     this.state = {
       searchResult: {},
-      searchError: {},
-      endpoint: this.props.match.params.endpoint
+      searchError: {}
     };
+  }
+
+  deleteItem(id, i) {
+    axios.delete(`/api/${this.props.match.params.endpoint}/${id}`)
+      .then(() => {
+        let searchResult = this.state.searchResult;
+        searchResult.items.splice(i, 1);
+        this.setState({ searchResult });
+      })
+      .catch(err => {
+        this.setState({ searchError: err });
+      });
   }
 
   set(obj) {
@@ -62,6 +73,7 @@ export default class SearchPage extends Component {
                 {...data}
                 text={meta ? meta.text(data) : data.name || data.username}
                 endpoint={endpoint}
+                deleteItem={() => { this.deleteItem(data.id, i); }}
               />
             );
           }) : ''}
