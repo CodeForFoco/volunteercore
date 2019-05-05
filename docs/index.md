@@ -72,7 +72,7 @@ Endpoint | Method Type | Auth Required | Arguments | Description
 
 ### Opportunities
 #### Variables
-id, active, name, job_number, description, shift_hours, commitment_length, start_date, end_date, training_time_required, volunteers_needed, location_street, location_city, location_zip, tag_count, partner_name, partner_id, partner_string, frequency, tags
+id, active, name, job_number, description, shift_hours, commitment_length_months, start_date, end_date, training_time_hours, volunteers_needed, location_street, location_city, location_zip, tag_count, partner_name, partner_id, partner_string, frequency, tags
 
 #### Endpoints
 

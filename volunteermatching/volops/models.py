@@ -47,10 +47,10 @@ class Opportunity(PagininatedAPIMixin, db.Model):
                            unique=True)
     description = db.Column(db.Text())
     shift_hours = db.Column(db.Float())
-    commitment_length = db.Column(db.Float(2))
+    commitment_length_months = db.Column(db.Float(2))
     start_date = db.Column(db.Date())
     end_date = db.Column(db.Date())
-    training_time_required = db.Column(db.Integer())
+    training_time_hours = db.Column(db.Integer())
     volunteers_needed = db.Column(db.Integer())
     location_street = db.Column(db.String(100))
     location_city = db.Column(db.String(50))
@@ -114,10 +114,10 @@ class Opportunity(PagininatedAPIMixin, db.Model):
             'job_number': self.job_number,
             'description': self.description,
             'shift_hours': self.shift_hours,
-            'commitment_length': self.commitment_length,
+            'commitment_length_months': self.commitment_length_months,
             'start_date': self.start_date,
             'end_date': self.end_date,
-            'training_time_required': self.training_time_required,
+            'training_time_hours': self.training_time_hours,
             'volunteers_needed': self.volunteers_needed,
             'location_street': self.location_street,
             'location_city': self.location_city,
@@ -137,8 +137,8 @@ class Opportunity(PagininatedAPIMixin, db.Model):
         field_names = [
             'name', 'active', 'job_number',
             'description', 'shift_hours',
-            'commitment_length', 'start_date',
-            'end_date', 'training_time_required',
+            'commitment_length_months', 'start_date',
+            'end_date', 'training_time_hours',
             'volunteers_needed', 'location_street',
             'location_city', 'location_state',
             'location_zip', 'tag_count', 'partner_id'
