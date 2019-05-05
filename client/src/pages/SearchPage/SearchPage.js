@@ -11,7 +11,8 @@ export default class SearchPage extends Component {
 
     this.state = {
       searchResult: {},
-      searchError: {}
+      searchError: {},
+      endpoint: this.props.match.params.endpoint
     };
   }
 
@@ -19,9 +20,8 @@ export default class SearchPage extends Component {
     this.setState(obj);
   }
 
-  componentDidMount() {
-    const endpoint = this.props.match.params.endpoint || 'opportunities';
-    axios.get(`/api/${endpoint}`)
+  defaultSearch() {
+    axios.get(`/api/${this.props.match.params.endpoint}`)
       .then(res => {
         this.setState({ searchResult: res.data, searchError: {} });
       })
@@ -30,20 +30,19 @@ export default class SearchPage extends Component {
       });
   }
 
-  componentDidUpdate() {
-    const endpoint = this.props.match.params.endpoint || 'opportunities';
-    axios.get(`/api/${endpoint}`)
-      .then(res => {
-        this.setState({ searchResult: res.data, searchError: {} });
-      })
-      .catch(err => {
-        this.setState({ searchError: err });
-      });
+  componentDidMount() {
+    this.defaultSearch();
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.match.params.endpoint !== this.props.match.params.endpoint) {
+      this.setState({ searchResult: {}, searchError: {}}, this.defaultSearch);
+    }
   }
 
   render () {
     const items = this.state.searchResult.items || [];
-    const endpoint = this.props.match.params.endpoint || 'opportunities';
+    const endpoint = this.props.match.params.endpoint;
     const meta = endpoints[this.props.match.params.endpoint];
 
     return (
@@ -60,6 +59,7 @@ export default class SearchPage extends Component {
             return (
               <DashListItem
                 key={"dash-list-item-" + i}
+                {...data}
                 text={meta ? meta.text(data) : data.name || data.username}
                 endpoint={endpoint}
               />

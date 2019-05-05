@@ -75,8 +75,8 @@ module.exports = {
   },
   partners: {
     url: '/api/partners',
-    text: ({name, job_count}) => {
-      return `${name} - ${job_count} Jobs`;
+    text: ({name, opportunity_count}) => {
+      return `${name} - ${opportunity_count} Opps`;
     },
     rows: [[{
       label: 'Partner Name',

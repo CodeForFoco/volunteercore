@@ -64,8 +64,8 @@ class Sidebar extends Component {
             to="/dashboard/users/search">
             Users
           </Link>
-          <Link className="btn btn-block text-left btn-secondary text-muted" disabled>Settings</Link>
-          <Link className="btn btn-block text-left btn-secondary text-muted" disabled>Help</Link>
+          <Link className="btn btn-block text-left btn-secondary text-muted" disabled to="/">Settings</Link>
+          <Link className="btn btn-block text-left btn-secondary text-muted" disabled to="/">Help</Link>
         </div>
       </div>
     );
