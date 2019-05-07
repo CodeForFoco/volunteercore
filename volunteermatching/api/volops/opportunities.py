@@ -1,10 +1,9 @@
 from flask import jsonify, request, url_for
 from volunteermatching import db
 from volunteermatching.api import bp
-from volunteermatching.volops.models import Partner, Opportunity, Frequency
+from volunteermatching.volops.models import Partner, Opportunity
 from volunteermatching.api.errors import bad_request
 from volunteermatching.api.auth import token_auth
-from volunteermatching.decorators import requires_roles
 from flask_whooshalchemyplus import index_one_record
 
 
@@ -20,13 +19,32 @@ def get_opportunities_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
     search = request.args.get('search')
+    frequency_unit = request.args.get('frequency_unit')
+    frequency_modifier = request.args.get('frequency_modifier')
+
     if search:
-        data = Opportunity.to_colletion_dict(
-            Opportunity.query.whoosh_search(search, or_=True), page, per_page,
-            'api.get_opportunities_api')
+        data = Opportunity.query.whoosh_search(search, or_=True)
+        if frequency_unit and frequency_modifier:
+            data = data.filter_by(
+                frequency_unit=frequency_unit,
+                frequency_modifier=frequency_modifier)
+        elif frequency_modifier:
+            data = data.filter_by(frequency_modifier=frequency_modifier)
+        elif frequency_unit:
+            data = data.filter_by(frequency_unit=frequency_unit)
+    elif frequency_unit and frequency_modifier:
+        data = Opportunity.query.filter_by(
+            frequency_unit=frequency_unit,
+            frequency_modifier=frequency_modifier)
+    elif frequency_modifier:
+        data = Opportunity.query.filter_by(
+            frequency_modifier=frequency_modifier)
+    elif frequency_unit:
+        data = Opportunity.query.filter_by(frequency_unit=frequency_unit)
     else:
-        data = Opportunity.to_colletion_dict(
-            Opportunity.query, page, per_page, 'api.get_opportunities_api')
+        data = Opportunity.query
+    data = Opportunity.to_colletion_dict(
+            data, page, per_page, 'api.get_opportunities_api')
     return jsonify(data)
 
 # API PUT endpoint to update an opportunity
@@ -83,64 +101,4 @@ def delete_opportunity_api(id):
     db.session.delete(opportunity)
     db.session.commit()
     index_one_record(opportunity, delete=True)
-    return '', 204
-
-# API GET endpoint returns individual frequency by id
-@bp.route('/api/frequencies/<int:id>', methods=['GET'])
-def get_frequency_api(id):
-    return jsonify(Frequency.query.get_or_404(id).to_dict())
-
-# API GET endpoint returns a list of all frequencies
-@bp.route('/api/frequencies', methods=['GET'])
-def get_frequencies_api():
-    frequencies = []
-    for frequency in Frequency.query.all():
-        frequencies.append(frequency.name)
-    data = {
-        'frequencies': frequencies
-    }
-    return jsonify(data)
-
-# API PUT endpoint to update a frequency
-@bp.route('/api/frequencies/<int:id>', methods=['PUT'])
-@token_auth.login_required
-@requires_roles('Admin')
-def update_frequency_api(id):
-    frequency = Frequency.query.get_or_404(id)
-    data = request.get_json() or {}
-    if 'name' in data and data['name'] != frequency.name and \
-            Frequency.query.filter_by(name=data['name']).first():
-        return bad_request('please use a different frequency name')
-    frequency.from_dict(data, new_frequency=False)
-    db.session.commit()
-    return jsonify(frequency.to_dict())
-
-# API POST endpoint to create a frequency
-@bp.route('/api/frequencies', methods=['POST'])
-@token_auth.login_required
-@requires_roles('Admin')
-def create_frequency_api():
-    data = request.get_json() or {}
-    if 'name' not in data:
-        return bad_request('must include frequency name field')
-    frequency = Frequency()
-    frequency.from_dict(data, new_frequency=True)
-    db.session.add(frequency)
-    db.session.commit()
-    response = jsonify(frequency.to_dict())
-    response.status_code = 201
-    response.headers['Location'] = url_for(
-        'api.get_frequency_api', id=frequency.id)
-    return response
-
-# API DELETE endpoint to delete a frequency
-@bp.route('/api/frequencies/<int:id>', methods=['DELETE'])
-@token_auth.login_required
-@requires_roles('Admin')
-def delete_frequency_api(id):
-    if not Frequency.query.filter_by(id=id).first():
-        return bad_request('this frequency does not exist')
-    frequency = Frequency.query.get_or_404(id)
-    db.session.delete(frequency)
-    db.session.commit()
     return '', 204

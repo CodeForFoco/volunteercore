@@ -56,21 +56,16 @@ class Opportunity(PagininatedAPIMixin, db.Model):
     location_zip = db.Column(db.String(10))
     tags_string = db.Column(db.String(200))
     partner_string = db.Column(db.String(100))
+    frequency_unit = db.Column(db.String(25))
+    frequency_modifier = db.Column(db.String(5))
 
     # One to many relationships
     partner_id = db.Column(db.Integer, db.ForeignKey('partner.id'))
-    frequency_id = db.Column(db.Integer, db.ForeignKey('frequency.id'))
 
     # Many to many relations
     tags = db.relationship(
         'Tag', secondary='tags', lazy='subquery',
         backref=db.backref('opportunities', lazy=True))
-
-    def get_frequency(self):
-        if self.frequency:
-            return self.frequency.name
-        else:
-            return None
 
     def get_tags(self, categorized=True):
         if self.tags:
@@ -124,7 +119,8 @@ class Opportunity(PagininatedAPIMixin, db.Model):
             'partner_name': Partner.query.filter_by(
                 id=self.partner_id).first().name,
             'partner_string': self.partner_string,
-            'frequency': self.get_frequency()
+            'frequency_unit': self.frequency_unit,
+            'frequency_modifier': self.frequency_modifier
         }
         if self.tags:
             data['tags'] = self.get_tags()
@@ -137,7 +133,8 @@ class Opportunity(PagininatedAPIMixin, db.Model):
             'end_date', 'training_time_hours',
             'volunteers_needed', 'location_street',
             'location_city', 'location_state',
-            'location_zip', 'tag_count', 'partner_id'
+            'location_zip', 'tag_count', 'partner_id',
+            'frequency_unit', 'frequency_modifier'
         ]
         for field in field_names:
             if field in data:
@@ -146,10 +143,6 @@ class Opportunity(PagininatedAPIMixin, db.Model):
             if field in data:
                 setattr(self, field, datetime.strptime(data[field],
                         '%Y%m%d').date())
-        if 'frequency' in data:
-            frequency = Frequency.query.filter_by(
-                name=data['frequency']).first()
-            setattr(self, 'frequency', frequency)
         if 'tags' in data:
             tag_ids = []
             for tag in data['tags']:
@@ -213,24 +206,3 @@ class Tag(PagininatedAPIMixin, db.Model):
 
     def __repr__(self):
         return '<Tag {}>'.format(self.name)
-
-
-class Frequency(db.Model):
-    id = db.Column(db.Integer(), primary_key=True, index=True)
-    name = db.Column(db.String(50), index=True, unique=True)
-    opportunities = db.relationship(
-                    'Opportunity', backref='frequency', lazy='dynamic')
-
-    def to_dict(self):
-        data = {
-            'id': self.id,
-            'name': self.name
-        }
-        return data
-
-    def from_dict(self, data, new_frequency=False):
-        if 'name' in data:
-            setattr(self, 'name', data['name'])
-
-    def __repr__(self):
-        return '<Frequency {}>'.format(self.name)
