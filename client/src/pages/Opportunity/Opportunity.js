@@ -42,7 +42,6 @@ export default class Opportunity extends Component {
             <h2><u>{opp.name}</u> - {opp.partner_name}</h2>
             <p>
               {opp.location_street}, {opp.location_city}, {opp.location_zip}
-              - Job #{opp.job_number || '?'}
               - {opp.volunteers_needed} Volunteers needed
             </p>
             <p>{opp.description}</p>
