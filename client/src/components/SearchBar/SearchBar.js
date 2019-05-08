@@ -9,15 +9,14 @@ export default class SearchBar extends Component {
 
     this.state = {
       search: '',
-      url: this.props.url,
     };
   }
 
   submitSearch(e) {
     e.preventDefault();
-    const { search, url } = this.state;
+    const { search } = this.state;
 
-    axios.get(`${url}?search=${search}`)
+    axios.get(`/api/${this.props.endpoint}?search=${search}`)
       .then(res => {
         this.props.set({ searchResult: res.data });
       })
@@ -34,7 +33,7 @@ export default class SearchBar extends Component {
   }
 
   render () {
-    const upper = this.props.name ? this.props.name[0].toUpperCase() + this.props.name.substr(1) : '';
+    const upper = this.props.endpoint ? this.props.endpoint[0].toUpperCase() + this.props.endpoint.substr(1) : '';
 
     return (
       <form onSubmit={this.submitSearch.bind(this)}>
@@ -49,13 +48,11 @@ export default class SearchBar extends Component {
           />
           <div className="input-group-append">
             <input className="btn btn-primary" type="submit" value="Search"/>
-            {this.props.addLink ?
-              <Link 
-                className="btn btn-info add-btn" 
-                to={this.props.addLink}>
-                  Add {this.props.addLinkName}
+            {this.props.endpoint && this.props.addBtn ? (
+              <Link className="btn btn-info add-btn" to={`/dashboard/${this.props.endpoint}/add`}>
+                Add {this.props.endpoint}
               </Link>
-            : ''}
+            ): ''}
           </div>
         </div>
       </form>

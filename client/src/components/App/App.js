@@ -3,17 +3,11 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ROUTES from './routes.js';
 import './App.scss';
 
-import Nav from '../../components/Nav/Nav.js';
-import Footer from '../../components/Footer/Footer.js';
-
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {},
-      opportunities: {},
-      partners: {},
-      cookie: ''
+      user: {}
     }
   }
 
