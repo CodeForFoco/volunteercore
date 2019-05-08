@@ -74,7 +74,7 @@ def create_user_api():
             if not Role.query.filter_by(name=role).first():
                 return bad_request('that is not an existing role')
     user = User()
-    user.from_dict(data, new_user=True)
+    user.from_dict(data)
     db.session.add(user)
     db.session.commit()
     response = jsonify(user.to_dict())
@@ -96,7 +96,8 @@ def update_user_api(id):
         for role in data['roles']:
             if not Role.query.filter_by(name=role).first():
                 return bad_request('that is not an existing role')
-    user.from_dict(data, new_user=False)
+    user.from_dict(data)
+    db.session.add(user)
     db.session.commit()
     return jsonify(user.to_dict())
 

@@ -74,7 +74,7 @@ class User(PagininatedAPIMixin, UserMixin, db.Model):
             data['email'] = self.email
         return data
 
-    def from_dict(self, data, new_user=False):
+    def from_dict(self, data):
         for field in ['email', 'username', 'roles']:
             role_ids = []
             if field in data and field == 'roles':
@@ -83,7 +83,7 @@ class User(PagininatedAPIMixin, UserMixin, db.Model):
                 self.roles = role_ids
             elif field in data:
                 setattr(self, field, data[field])
-        if new_user and 'password' in data:
+        if 'password' in data:
             self.hash_password(data['password'])
 
 
