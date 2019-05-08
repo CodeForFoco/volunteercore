@@ -20,7 +20,7 @@ export default class PostPage extends Component {
         frequency: 'Every Monday',
         /*start_date: 'Tue, 22 Nov 2011 06:00:00 GMT',
         end_date: 'Tue, 22 Nov 2011 06:00:00 GMT',*/
-        training_time_required: 5,
+        training_time_hours: 5,
         volunteers_needed: 5,
         location_street: 555,
         location_city: 'Fort Collins',
@@ -51,7 +51,7 @@ export default class PostPage extends Component {
         this.setState({
           response: {
             type: 'alert-danger',
-            text: err.response.data.message ? 
+            text: err.response.data.message ?
               'Error: ' + err.response.data.message : err.message
           }
         })
@@ -73,7 +73,7 @@ export default class PostPage extends Component {
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <Link 
+              <Link
                 className="text-info"
                 to={`/dashboard/${endpoint}/search`}>
                 Search {endpoint}

@@ -49,13 +49,13 @@ export default class OpportunityForm extends Component {
           value={this.props.commitment_length}
         />
         <Input
-          label="Training Required (Eg. 5 hours)"
-          name="training_time_required"
+          label="Training Hours Required"
+          name="training_time_hours"
           placeholder="Enter Hours"
           test={() => true}
           type="number"
           set={this.props.setByName.bind(this)}
-          value={this.props.training_time_required}
+          value={this.props.training_time_hours}
         />
         <Input
           label="Volunteers needed"
@@ -66,7 +66,7 @@ export default class OpportunityForm extends Component {
           set={this.props.setByName.bind(this)}
           value={this.props.volunteers_needed}
         />
-        <Input 
+        <Input
           label="Tags (Eg. 'children, fun, painting')"
           name="tags_string"
           placeholder="Enter tags (comma seperated list)"
@@ -82,7 +82,7 @@ export default class OpportunityForm extends Component {
         <br/>
         <div className="form-group">
           <label className="control-label">* Description</label>
-          <textarea 
+          <textarea
             className="form-control"
             name="description"
             placeholder="Enter Description (500 characters max)"
@@ -163,7 +163,7 @@ class Location extends Component {
               name="location_city"
               placeholder="Enter Location"
               set={this.props.setByName.bind(this)}
-              value={this.props.location_city}    
+              value={this.props.location_city}
               />
           </div>
         </div>
@@ -186,7 +186,7 @@ class Location extends Component {
               placeholder="Enter Zip"
               set={this.props.setByName.bind(this)}
               test={() => {
-                return 9999 < this.props.location_zip && 
+                return 9999 < this.props.location_zip &&
                   this.props.location_zip < 100000 &&
                   Number.isInteger(parseInt(this.props.location_zip));
               }}

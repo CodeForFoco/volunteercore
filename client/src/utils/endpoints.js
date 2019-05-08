@@ -51,9 +51,9 @@ module.exports = {
       name: 'frequency',
       optional: true
     }], [{
-      label: 'Training Required',
+      label: 'Training Hours Required',
       ex: '(hours)',
-      name: 'training_time_required',
+      name: 'training_time_hours',
       type: 'number',
       optional: true
     }], [{

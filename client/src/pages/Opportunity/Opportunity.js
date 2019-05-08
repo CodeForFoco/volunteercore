@@ -41,14 +41,14 @@ export default class Opportunity extends Component {
           <div className="card-body">
             <h2><u>{opp.name}</u> - {opp.partner_name}</h2>
             <p>
-              {opp.location_street}, {opp.location_city}, {opp.location_zip} 
+              {opp.location_street}, {opp.location_city}, {opp.location_zip}
               - Job #{opp.job_number || '?'}
               - {opp.volunteers_needed} Volunteers needed
             </p>
             <p>{opp.description}</p>
-            <p>Shift: {opp.shift_hours}hrs + 
-              {opp.training_time_required ? (
-                ` ${opp.training_time_required}hrs of training`
+            <p>Shift: {opp.shift_hours}hrs +
+              {opp.training_time_hours ? (
+                ` ${opp.training_time_hours}hrs of training`
               ) : ''}
             </p>
             <p>Date: {opp.start_date || 'Date?'} to {opp.end_date || 'Date?'}</p>
