@@ -32,13 +32,21 @@ def register(app):
                 click.echo('Admin role already exists')
 
         def auto_create_admin():
+            admin_role = Role.query.filter_by(name='Admin').first()
             if not User.query.filter_by(username='admin').first():
                 admin = User(username='admin',
-                             roles=Role.query.filter_by(name="Admin"))
+                             roles=[admin_role])
                 admin.hash_password('password')
                 db.session.add(admin)
                 db.session.commit()
                 click.echo('Default admin user created')
+            elif admin_role not in \
+            User.query.filter_by(username='admin').first().roles:
+                admin = User.query.filter_by(username='admin').first()
+                admin.roles.append(admin_role)
+                db.session.add(admin)
+                db.session.commit()
+                click.echo('Admin role added to admin user')
             else:
                 click.echo('Admin user already exists')
         auto_create_roles()
