@@ -72,14 +72,14 @@ Endpoint | Method Type | Auth Required | Arguments | Description
 
 ### Opportunities
 #### Variables
-id, active, name, job_number, description, shift_hours, commitment_length, start_date, end_date, training_time_required, volunteers_needed, location_street, location_city, location_zip, tag_count, partner_name, partner_id, partner_string, frequency, tags
+id, active, name, description, shift_hours, commitment_length_months, start_date, end_date, training_time_hours, volunteers_needed, location_street, location_city, location_zip, tag_count, partner_name, partner_id, partner_string, frequency_unit, frequency_modifier, tags
 
 #### Endpoints
 
 Endpoint | Method Type | Auth Required | Arguments | Description
 ---------|-------------|---------------|-----------|------------
 /api/opportunities/{id} | GET | | | Returns opportunity data specified by id
-/api/opportunities | GET | | page, per_page, search | Returns all opportunities paginated and filtered by search
+/api/opportunities | GET | | page, per_page, search, frequency_unit, frequency_modifier | Returns all opportunities paginated and filtered by search, frequency_unit, and frequency_modifier
 /api/opportunities | POST | Token | | Create a new opportunity
 /api/opportunities/{id} | PUT | Token | | Update existing opportunity specified by id
 /api/opportunities/{id} | DELETE | Token | | Delete opportunity specified by id
