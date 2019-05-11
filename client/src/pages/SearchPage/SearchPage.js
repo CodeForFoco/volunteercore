@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Dash from '../../components/Dashboard/Dashboard.js';
 import SearchBar from '../../components/SearchBar/SearchBar.js';
 import DashListItem from '../../components/DashListItem/DashListItem.js';
@@ -16,7 +17,11 @@ export default class SearchPage extends Component {
   }
 
   deleteItem(id, i) {
-    axios.delete(`/api/${this.props.match.params.endpoint}/${id}`)
+    axios.delete(`/api/${this.props.match.params.endpoint}/${id}`, {}, {
+      headers: {
+        Authorization: 'Bearer ' + this.props.token
+      }
+    })
       .then(() => {
         let searchResult = this.state.searchResult;
         searchResult.items.splice(i, 1);
@@ -32,7 +37,11 @@ export default class SearchPage extends Component {
   }
 
   defaultSearch() {
-    axios.get(`/api/${this.props.match.params.endpoint}`)
+    axios.get(`/api/${this.props.match.params.endpoint}`, {}, {
+      headers: {
+        Authorization: 'Bearer ' + this.props.token
+      }
+    })
       .then(res => {
         this.setState({ searchResult: res.data, searchError: {} });
       })
@@ -52,6 +61,10 @@ export default class SearchPage extends Component {
   }
 
   render () {
+    if (!this.props.token) {
+      return <Redirect to="/"/>;
+    }
+
     const items = this.state.searchResult.items || [];
     const endpoint = this.props.match.params.endpoint;
     const meta = endpoints[this.props.match.params.endpoint];
