@@ -21,7 +21,6 @@ export default class Signin extends Component {
   submitForm(e) {
     e.preventDefault();
     const { username, password } = this.state;
-    console.log('root:root -> ' + window.btoa('root:root'));
     axios.post('/api/token/auth', {}, 
       { headers: { 
         Authorization: 'Basic ' + window.btoa(username + ':' + password)
@@ -35,10 +34,6 @@ export default class Signin extends Component {
   }
 
   render () {
-    if (this.props.token) {
-      return <Redirect to="/dashboard/opportunities/search"/>
-    }
-
     return (
       <Wrap>
         <div className="card">

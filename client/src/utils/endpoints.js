@@ -45,12 +45,12 @@ module.exports = {
       name: 'commitment_length',
       type: 'number',
       optional: true
-    }], [{
+    }], /*[{
       label: 'Frequency',
       ex: 'Eg. "Every other Friday"',
       name: 'frequency',
       optional: true
-    }], [{
+    }], */[{
       label: 'Training Hours Required',
       ex: '(hours)',
       name: 'training_time_hours',

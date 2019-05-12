@@ -17,7 +17,9 @@ export default class ViewPage extends Component {
 
   componentDidMount() {
     const { endpoint, id } = this.props.match.params;
-    axios.get(`/api/${endpoint}/${id}`)
+    axios.get(`/api/${endpoint}/${id}`, {}, { headers: {
+      Authorization: 'Bearer ' + this.props.token
+    }})
       .then(res => {
         this.setState({ searchResult: res.data });
       })

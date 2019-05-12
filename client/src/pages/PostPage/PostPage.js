@@ -38,7 +38,11 @@ export default class PostPage extends Component {
     const { data } = this.state;
     const endpoint = this.props.match.params.endpoint;
 
-    axios.post(`/api/${endpoint}`, data)
+    axios.post(`/api/${endpoint}`, data, {
+      headers: {
+        Authorization: 'Bearer ' + this.props.token
+      }
+    })
       .then(res => {
         this.setState({
           response: {
@@ -66,7 +70,6 @@ export default class PostPage extends Component {
 
   render () {
     const endpoint = this.props.match.params.endpoint;
-    console.log(endpoint);
     return (
       <Dash>
         <h3>Add {endpoint}</h3>
