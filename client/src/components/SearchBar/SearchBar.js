@@ -42,7 +42,7 @@ export default class SearchBar extends Component {
           <input
             className="form-control"
             name="search"
-            placeholder="Search Opportunities"
+            placeholder={`Search ${this.props.endpoint}`}
             onChange={this.setByName.bind(this)}
             value={this.state.search}
           />
