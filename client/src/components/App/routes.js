@@ -8,6 +8,9 @@ module.exports = [{
   path: '/opportunities',
   component: require('../../pages/Opportunities/Opportunities').default
 }, {
+  path: '/opportunities/:id',
+  component: require('../../pages/Opportunity/Opportunity.js').default
+}, {
   path: '/partners',
   component: require('../../pages/Partners/Partners.js').default
 }, {
