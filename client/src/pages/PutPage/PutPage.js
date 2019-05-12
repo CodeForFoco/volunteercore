@@ -69,7 +69,7 @@ export default class PostPage extends Component {
   render () {
     const endpoint = this.props.match.params.endpoint;
     return (
-      <Dash>
+      <Dash {...this.props}>
         <h3>Edit {endpoint}</h3>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">

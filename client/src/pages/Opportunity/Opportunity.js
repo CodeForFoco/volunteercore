@@ -25,7 +25,7 @@ export default class Opportunity extends Component {
   render () {
     const opp = this.state.opportunity;
     return (
-      <Wrap>
+      <Wrap {...this.props}>
         <h1>{opp.partner_name || 'Loading...'}</h1>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">

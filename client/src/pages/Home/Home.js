@@ -5,7 +5,7 @@ import Wrap from '../../components/Wrap/Wrap.js';
 export default class Home extends Component {
   render () {
     return (
-      <Wrap>
+      <Wrap {...this.props}>
         <div className="jumbotron">
           <h1 className="display-3">Welcome!</h1>
           <p className="lead">Welcome to Volunteer Force. Start volunteering today!</p>

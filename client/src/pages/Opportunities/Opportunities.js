@@ -35,7 +35,7 @@ export default class Opportunties extends Component {
     const items = this.state.searchResult ? this.state.searchResult.items : [];
 
     return (
-      <Wrap>
+      <Wrap {...this.props}>
         <h2>Search Opportunities</h2>
         <SearchBar
           endpoint='opportunities'

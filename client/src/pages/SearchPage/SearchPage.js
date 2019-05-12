@@ -70,7 +70,7 @@ export default class SearchPage extends Component {
     const meta = endpoints[this.props.match.params.endpoint];
 
     return (
-      <Dash>
+      <Dash {...this.props}>
         <h3>Search {endpoint}</h3>
         <SearchBar
           endpoint={endpoint}

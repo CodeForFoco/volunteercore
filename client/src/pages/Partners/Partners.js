@@ -32,7 +32,7 @@ export default class Partners extends Component {
     const items = this.state.searchResult ? this.state.searchResult.items : '';
 
     return (
-      <Wrap>
+      <Wrap {...this.props}>
         <h1>Partners</h1>
         <SearchBar
           endpoint="partners"

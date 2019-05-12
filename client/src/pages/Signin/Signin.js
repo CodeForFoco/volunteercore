@@ -35,7 +35,7 @@ export default class Signin extends Component {
 
   render () {
     return (
-      <Wrap>
+      <Wrap {...this.props}>
         <div className="card">
           <div className="card-header">
             Welcome to Volunteer Force!

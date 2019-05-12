@@ -31,9 +31,15 @@ export default class Nav extends Component {
             <li className='nav-item'>
               <Link className='nav-link' to='/partners'>Partners</Link>
             </li>
-            <li className='nav-item'>
-              <Link className='nav-link' to='/dashboard/opportunities/search'>Dashboard (Auth)</Link>
-            </li>
+            {this.props.token ? (
+              <li className='nav-item'>
+                <Link className='nav-link' to='/dashboard/opportunities/search'>Dashboard</Link>
+              </li>
+            ): (
+              <li className='nav-item'>
+                <Link className='nav-link' to='/'>Sign In</Link>
+              </li>
+            )}
           </ul>
           <form className='form-inline my-2 my-lg-0'>
             <input className='form-control mr-sm-2' type='text' placeholder='Search Opportunities'/>

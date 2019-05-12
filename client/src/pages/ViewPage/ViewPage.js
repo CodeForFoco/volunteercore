@@ -41,7 +41,7 @@ export default class ViewPage extends Component {
   render () {
     const endpoint = this.props.match.params.endpoint;
     return (
-      <Dash>
+      <Dash {...this.props}>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">

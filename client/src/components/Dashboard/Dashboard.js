@@ -8,7 +8,7 @@ export default class Dashboard extends Component {
   render () {
     return (
       <div className="dash-page-wrap">
-        <Nav/>
+        <Nav {...this.props}/>
         <div className="dash">
           <Sidebar/>
           <div className="dash-content">
