@@ -61,10 +61,6 @@ export default class SearchPage extends Component {
   }
 
   render () {
-    if (!this.props.token) {
-      return <Redirect to="/"/>;
-    }
-
     const items = this.state.searchResult.items || [];
     const endpoint = this.props.match.params.endpoint;
     const meta = endpoints[this.props.match.params.endpoint];

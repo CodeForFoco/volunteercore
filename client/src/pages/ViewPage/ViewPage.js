@@ -21,6 +21,7 @@ export default class ViewPage extends Component {
       Authorization: 'Bearer ' + this.props.token
     }})
       .then(res => {
+        console.log(res.data);
         this.setState({ searchResult: res.data });
       })
       .catch(err => {

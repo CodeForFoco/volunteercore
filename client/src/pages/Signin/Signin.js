@@ -22,7 +22,6 @@ export default class Signin extends Component {
 
   submitForm(e) {
     e.preventDefault();
-    console.log('submited');
     const { username, password } = this.state;
     axios.post('/api/token/auth', {}, 
       { headers: { 
