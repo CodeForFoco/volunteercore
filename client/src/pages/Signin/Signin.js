@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Wrap from '../../components/Wrap/Wrap';
 import Form from '../../objects/Form/Form.js';
+import Alert from '../../components/Alert/Alert.js';
 import axios from 'axios';
 
 export default class Signin extends Component {
@@ -10,7 +11,8 @@ export default class Signin extends Component {
 
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      response: {}
     }
   }
 
@@ -20,6 +22,7 @@ export default class Signin extends Component {
 
   submitForm(e) {
     e.preventDefault();
+    console.log('submited');
     const { username, password } = this.state;
     axios.post('/api/token/auth', {}, 
       { headers: { 
@@ -29,8 +32,17 @@ export default class Signin extends Component {
         this.props.set({ token: res.data.token });
       })
       .catch(err => {
-        alert('Authorization failed. Please try again.');
+        this.setState({ response: { type: 'alert-danger', text: err.statusText }});
       });
+  }
+
+  componentDidMount() {
+    if (this.props.token) {
+      this.setState({ response: { 
+        type: 'alert-success', 
+        text: <>You signed in! <Link to="/dashboard/opportunities/search">Click here</Link> to go to the dashboard.</>
+      }});
+    }
   }
 
   render () {
@@ -57,6 +69,8 @@ export default class Signin extends Component {
                 type: 'password'
               }]]}
             />
+            <br/>
+            <Alert type={this.state.response.type} text={this.state.response.text}/>
           </div>
         </div>
       </Wrap>
