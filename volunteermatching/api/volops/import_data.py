@@ -29,18 +29,18 @@ def import_tags():
         import_csv.save(os.path.join(Config.UPLOAD_FOLDER, import_filename))
         with open(os.path.join(
                 Config.UPLOAD_FOLDER, import_filename), 'r') as open_csv:
-            file_read = csv.reader(open_csv, delimiter=',')
+            file_read = csv.DictReader(open_csv, delimiter=',')
             items_imported = 0
             for row in file_read:
-                tag = Tag(name=row[2])
-                if Tag.query.filter_by(name=row[2]).first():
+                tag = Tag(name=row['Descript'])
+                if Tag.query.filter_by(name=row['Descript']).first():
                     continue
-                if not TagCategory.query.filter_by(name=row[0]).first():
-                    tag_category = TagCategory(name=row[0])
+                if not TagCategory.query.filter_by(name=row['Type']).first():
+                    tag_category = TagCategory(name=row['Type'])
                     db.session.add(tag_category)
                     db.session.commit()
                 tag.tag_category_id = TagCategory.query.filter_by(
-                    name=row[0]).first().id
+                    name=row['Type']).first().id
                 db.session.add(tag)
                 db.session.commit()
                 items_imported += 1
