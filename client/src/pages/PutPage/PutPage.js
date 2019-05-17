@@ -53,7 +53,7 @@ export default class PostPage extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/api/${this.props.match.params.endpoint}/${this.props.match.params.id}`, {}, {
+    axios.get(`/api/${this.props.match.params.endpoint}/${this.props.match.params.id}`, {
       headers: {
         Authorization: 'Bearer ' + this.props.token
       }
