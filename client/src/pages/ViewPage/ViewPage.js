@@ -15,20 +15,6 @@ export default class ViewPage extends Component {
     };
   }
 
-  componentDidMount() {
-    const { endpoint, id } = this.props.match.params;
-    axios.get(`/api/${endpoint}/${id}`, { headers: {
-      Authorization: 'Bearer ' + this.props.token
-    }})
-      .then(res => {
-        console.log(res.data);
-        this.setState({ searchResult: res.data });
-      })
-      .catch(err => {
-        this.setState({ searchError: err });
-      });
-  }
-
   disableFields(myRows) {
     let rows = JSON.parse(JSON.stringify(myRows));
     return rows.map(row => {
@@ -37,6 +23,35 @@ export default class ViewPage extends Component {
         return item;
       })
     })
+  }
+
+  formatDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
+
+  componentDidMount() {
+    const { endpoint, id } = this.props.match.params;
+    axios.get(`/api/${endpoint}/${id}`, { headers: {
+      Authorization: 'Bearer ' + this.props.token
+    }})
+      .then(res => {
+        let d = new Date(res.data.start_date);
+        res.data.start_date = this.formatDate(res.data.start_date);
+        res.data.end_date = this.formatDate(res.data.end_date);
+        console.log(res.data);
+        this.setState({ searchResult: res.data });
+      })
+      .catch(err => {
+        this.setState({ searchError: err });
+      });
   }
 
   render () {

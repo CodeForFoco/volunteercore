@@ -19,8 +19,8 @@ export default class PostPage extends Component {
         commitment_length_months: 5,
         frequency_unit: '',
         frequency_modifier: '',
-        /*start_date: 'Tue, 22 Nov 2011 06:00:00 GMT',
-        end_date: 'Tue, 22 Nov 2011 06:00:00 GMT',*/
+        start_date: '',
+        end_date: '',
         training_time_hours: 5,
         volunteers_needed: 5,
         location_street: 555,
@@ -34,10 +34,19 @@ export default class PostPage extends Component {
     };
   }
 
+  removeDashes(str) {
+    let copy = str;
+    return copy.replace(/-/gi, '');
+  }
+
   submitForm(e) {
     e.preventDefault();
-    const { data } = this.state;
+    let { data } = this.state;
     const endpoint = this.props.match.params.endpoint;
+
+    data.start_date = this.removeDashes(data.start_date);
+    data.end_date = this.removeDashes(data.end_date);
+    console.log('Submitting \n' + JSON.stringify(data));
 
     axios.post(`/api/${endpoint}`, data, {
       headers: {
@@ -61,7 +70,8 @@ export default class PostPage extends Component {
 
   setByName(e) {
     let data = this.state.data;
-    data[e.target.name] = e.target.value;
+    let val = e.target.value;
+    data[e.target.name] = val;
     this.setState({ data });
   }
 
