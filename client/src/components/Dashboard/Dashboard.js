@@ -6,6 +6,7 @@ import './Dashboard.scss';
 
 export default class Dashboard extends Component {
   render () {
+    console.log(JSON.stringify(this.props.user));
     return (
       <div className="dash-page-wrap">
         <Nav {...this.props}/>
