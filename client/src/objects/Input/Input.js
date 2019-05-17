@@ -34,7 +34,18 @@ export default class Input extends Component {
             disabled={this.props.disabled}
             required={this.props.required}
           />: this.props.type === 'select' ? (
-            <select className="form-control">
+            <select 
+              className="form-control"
+              autoComplete={this.props.autoComplete || 'null'}
+              className={`form-control ${modified ? valid ? 'is-valid' : 'is-invalid' : ''}`}
+              name={this.props.name}
+              placeholder={this.props.placeholder || 'Enter ' + (this.props.label || this.props.name)} 
+              value={this.props.value}
+              onChange={this.props.set.bind(this)}
+              onBlur={this.updateValid.bind(this)}
+              disabled={this.props.disabled}
+              required={this.props.required}  
+            >
               {this.props.options.map(option => {
                 return <option value={option}>{option}</option>
               })}

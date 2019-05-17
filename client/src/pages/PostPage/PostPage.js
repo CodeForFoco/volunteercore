@@ -19,8 +19,8 @@ export default class PostPage extends Component {
         commitment_length_months: 5,
         frequency_unit: '',
         frequency_modifier: '',
-        start_date: 'Tue, 22 Nov 2011 06:00:00 GMT',
-        end_date: 'Tue, 22 Nov 2011 06:00:00 GMT',
+        /*start_date: 'Tue, 22 Nov 2011 06:00:00 GMT',
+        end_date: 'Tue, 22 Nov 2011 06:00:00 GMT',*/
         training_time_hours: 5,
         volunteers_needed: 5,
         location_street: 555,
