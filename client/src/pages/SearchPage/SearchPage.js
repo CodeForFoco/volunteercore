@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Dash from '../../components/Dashboard/Dashboard.js';
 import SearchBar from '../../components/SearchBar/SearchBar.js';
 import DashListItem from '../../components/DashListItem/DashListItem.js';
@@ -37,7 +37,7 @@ export default class SearchPage extends Component {
   }
 
   defaultSearch() {
-    axios.get(`/api/${this.props.match.params.endpoint}`, {}, {
+    axios.get(`/api/${this.props.match.params.endpoint}`, {
       headers: {
         Authorization: 'Bearer ' + this.props.token
       }

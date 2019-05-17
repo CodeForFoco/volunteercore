@@ -28,6 +28,7 @@ export default class Signin extends Component {
         Authorization: 'Basic ' + window.btoa(username + ':' + password)
       }})
       .then(res => {
+        console.log('Bearer: ' + res.data.token);
         this.props.set({ token: res.data.token });
       })
       .catch(err => {
@@ -41,6 +42,17 @@ export default class Signin extends Component {
         type: 'alert-success', 
         text: <>You signed in! <Link to="/dashboard/opportunities/search">Click here</Link> to go to the dashboard.</>
       }});
+      console.log('Bearer: ' + this.props.token);
+      axios.get('/api/users', {}, {
+        headers: {
+          Authorization: 'Bearer ' + this.props.token
+        }})
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => {
+
+        });
     }
   }
 
