@@ -40,17 +40,20 @@ module.exports = {
       type: 'date',
       optional: true
     }], [{
-      label: 'Commitment Length',
-      ex: 'days',
-      name: 'commitment_length',
+      label: 'Commitment Months',
+      name: 'commitment_length_months',
       type: 'number',
       optional: true
-    }], /*[{
-      label: 'Frequency',
-      ex: 'Eg. "Every other Friday"',
-      name: 'frequency',
+    }], [{
+      label: 'Frequency Modifier',
+      ex: 'Eg. Week, Month, Monday, Weekend',
+      name: 'frequency_modifier',
       optional: true
-    }], */[{
+    }], [{
+      label: 'Frequency Unit',
+      ex: 'Eg. Every Other, every, 1st, etc.',
+      name: 'frequency_unit'
+    }], [{
       label: 'Training Hours Required',
       ex: '(hours)',
       name: 'training_time_hours',
