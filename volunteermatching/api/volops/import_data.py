@@ -12,7 +12,6 @@ from volunteermatching.api.errors import bad_request
 from volunteermatching.api.auth import token_auth
 from volunteermatching.decorators import requires_roles
 from flask_whooshalchemyplus import index_one_record
-from werkzeug.utils import secure_filename
 
 
 # API POST endpoint for importing Tag data
@@ -72,19 +71,19 @@ def import_opportunities():
                         name=row['Jobname']).first():
                     continue
                 opportunity = Opportunity(
-                        name = row['Jobname'],
-                        location_street = row['Address1'],
-                        location_city = row['City'],
-                        location_state = row['State'],
-                        location_zip = row['Zip'],
-                        volunteers_needed = row['Requested']
+                        name=row['Jobname'],
+                        location_street=row['Address1'],
+                        location_city=row['City'],
+                        location_state=row['State'],
+                        location_zip=row['Zip'],
+                        volunteers_needed=row['Requested']
                     )
                 if row['Reqdate']:
-                    opportunity.start_date = datetime.strptime(row['Reqdate'],
-                            '%Y%m%d').date()
+                    opportunity.start_date = datetime.strptime(
+                        row['Reqdate'], '%Y%m%d').date()
                 if row['Enddate']:
-                    opportunity.end_date = datetime.strptime(row['Enddate'],
-                            '%Y%m%d').date()
+                    opportunity.end_date = datetime.strptime(
+                        row['Enddate'], '%Y%m%d').date()
                 if row['Address2']:
                     Opportunity.location_street = row['Address1'] \
                         + ', ' + row['Address2']
@@ -93,10 +92,12 @@ def import_opportunities():
                     partner = Partner(name=row['Sitename'])
                     db.session.add(partner)
                     db.session.commit()
+                    index_one_record(partner)
                 opportunity.partner_id = Partner.query.filter_by(
                     name=row['Sitename']).first().id
                 db.session.add(opportunity)
                 db.session.commit()
+                index_one_record(opportunity)
                 items_imported += 1
         open_csv.close()
         os.remove(os.path.join(Config.UPLOAD_FOLDER, import_filename))
