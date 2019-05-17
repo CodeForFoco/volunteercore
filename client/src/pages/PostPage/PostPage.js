@@ -16,8 +16,9 @@ export default class PostPage extends Component {
         name: 'Code',
         description: 'Code',
         shift_hours: 5,
-        commitment_length: 5,
-        frequency: 'Every Monday',
+        commitment_length_months: 5,
+        frequency_unit: '',
+        frequency_modifier: '',
         start_date: 'Tue, 22 Nov 2011 06:00:00 GMT',
         end_date: 'Tue, 22 Nov 2011 06:00:00 GMT',
         training_time_hours: 5,
@@ -44,21 +45,17 @@ export default class PostPage extends Component {
       }
     })
       .then(res => {
-        this.setState({
-          response: {
-            type: 'alert-success',
-            text: 'Success!'
-          }
-        })
+        this.setState({ response: {
+          type: 'alert-success',
+          text: 'Success!'
+        }});
       })
       .catch(err => {
-        this.setState({
-          response: {
-            type: 'alert-danger',
-            text: err.response.data.message ?
-              'Error: ' + err.response.data.message : err.message
-          }
-        })
+        this.setState({ response: {
+          type: 'alert-danger',
+          text: err.response.data.message ?
+            'Error: ' + err.response.data.message : err.message
+        }});
       });
   }
 
