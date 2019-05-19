@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default class Nav extends Component {
   constructor(props) {
@@ -8,6 +9,17 @@ export default class Nav extends Component {
     this.state = {
       open: false
     };
+  }
+
+  signout() {
+    axios.post('/api/token/logout', {}, { headers: {
+      Authorization: 'Bearer ' + this.props.token
+    }}).then(res => {
+      window.localStorage.setItem('token', undefined);
+      window.location.href = '/';
+    }).catch(err => {
+      alert('Sign Out Failed. Please try refreshing the page.');
+    });
   }
 
   toggleOpen() {
@@ -32,9 +44,14 @@ export default class Nav extends Component {
               <Link className='nav-link' to='/partners'>Partners</Link>
             </li>
             {this.props.token ? (
-              <li className='nav-item'>
-                <Link className='nav-link' to='/dashboard/opportunities/search'>Dashboard</Link>
-              </li>
+              <>
+                <li className='nav-item'>
+                  <Link className='nav-link' to='/dashboard/opportunities/search'>Dashboard</Link>
+                </li>
+                <li className='nav-item'>
+                  <span className='nav-link' onClick={this.signout.bind(this)}>Sign Out</span>
+                </li>
+              </>
             ): (
               <li className='nav-item'>
                 <Link className='nav-link' to='/'>Sign In</Link>

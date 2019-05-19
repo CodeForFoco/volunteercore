@@ -18,7 +18,7 @@ class App extends Component {
 
   componentWillMount() {
     const token = window.localStorage.getItem('token');
-    if (token) {
+    if (token && token !== 'undefined') {
       this.setState({ token });
     }
   }
