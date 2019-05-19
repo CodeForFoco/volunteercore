@@ -16,6 +16,13 @@ class App extends Component {
     this.setState(obj, cb);
   }
 
+  componentWillMount() {
+    const token = window.localStorage.getItem('token');
+    if (token) {
+      this.setState({ token });
+    }
+  }
+
   render() {
     return (
       <Router>

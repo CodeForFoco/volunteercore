@@ -28,7 +28,9 @@ export default class Signin extends Component {
         Authorization: 'Basic ' + window.btoa(username + ':' + password)
       }})
       .then(res => {
-        this.props.set({ token: res.data.token });
+        this.props.set({ token: res.data.token }, () => {
+          window.localStorage.setItem('token', res.data.token);
+        });
       })
       .catch(err => {
         this.setState({ response: { type: 'alert-danger', text: err.statusText }});
@@ -49,7 +51,7 @@ export default class Signin extends Component {
       <Wrap {...this.props}>
         <div className="card">
           <div className="card-header">
-            Welcome to Volunteer Force!
+            Hello from Volunteer Force!
           </div>
           <div className="card-body">
             <h2>Sign In</h2>
@@ -69,7 +71,7 @@ export default class Signin extends Component {
               }]]}
             />
             <br/>
-            <Alert type={this.state.response.type} text={this.state.response.text}/>
+            <Alert {...this.state.response}/>
           </div>
         </div>
       </Wrap>
