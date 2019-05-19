@@ -19,8 +19,6 @@ export default class PostPage extends Component {
         commitment_length_months: 5,
         frequency_unit: '',
         frequency_modifier: '',
-        start_date: '',
-        end_date: '',
         training_time_hours: 5,
         volunteers_needed: 5,
         location_street: 555,
@@ -44,8 +42,12 @@ export default class PostPage extends Component {
     let { data } = this.state;
     const endpoint = this.props.match.params.endpoint;
 
-    data.start_date = this.removeDashes(data.start_date);
-    data.end_date = this.removeDashes(data.end_date);
+    if (data.start_date) {
+      data.start_date = this.removeDashes(data.start_date);
+    }
+    if (data.end_date) {
+      data.end_date = this.removeDashes(data.end_date);
+    }
 
     axios.post(`/api/${endpoint}`, data, {
       headers: {
