@@ -1,4 +1,9 @@
-module.exports = {
+// This file was created with bad design.
+// Moving forward, this "metadata" and logic
+// will be moved to pages for each endpoint.
+import axios from 'axios';
+
+export default {
   opportunities: {
     url: '/api/opportunities',
     text: ({ name, partner_name }) => {
@@ -7,6 +12,16 @@ module.exports = {
     rows: [[{
       label: 'Partner',
       name: 'partner_name',
+      type: 'select',
+      getOptions: (cb) => {
+        axios.get('/api/partners')
+          .then(res => {
+            cb(undefined, res);
+          })
+          .catch(err => {
+            cb(err, undefined);
+          });
+      }
     }], [{
       label: 'Address',
       name: 'location_street'

@@ -46,7 +46,6 @@ export default class PostPage extends Component {
 
     data.start_date = this.removeDashes(data.start_date);
     data.end_date = this.removeDashes(data.end_date);
-    console.log('Submitting \n' + JSON.stringify(data));
 
     axios.post(`/api/${endpoint}`, data, {
       headers: {
