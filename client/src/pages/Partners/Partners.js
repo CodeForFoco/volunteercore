@@ -9,8 +9,7 @@ export default class Partners extends Component {
     super(props);
 
     this.state = {
-      searchResult: {},
-      searchError: {}
+      searchResult: {}
     }
   }
 
@@ -24,12 +23,12 @@ export default class Partners extends Component {
         this.setState({ searchResult: res.data});
       })
       .catch(err => {
-        alert(err);
+        alert("Search failed. Try reloading the page.");
       });
   }
 
   render () {
-    const items = this.state.searchResult ? this.state.searchResult.items : '';
+    const items = this.state.searchResult ? this.state.searchResult.items : false;
 
     return (
       <Wrap {...this.props}>
@@ -39,7 +38,7 @@ export default class Partners extends Component {
           set={this.set.bind(this)}
         />
         <br/><br/>
-          {items ? items.map(({ name, opportunity_count }) => {
+          {items && items.length > 0 ? items.map(({ name, opportunity_count }) => {
             return (
               <div>
                 <h4><u>{name}</u></h4>
@@ -53,7 +52,7 @@ export default class Partners extends Component {
                 <br/>
               </div>
             );
-          }) : ''}
+          }) : <p className="text-danger">No Partners found.</p>}
       </Wrap>
     );
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import Alert from '../../components/Alert/Alert.js';
 import Dash from '../../components/Dashboard/Dashboard.js';
 import SearchBar from '../../components/SearchBar/SearchBar.js';
 import DashListItem from '../../components/DashListItem/DashListItem.js';
@@ -28,7 +28,10 @@ export default class SearchPage extends Component {
         this.setState({ searchResult });
       })
       .catch(err => {
-        this.setState({ searchError: err });
+        this.setState({ searchError: {
+          text: err.response.status + ' ' + err.response.statusText,
+          type: 'alert-danger'
+        }});
       });
   }
 
@@ -46,7 +49,10 @@ export default class SearchPage extends Component {
         this.setState({ searchResult: res.data, searchError: {} });
       })
       .catch(err => {
-        this.setState({ searchError: err });
+        this.setState({ searchError: {
+          text: err.response.status + ' ' + err.response.statusText,
+          type: 'alert-danger'
+        }});
       });
   }
 
@@ -74,8 +80,9 @@ export default class SearchPage extends Component {
           addBtn={true}
         />
         <br/>
+        <Alert {...this.state.searchError}/>
         <ul className="list-group">
-          {items ? items.map((data, i) => {
+          {items && items.length > 0 ? items.map((data, i) => {
             return (
               <DashListItem
                 key={"dash-list-item-" + i}
@@ -85,7 +92,7 @@ export default class SearchPage extends Component {
                 deleteItem={() => { this.deleteItem(data.id, i); }}
               />
             );
-          }) : ''}
+          }) : <p className="text-danger">None Found.</p>}
         </ul>
       </Dash>
     );
