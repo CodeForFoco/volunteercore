@@ -33,12 +33,15 @@ def import_tags():
             items_imported = 0
             for row in file_read:
                 tag = Tag(name=row['Descript'])
-                if Tag.query.filter_by(name=row['Descript']).first():
-                    continue
                 if not TagCategory.query.filter_by(name=row['Type']).first():
                     tag_category = TagCategory(name=row['Type'])
                     db.session.add(tag_category)
                     db.session.commit()
+                if Tag.query.filter_by(
+                        name=row['Descript'],
+                        tag_category_id=TagCategory.query.filter_by(
+                        name=row['Type']).first().id).first():
+                    continue
                 tag.tag_category_id = TagCategory.query.filter_by(
                     name=row['Type']).first().id
                 db.session.add(tag)
