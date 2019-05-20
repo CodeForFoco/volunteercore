@@ -17,7 +17,7 @@ export default class Form extends Component {
                     <Input 
                       {...item}
                       value={item.value || this.props.data[item.name]}
-                      set={this.props.set.bind(this)}
+                      setValue={this.props.set.bind(this)}
                     />
                   </div>
                 );
