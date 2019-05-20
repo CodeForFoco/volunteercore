@@ -30,6 +30,11 @@ export default class Signin extends Component {
       .then(res => {
         this.props.set({ token: res.data.token }, () => {
           window.localStorage.setItem('token', res.data.token);
+          axios.get('/api/users/1', { headers: {
+            Authorization: 'Bearer ' + res.data.token
+          }}).then(() => {
+            this.props.set({ user: { admin: true }});
+          });
         });
       })
       .catch(err => {
