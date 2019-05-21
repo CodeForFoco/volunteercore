@@ -69,10 +69,10 @@ export default class PostPage extends Component {
       });
   }
 
-  setByName(e) {
+  setValue(obj) {
     let data = this.state.data;
-    let val = e.target.value;
-    data[e.target.name] = val;
+    let key = Object.keys(obj)[0];
+    data[key] = obj[key];
     this.setState({ data });
   }
 
@@ -103,9 +103,10 @@ export default class PostPage extends Component {
             <Form
               submitForm={this.submitForm.bind(this)}
               data={this.state.data}
-              rows={endpoints[endpoint].rows}
-              set={this.setByName.bind(this)}
-              color='info'
+              fields={endpoints[endpoint].fields}
+              setValue={this.setValue.bind(this)}
+              submitBtnClass='btn-info'
+              token={this.props.token}
             />
             <br/>
             <Alert type={this.state.response.type} text={this.state.response.text}/>

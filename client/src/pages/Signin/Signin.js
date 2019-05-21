@@ -16,7 +16,7 @@ export default class Signin extends Component {
     }
   }
 
-  set(obj) {
+  setValue(obj) {
     this.setState(obj);
   }
 
@@ -64,16 +64,14 @@ export default class Signin extends Component {
             <Form
               data={this.state}
               submitForm={this.submitForm.bind(this)}
-              set={(e) => { this.set({ [e.target.name] : e.target.value }); }}
+              setValue={this.setValue.bind(this)}
               color='info'
-              rows={[[{
-                label: 'Username',
+              fields={[{
                 name: 'username'
-              }], [{
-                label: 'Password',
+              }, {
                 name: 'password',
                 type: 'password'
-              }]]}
+              }]}
             />
             <br/>
             <Alert {...this.state.response}/>
