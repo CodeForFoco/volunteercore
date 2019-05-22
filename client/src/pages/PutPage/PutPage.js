@@ -4,30 +4,30 @@ import Dash from '../../components/Dashboard/Dashboard.js';
 import Form from '../../objects/Form/Form.js';
 import Alert from '../../components/Alert/Alert.js';
 import axios from 'axios';
-
 import endpoints from '../../utils/endpoints.js';
+import parse from '../../utils/parseFields.js';
 
 export default class PostPage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      data: {},
+      data: endpoints.fieldsToState(this.props.match.params.endpoint),
       response: {}
     };
   }
 
   submitForm(e) {
     e.preventDefault();
-    const { data } = this.state;
+    let { data } = this.state;
     const endpoint = this.props.match.params.endpoint;
+    data = parse.parseData(data, this.props.match.params.endpoint);
 
     axios.put(`/api/${endpoint}/${data.id}`, data, {
       headers: {
         Authorization: 'Bearer ' + this.props.token
       }
-    })
-      .then(() => {
+    }).then(() => {
         this.setState({
           response: {
             type: 'alert-success',
@@ -46,20 +46,21 @@ export default class PostPage extends Component {
       });
   }
 
-  setByName(e) {
+  setValue(obj) {
     let data = this.state.data;
-    data[e.target.name] = e.target.value;
+    let key = Object.keys(obj)[0];
+    data[key] = obj[key];
     this.setState({ data });
   }
 
   componentDidMount() {
+    this._isMounted = true;
     axios.get(`/api/${this.props.match.params.endpoint}/${this.props.match.params.id}`, {
       headers: {
         Authorization: 'Bearer ' + this.props.token
       }
-    })
-      .then(res => {
-        this.setState({ data: res.data });
+    }).then(res => {
+          this.setState({ data: parse.formatData(res.data, this.props.match.params.endpoint) });
       })
       .catch(err => {
         this.setState({ response: err });
@@ -93,9 +94,9 @@ export default class PostPage extends Component {
             <Form
               submitForm={this.submitForm.bind(this)}
               data={this.state.data}
-              rows={endpoints[endpoint].rows || []}
-              set={this.setByName.bind(this)}
-              color='warning'
+              fields={endpoints[endpoint].fields}
+              setValue={this.setValue.bind(this)}
+              submitBtnClass='btn-warning'
             />
             <br/>
             <Alert type={this.state.response.type} text={this.state.response.text}/>

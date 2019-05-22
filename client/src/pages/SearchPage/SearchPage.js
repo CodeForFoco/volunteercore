@@ -17,11 +17,9 @@ export default class SearchPage extends Component {
   }
 
   deleteItem(id, i) {
-    axios.delete(`/api/${this.props.match.params.endpoint}/${id}`, {}, {
-      headers: {
+    axios.delete(`/api/${this.props.match.params.endpoint}/${id}`, { headers: {
         Authorization: 'Bearer ' + this.props.token
-      }
-    })
+      }})
       .then(() => {
         let searchResult = this.state.searchResult;
         searchResult.items.splice(i, 1);
@@ -73,8 +71,9 @@ export default class SearchPage extends Component {
 
     return (
       <Dash {...this.props}>
-        <h3>Search {endpoint}</h3>
+        <h3>{`Search ${endpoints[endpoint] ? endpoints[endpoint].title : endpoint}`}</h3>
         <SearchBar
+          title={endpoints[endpoint] ? endpoints[endpoint].title : ''}
           endpoint={endpoint}
           set={this.set.bind(this)}
           addBtn={true}

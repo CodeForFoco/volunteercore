@@ -56,7 +56,7 @@ class Sidebar extends Component {
           </Link>
           <Link 
             className="btn btn-block text-left btn-secondary"
-            to="/dashboard/tag_categories/search">
+            to="/dashboard/tags/search">
             Tags
           </Link>
           {this.props.user && this.props.user.admin ? (
