@@ -60,8 +60,7 @@ export default class PostPage extends Component {
         Authorization: 'Bearer ' + this.props.token
       }
     }).then(res => {
-      console.log(res.data);
-          this.setState({ data: parse.formatData(res.data, this.props.match.params.endpoint) });
+        this.setState({ data: parse.formatData(res.data, this.props.match.params.endpoint) });
       })
       .catch(err => {
         this.setState({ response: err });
