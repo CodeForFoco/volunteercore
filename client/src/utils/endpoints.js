@@ -1,138 +1,152 @@
-// This file was created with bad design.
-// Moving forward, this "metadata" and logic
-// will be moved to pages for each endpoint.
-import axios from 'axios';
+// "metadata" for endpoints. Not sure if this
+// is the best way to handle separate pages.
+//import ArrayInput from '../objects/ArrayInput/ArrayInput';
+import Select from '../objects/Select/Select';
+import TextArea from '../objects/TextArea/TextArea';
 
-export default {
+const frequency_modifier = [
+  'day',
+  'week',
+  'month'
+];
+
+const frequency_unit = [
+  'every',
+  'every other',
+  '1st',
+  '2nd',
+  '3rd',
+  '4th'
+];
+
+//const roles = [
+
+//];
+
+const endpoints = {
   opportunities: {
-    url: '/api/opportunities',
-    text: ({ name, partner_name }) => {
-      return `${name} - ${partner_name}`;
+    title: 'Opportunities',
+    endpoint: '/api/opportunities',
+    text(data) {
+      return `${data.partner_name} | ${data.name}`;
     },
-    rows: [[{
-      label: 'Partner',
+    fields: [{
       name: 'partner_name',
-      type: 'select',
-      getOptions: (cb) => {
-        axios.get('/api/partners')
-          .then(res => {
-            cb(undefined, res);
-          })
-          .catch(err => {
-            cb(err, undefined);
-          });
+      component: Select,
+      getOptions: {
+        endpoint: '/api/partners',
+        property: 'name'
       }
-    }], [{
-      label: 'Address',
-      name: 'location_street'
-    }, {
-      label: 'City',
-      name: 'location_city'
-    }], [{
-      label: 'State',
-      name: 'location_state',
-      value: 'CO',
-      disabled: true
-    }, {
-      label: 'Zip',
+    }, [{
+        name: 'location_street'
+      }, {
+        name: 'location_city'
+    }], {
       name: 'location_zip',
       type: 'number'
-    }], [{
-      label: 'Opportunity Name',
+    }, {
       name: 'name'
-    }], [{
-      label: 'Shift Hours',
+    }, {
       name: 'shift_hours',
       type: 'number'
-    }], [{
-      label: 'Start Date',
-      name: 'start_date',
-      type: 'date',
-      optional: true
-    }, {
-      label: 'End Date',
-      name: 'end_date',
-      type: 'date',
-      optional: true
-    }], [{
-      label: 'Commitment Months',
+    }, [{
+        name: 'start_date',
+        type: 'date'
+      }, {
+        name: 'end_date',
+        type: 'date'
+    }], {
       name: 'commitment_length_months',
-      type: 'number',
-      optional: true
-    }], [{
-      label: 'Frequency Unit',
-      ex: 'Eg. Every, 1st',
-      name: 'frequency_unit',
-      optional: true,
-      options: ['every', 'every other', '1st', '2nd', '3rd', '4th'],
-      type: 'select'
+      type: 'number'
+    }, [{
+        name: 'frequency_unit',
+        component: Select,
+        options: frequency_unit
+      }, {
+        name: 'frequency_modifier',
+        component: Select,
+        options: frequency_modifier
+    }], {
+      name: 'training_hours_required',
+      type: 'number'
     }, {
-      label: 'Frequency Modifier',
-      ex: 'Eg. Day, Week',
-      name: 'frequency_modifier',
-      optional: true,
-      options: ['day', 'week', 'weekend', 'month', 'year'],
-      type: 'select'
-    }], [{
-      label: 'Training Hours Required',
-      ex: 'hours',
-      name: 'training_time_hours',
-      type: 'number',
-      optional: true
-    }], [{
-      label: 'Volunteers Needed',
       name: 'volunteers_needed',
-      type: 'number',
-      optional: true
-    }], [{
-      label: 'Tags',
-      ex: 'Eg. "children, art"',
-      name: 'tags_string',
-      placeholder: 'Enter Tags (Eg. children, art, games)',
-      optional: true
-    }], [{
-      label: 'Description',
+      type: 'number'
+    }, {
+      name: 'tags',
+      component: Select,
+      getOptions: {
+        endpoint: '/api/tag_categories',
+        property: 'category_name'
+      }
+    }, {
       name: 'description',
-      type: 'textarea'
-    }]]
+      component: TextArea
+    }],
   },
   partners: {
-    url: '/api/partners',
-    text: ({name, opportunity_count}) => {
-      return `${name} - ${opportunity_count} Opps`;
+    title: 'Partners',
+    endpoint: '/api/partners',
+    text(data) {
+      return `${data.name} | ${data.opportunity_count}`;
     },
-    rows: [[{
-      label: 'Partner Name',
+    fields: [{
       name: 'name'
-    }]]
+    }]
   },
   tag_categories: {
-    url: '/api/tag_categories',
-    text: ({ category_name, tags }) => {
-      return `${category_name}`;
+    title: 'Tags',
+    endpoint: '/api/tag_categories',
+    text(data) {
+      return `${data.category_name} | ${data.tags.length} Tags`;
     },
-    rows: [[{
-      label: 'Tag Category',
+    fields: [{
       name: 'category_name'
-    }], [{
-      label: 'Tags',
+    }, {
       name: 'tags'
-    }]]
+    }]
   },
   users: {
-    url: '/api/users?include_email=true',
-    text: ({ username }) => {
-      return username;
+    title: 'Users',
+    endpoint: '/api/users',
+    text(data) {
+      return `${data.roles.indexOf('Admin') !== -1 ? 'Admin' : 'User'} | ${data.username}`;
     },
-    rows: [[{
-      label: 'Username',
+    fields: [{
       name: 'username'
-    }], [{
-      label: 'Email',
-      name: 'email'
-    }], [{
-      label: 'Password',
-      name: 'password'
-    }]]
+    }, {
+      name: 'password',
+      type: 'password'
+    }, {
+      name: 'roles',
+    }]
+  },
+  fieldsToState(endpoint) {
+    const fields = endpoints[endpoint].fields;
+    let obj = {};
+    fields.forEach((item) => {
+      if (Array.isArray(item)) {
+        item.forEach((child) => {
+          if (child.name) obj[child.name] = '';  
+        });
+      }
+      if (item.name) obj[item.name] = '';
+    })
+    return obj;
+  },
+  squashFields(endpoint) {
+    const fields = endpoints[endpoint].fields;
+    let obj = {};
+    fields.forEach((item) => {
+      if (Array.isArray(item)) {
+        item.forEach((child) => {
+          obj[child.name] = child;
+        });
+      }
+      obj[item.name] = item;
+    })
+    return obj;
   }
-};
+}
+
+export default endpoints;
