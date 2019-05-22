@@ -40,3 +40,10 @@
     padding: 2rem 15%;
   }
 }
+
+.btn-disabled {
+  &:hover {
+    background: transparent !important;
+    cursor: not-allowed;
+  }
+}

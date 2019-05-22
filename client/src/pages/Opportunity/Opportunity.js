@@ -8,13 +8,12 @@ export default class Opportunity extends Component {
     super(props);
 
     this.state = {
-      opportunity: {},
-      id: this.props.match.params.ID
+      opportunity: {}
     }
   }
 
   componentDidMount() {
-    axios.get('/api/opportunities/' + this.state.id)
+    axios.get('/api/opportunities/' + this.props.match.params.id)
       .then(res => {
         this.setState({ opportunity: res.data });
       })
@@ -26,7 +25,7 @@ export default class Opportunity extends Component {
   render () {
     const opp = this.state.opportunity;
     return (
-      <Wrap>
+      <Wrap {...this.props}>
         <h1>{opp.partner_name || 'Loading...'}</h1>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">

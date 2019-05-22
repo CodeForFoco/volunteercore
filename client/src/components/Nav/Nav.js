@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default class Nav extends Component {
   constructor(props) {
@@ -8,6 +9,17 @@ export default class Nav extends Component {
     this.state = {
       open: false
     };
+  }
+
+  signout() {
+    axios.post('/api/token/logout', {}, { headers: {
+      Authorization: 'Bearer ' + this.props.token
+    }}).then(res => {
+      window.localStorage.setItem('token', undefined);
+      window.location.href = '/';
+    }).catch(err => {
+      alert('Sign Out Failed. Please try refreshing the page.');
+    });
   }
 
   toggleOpen() {
@@ -31,14 +43,26 @@ export default class Nav extends Component {
             <li className='nav-item'>
               <Link className='nav-link' to='/partners'>Partners</Link>
             </li>
-            <li className='nav-item'>
-              <Link className='nav-link' to='/dashboard/opportunities/search'>Dashboard (Auth)</Link>
-            </li>
+            {this.props.token ? (
+              <>
+                <li className='nav-item'>
+                  <Link className='nav-link' to='/dashboard/opportunities/search'>Dashboard</Link>
+                </li>
+                <li className='nav-item'>
+                  <span className='nav-link' onClick={this.signout.bind(this)}>Sign Out</span>
+                </li>
+              </>
+            ): (
+              <li className='nav-item'>
+                <Link className='nav-link' to='/'>Sign In</Link>
+              </li>
+            )}
           </ul>
+          {/*
           <form className='form-inline my-2 my-lg-0'>
             <input className='form-control mr-sm-2' type='text' placeholder='Search Opportunities'/>
             <button className='btn btn-secondary my-2 my-sm-0' type='submit'>Search</button>
-          </form>
+          </form>*/}
         </div>
       </nav>
     );

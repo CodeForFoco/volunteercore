@@ -34,15 +34,16 @@ export default class SearchBar extends Component {
 
   render () {
     const upper = this.props.endpoint ? this.props.endpoint[0].toUpperCase() + this.props.endpoint.substr(1) : '';
+    const title = this.props.title;
 
     return (
       <form onSubmit={this.submitSearch.bind(this)}>
-        <label>Search {upper}</label>
+        <label>Search {title || upper}</label>
         <div className="input-group">
           <input
             className="form-control"
             name="search"
-            placeholder="Search Opportunities"
+            placeholder={`Search ${title || upper}`}
             onChange={this.setByName.bind(this)}
             value={this.state.search}
           />

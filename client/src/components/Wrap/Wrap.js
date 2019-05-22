@@ -6,7 +6,7 @@ export default class DefaultWrap extends Component {
   render () {
     return (
       <>
-        <Nav/>
+        <Nav {...this.props}/>
         <div className='container-fluid'>
           <div className='row justify-content-center'>
             <div className='col-sm-12 col-md-10 col-lg-7'>

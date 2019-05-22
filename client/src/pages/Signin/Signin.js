@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Wrap from '../../components/Wrap/Wrap';
 import Form from '../../objects/Form/Form.js';
+import Alert from '../../components/Alert/Alert.js';
 import axios from 'axios';
 
 export default class Signin extends Component {
@@ -10,40 +11,52 @@ export default class Signin extends Component {
 
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      response: {}
     }
   }
 
-  set(obj) {
+  setValue(obj) {
     this.setState(obj);
   }
 
   submitForm(e) {
     e.preventDefault();
     const { username, password } = this.state;
-    console.log('root:root -> ' + window.btoa('root:root'));
     axios.post('/api/token/auth', {}, 
       { headers: { 
         Authorization: 'Basic ' + window.btoa(username + ':' + password)
       }})
       .then(res => {
-        this.props.set({ token: res.data.token });
+        this.props.set({ token: res.data.token }, () => {
+          window.localStorage.setItem('token', res.data.token);
+          axios.get('/api/users/1', { headers: {
+            Authorization: 'Bearer ' + res.data.token
+          }}).then(() => {
+            this.props.set({ user: { admin: true }});
+          });
+        });
       })
       .catch(err => {
-        alert('Authorization failed. Please try again.');
+        this.setState({ response: { type: 'alert-danger', text: err.statusText }});
       });
   }
 
-  render () {
+  componentDidMount() {
     if (this.props.token) {
-      return <Redirect to="/dashboard/opportunities/search"/>
+      this.setState({ response: { 
+        type: 'alert-success', 
+        text: <>You signed in! <Link to="/dashboard/opportunities/search">Click here</Link> to go to the dashboard.</>
+      }});
     }
+  }
 
+  render () {
     return (
-      <Wrap>
+      <Wrap {...this.props}>
         <div className="card">
           <div className="card-header">
-            Welcome to Volunteer Force!
+            Hello from Volunteer Force!
           </div>
           <div className="card-body">
             <h2>Sign In</h2>
@@ -51,17 +64,17 @@ export default class Signin extends Component {
             <Form
               data={this.state}
               submitForm={this.submitForm.bind(this)}
-              set={(e) => { this.set({ [e.target.name] : e.target.value }); }}
+              setValue={this.setValue.bind(this)}
               color='info'
-              rows={[[{
-                label: 'Username',
+              fields={[{
                 name: 'username'
-              }], [{
-                label: 'Password',
+              }, {
                 name: 'password',
                 type: 'password'
-              }]]}
+              }]}
             />
+            <br/>
+            <Alert {...this.state.response}/>
           </div>
         </div>
       </Wrap>
