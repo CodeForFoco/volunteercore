@@ -2,6 +2,7 @@
 // is the best way to handle separate pages.
 import ArrayInput from '../objects/ArrayInput/ArrayInput';
 import Select from '../objects/Select/Select';
+import SelectMany from '../objects/SelectMany/SelectMany';
 import TextArea from '../objects/TextArea/TextArea';
 
 const frequency_modifier = [
@@ -74,7 +75,7 @@ const endpoints = {
       type: 'number'
     }, {
       name: 'tags',
-      component: Select,
+      component: SelectMany,
       getOptions: {
         endpoint: '/api/tag_categories',
         property: 'category_name'

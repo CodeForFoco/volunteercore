@@ -54,6 +54,7 @@ export default class PostPage extends Component {
   }
 
   componentDidMount() {
+    console.log(this.state.data);
     this._isMounted = true;
     axios.get(`/api/${this.props.match.params.endpoint}/${this.props.match.params.id}`, {
       headers: {
@@ -97,6 +98,7 @@ export default class PostPage extends Component {
               fields={endpoints[endpoint].fields}
               setValue={this.setValue.bind(this)}
               submitBtnClass='btn-warning'
+              token={this.props.token}
             />
             <br/>
             <Alert type={this.state.response.type} text={this.state.response.text}/>
