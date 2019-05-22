@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 export default class Input extends Component {
-<<<<<<< HEAD
   constructor(props) {
     super(props);
 
@@ -35,25 +34,6 @@ export default class Input extends Component {
           required={this.props.required}
         />
       </div>
-=======
-  render () {
-    const { name, placeholder, value, label, type } = this.props;
-
-    return (
-      <>
-        <label>{label || placeholder || name}</label>
-        <div className="form-group">
-          <input
-            className="form-control"
-            name={name}
-            onChange={this.props.setValue.bind(this)}
-            placeholder={this.props.placeholder || this.props.name}
-            type={type || 'text'}
-            value={value}
-          />
-        </div>
-      </>
->>>>>>> react
     );
   }
 }
