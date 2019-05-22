@@ -23,7 +23,7 @@ Header example:
 * Opportunities
 * Tags
 * Tag Categories
-
+* Import Data
 
 ### Token
 #### Variables
@@ -115,3 +115,44 @@ Endpoint | Method Type | Auth Required | Arguments | Description
 /api/tag_categories | POST | Token and Admin role | | Create a new tag category
 /api/tag_categories/{id} | PUT | Token and Admin role | | Update existing tag category specified by id
 /api/tag_categories/{id} | DELETE | Token and Admin role | | Delete tag category specified by id
+
+---
+
+### Import Data
+The import end point allows importing a csv file to bulk import opportunities, tags, and applying tags to opportunities. Each endpoint requires a specific set of columns with the first row labeled to identify the column. All endpoints expect a file form field named 'file'.
+
+#### Opportunities
+Endpoint: /api/import/opportunities
+
+Column names:
+* opportunity
+* partner
+* location_street1
+* location_street2
+* location_city
+* location_state
+* location_zip
+* volunteers_needed
+
+#### Tags
+Endpoint: /api/import/tags
+
+Column names:
+* tag
+* tag_category
+
+#### Opportunity Tags
+Endpoint: /api/import/opportunity_tags
+
+Column names:
+* opportunity
+* tag
+* tag_category
+
+#### Endpoints
+
+Endpoint | Method Type | Auth Required | Arguments | Description
+---------|-------------|---------------|-----------|------------
+/api/import/opportunities | POST | Token and Admin role | | See above
+/api/import/tags | POST | Token and Admin role | | See above
+/api/import/opportunity_tags | POST | Token and Admin role | | See above

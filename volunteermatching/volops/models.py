@@ -184,7 +184,7 @@ class TagCategory(PagininatedAPIMixin, db.Model):
 
 class Tag(PagininatedAPIMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
-    name = db.Column(db.String(60), index=True, unique=True)
+    name = db.Column(db.String(60), index=True, unique=False)
     tag_category_id = db.Column(db.Integer, db.ForeignKey('tag_category.id'))
 
     def to_dict(self):
