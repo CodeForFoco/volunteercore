@@ -33,8 +33,8 @@ def get_partners_api():
 @token_auth.login_required
 def create_partner_api():
     data = request.get_json() or {}
-    if 'name' not in data:
-        return bad_request('must include partner name field')
+    if 'name' not in data or data['name'] == "":
+        return bad_request('must include a partner name')
     if Partner.query.filter_by(name=data['name']).first():
         return bad_request('this partner already exists')
     partner = Partner()
@@ -54,6 +54,8 @@ def create_partner_api():
 def update_partner_api(id):
     partner = Partner.query.get_or_404(id)
     data = request.get_json() or {}
+    if data['name'] == "":
+        return bad_request('must include a non-empty partner name')
     if 'name' in data and data['name'] != partner.name and \
             Partner.query.filter_by(name=data['name']).first():
         return bad_request('please use a different partner name')
