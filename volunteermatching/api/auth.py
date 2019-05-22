@@ -22,7 +22,7 @@ def verify_password(username, password):
 # Defines the error response if HTTPBasicAuth fails
 @basic_auth.error_handler
 def basic_auth_error_handler():
-    return error_response(401)
+    return error_response(400, message='username or password incorrect')
 
 # Defines the HTTPTokenAuth callback function token verification used
 # when token auth is used on a route function
