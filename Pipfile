@@ -13,11 +13,12 @@ python-dotenv = "*"
 flask-login = "*"
 passlib = "*"
 gunicorn = "*"
-psycopg2-binary = "*"
+"psycopg2" = "*"
 
 [dev-packages]
 httpie = "*"
 "flake8" = "*"
+"psycopg2-binary" = "*"
 
 [requires]
 python_version = "3.6"

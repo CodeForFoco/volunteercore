@@ -42,7 +42,7 @@ class Opportunity(PagininatedAPIMixin, db.Model):
 
     id = db.Column(db.Integer(), primary_key=True, index=True)
     active = db.Column(db.Boolean())
-    name = db.Column(db.String(100), index=True, unique=True)
+    name = db.Column(db.String(100), index=True)
     description = db.Column(db.Text())
     shift_hours = db.Column(db.Float())
     commitment_length_months = db.Column(db.Float(2))
@@ -184,7 +184,7 @@ class TagCategory(PagininatedAPIMixin, db.Model):
 
 class Tag(PagininatedAPIMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True, index=True)
-    name = db.Column(db.String(60), index=True, unique=True)
+    name = db.Column(db.String(60), index=True, unique=False)
     tag_category_id = db.Column(db.Integer, db.ForeignKey('tag_category.id'))
 
     def to_dict(self):
