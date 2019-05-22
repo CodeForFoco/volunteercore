@@ -53,8 +53,9 @@ def get_opportunities_api():
 def update_opportunity_api(id):
     opportunity = Opportunity.query.get_or_404(id)
     data = request.get_json() or {}
-    if 'name' in data and data['name'] != opportunity.name and \
-            Opportunity.query.filter_by(name=data['name']).first():
+    if 'name' in data and Opportunity.query.filter_by(
+            name=data['name'], partner_id=Partner.query.filter_by(
+            name=data['partner_name']).first().id).first():
         return bad_request('please use a different opportunity name')
     if 'partner_name' in data:
         data['partner_id'] = Partner.query.filter_by(
@@ -74,8 +75,11 @@ def create_opportunity_api():
     data = request.get_json() or {}
     if 'name' not in data or 'partner_name' not in data:
         return bad_request('must include opportunity and partner name field')
-    if Opportunity.query.filter_by(name=data['name']).first():
-        return bad_request('this opportunity already exists')
+    if Opportunity.query.filter_by(
+            name=data['name'], partner_id=Partner.query.filter_by(
+            name=data['partner_name']).first().id).first():
+        return bad_request(
+            'this opportunity already exists with this partner')
     data['partner_id'] = Partner.query.filter_by(
         name=data['partner_name']).first().id
     opportunity = Opportunity()
