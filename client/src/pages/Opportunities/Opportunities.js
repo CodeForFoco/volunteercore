@@ -11,7 +11,6 @@ export default class Opportunties extends Component {
     super(props);
 
     this.state = {
-      popup: false,
       searchResult: {},
       searchError: {}
     }
@@ -27,7 +26,10 @@ export default class Opportunties extends Component {
         this.setState({ searchResult: res.data });
       })
       .catch(err => {
-        this.setState({ searchError: err });
+        this.setState({ searchError: {
+          text: err.response.statusText,
+          type: 'alert-danger'
+        }});
       });
   }
 
@@ -35,7 +37,7 @@ export default class Opportunties extends Component {
     const items = this.state.searchResult ? this.state.searchResult.items : [];
 
     return (
-      <Wrap>
+      <Wrap {...this.props}>
         <h2>Search Opportunities</h2>
         <SearchBar
           endpoint='opportunities'
@@ -43,9 +45,9 @@ export default class Opportunties extends Component {
         />
         <Alert {...this.state.searchError}/>
         <br/><br/>
-        {items ? items.map((val) => {
+        {items && items.length > 0 ? items.map((val) => {
           return <Thumb {...val}/>;
-        }): ''}
+        }): <p className="text-danger">No Opportunities found.</p>}
       </Wrap>
     );
   }

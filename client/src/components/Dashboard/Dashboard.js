@@ -8,9 +8,9 @@ export default class Dashboard extends Component {
   render () {
     return (
       <div className="dash-page-wrap">
-        <Nav/>
+        <Nav {...this.props}/>
         <div className="dash">
-          <Sidebar/>
+          <Sidebar {...this.props}/>
           <div className="dash-content">
             {this.props.children || (
               <div>
@@ -59,11 +59,17 @@ class Sidebar extends Component {
             to="/dashboard/tag_categories/search">
             Tags
           </Link>
-          <Link 
-            className="btn btn-block text-left btn-secondary"
-            to="/dashboard/users/search">
-            Users
-          </Link>
+          {this.props.user && this.props.user.admin ? (
+            <Link 
+              className="btn btn-block text-left btn-secondary"
+              to="/dashboard/users/search">
+              Users
+            </Link>
+          ) : (
+            <span className="btn btn-block text-left btn-secondary btn-disabled text-danger" disabled>
+              Users
+            </span>
+          )}
           <Link className="btn btn-block text-left btn-secondary text-muted" disabled to="/">Settings</Link>
           <Link className="btn btn-block text-left btn-secondary text-muted" disabled to="/">Help</Link>
         </div>

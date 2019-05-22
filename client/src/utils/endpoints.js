@@ -1,4 +1,9 @@
-module.exports = {
+// This file was created with bad design.
+// Moving forward, this "metadata" and logic
+// will be moved to pages for each endpoint.
+import axios from 'axios';
+
+export default {
   opportunities: {
     url: '/api/opportunities',
     text: ({ name, partner_name }) => {
@@ -7,6 +12,16 @@ module.exports = {
     rows: [[{
       label: 'Partner',
       name: 'partner_name',
+      type: 'select',
+      getOptions: (cb) => {
+        axios.get('/api/partners')
+          .then(res => {
+            cb(undefined, res);
+          })
+          .catch(err => {
+            cb(err, undefined);
+          });
+      }
     }], [{
       label: 'Address',
       name: 'location_street'
@@ -40,19 +55,27 @@ module.exports = {
       type: 'date',
       optional: true
     }], [{
-      label: 'Commitment Length',
-      ex: 'days',
-      name: 'commitment_length',
+      label: 'Commitment Months',
+      name: 'commitment_length_months',
       type: 'number',
       optional: true
     }], [{
-      label: 'Frequency',
-      ex: 'Eg. "Every other Friday"',
-      name: 'frequency',
-      optional: true
+      label: 'Frequency Unit',
+      ex: 'Eg. Every, 1st',
+      name: 'frequency_unit',
+      optional: true,
+      options: ['every', 'every other', '1st', '2nd', '3rd', '4th'],
+      type: 'select'
+    }, {
+      label: 'Frequency Modifier',
+      ex: 'Eg. Day, Week',
+      name: 'frequency_modifier',
+      optional: true,
+      options: ['day', 'week', 'weekend', 'month', 'year'],
+      type: 'select'
     }], [{
       label: 'Training Hours Required',
-      ex: '(hours)',
+      ex: 'hours',
       name: 'training_time_hours',
       type: 'number',
       optional: true
@@ -97,7 +120,7 @@ module.exports = {
     }]]
   },
   users: {
-    url: '/api/users',
+    url: '/api/users?include_email=true',
     text: ({ username }) => {
       return username;
     },

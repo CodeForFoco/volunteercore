@@ -16,10 +16,9 @@ export default class PostPage extends Component {
         name: 'Code',
         description: 'Code',
         shift_hours: 5,
-        commitment_length: 5,
-        frequency: 'Every Monday',
-        /*start_date: 'Tue, 22 Nov 2011 06:00:00 GMT',
-        end_date: 'Tue, 22 Nov 2011 06:00:00 GMT',*/
+        commitment_length_months: 5,
+        frequency_unit: '',
+        frequency_modifier: '',
         training_time_hours: 5,
         volunteers_needed: 5,
         location_street: 555,
@@ -33,42 +32,54 @@ export default class PostPage extends Component {
     };
   }
 
+  removeDashes(str) {
+    let copy = str;
+    return copy.replace(/-/gi, '');
+  }
+
   submitForm(e) {
     e.preventDefault();
-    const { data } = this.state;
+    let { data } = this.state;
     const endpoint = this.props.match.params.endpoint;
 
-    axios.post(`/api/${endpoint}`, data)
+    if (data.start_date) {
+      data.start_date = this.removeDashes(data.start_date);
+    }
+    if (data.end_date) {
+      data.end_date = this.removeDashes(data.end_date);
+    }
+
+    axios.post(`/api/${endpoint}`, data, {
+      headers: {
+        Authorization: 'Bearer ' + this.props.token
+      }
+    })
       .then(res => {
-        this.setState({
-          response: {
-            type: 'alert-success',
-            text: 'Success!'
-          }
-        })
+        this.setState({ response: {
+          type: 'alert-success',
+          text: 'Success!'
+        }});
       })
       .catch(err => {
-        this.setState({
-          response: {
-            type: 'alert-danger',
-            text: err.response.data.message ?
-              'Error: ' + err.response.data.message : err.message
-          }
-        })
+        this.setState({ response: {
+          type: 'alert-danger',
+          text: err.response.data.message ?
+            'Error: ' + err.response.data.message : err.message
+        }});
       });
   }
 
   setByName(e) {
     let data = this.state.data;
-    data[e.target.name] = e.target.value;
+    let val = e.target.value;
+    data[e.target.name] = val;
     this.setState({ data });
   }
 
   render () {
     const endpoint = this.props.match.params.endpoint;
-    console.log(endpoint);
     return (
-      <Dash>
+      <Dash  {...this.props}>
         <h3>Add {endpoint}</h3>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
