@@ -1,6 +1,6 @@
 // "metadata" for endpoints. Not sure if this
 // is the best way to handle separate pages.
-//import ArrayInput from '../objects/ArrayInput/ArrayInput';
+import ArrayInput from '../objects/ArrayInput/ArrayInput';
 import Select from '../objects/Select/Select';
 import TextArea from '../objects/TextArea/TextArea';
 
@@ -103,7 +103,10 @@ const endpoints = {
     fields: [{
       name: 'category_name'
     }, {
-      name: 'tags'
+      name: 'tags',
+      label: 'Tags',
+      placeholder: 'Enter One Tag (Ex: "painting")',
+      component: ArrayInput
     }]
   },
   users: {

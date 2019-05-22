@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Dash from '../../components/Dashboard/Dashboard.js';
-import Form from '../../objects/Form/Form.js';
 import axios from 'axios';
-import endpoints from '../../utils/endpoints.js';
 import parser from '../../utils/parseFields.js';
 
 export default class ViewPage extends Component {
