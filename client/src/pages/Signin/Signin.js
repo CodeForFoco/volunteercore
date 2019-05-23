@@ -65,7 +65,7 @@ export default class Signin extends Component {
               data={this.state}
               submitForm={this.submitForm.bind(this)}
               setValue={this.setValue.bind(this)}
-              color='info'
+              submitBtnClass='btn-info'
               fields={[{
                 name: 'username'
               }, {
