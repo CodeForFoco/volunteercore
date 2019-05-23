@@ -59,6 +59,15 @@ def get_users_api():
             include_email=include_email)
     return jsonify(data)
 
+
+# API GET endpoint to return the authenticated user
+@bp.route('/api/users/authenticated_user', methods=['GET'])
+@token_auth.login_required
+def get_authenticated_user_api():
+    return jsonify(
+        User.query.filter_by(username=g.current_user.username).first().to_dict(include_email=True))
+
+
 # API POST endpoint to create a new user
 @bp.route('/api/users', methods=['POST'])
 @token_auth.login_required
