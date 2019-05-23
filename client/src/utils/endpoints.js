@@ -3,6 +3,7 @@
 //import ArrayInput from '../objects/ArrayInput/ArrayInput';
 import Select from '../objects/Select/Select';
 import TextArea from '../objects/TextArea/TextArea';
+import ArrayCheckBox from '../objects/ArrayCheckBox/ArrayCheckBox';
 
 const frequency_modifier = [
   'day',
@@ -119,6 +120,8 @@ const endpoints = {
       type: 'password'
     }, {
       name: 'roles',
+      component: ArrayCheckBox,
+      list: ['Admin']
     }]
   },
   fieldsToState(endpoint) {
