@@ -54,14 +54,13 @@ export default class PostPage extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state.data);
     this._isMounted = true;
     axios.get(`/api/${this.props.match.params.endpoint}/${this.props.match.params.id}`, {
       headers: {
         Authorization: 'Bearer ' + this.props.token
-      }
-    }).then(res => {
-          this.setState({ data: parse.formatData(res.data, this.props.match.params.endpoint) });
+      }})
+      .then(res => {
+        this.setState({ data: parse.formatData(res.data, this.props.match.params.endpoint) });
       })
       .catch(err => {
         this.setState({ response: err });

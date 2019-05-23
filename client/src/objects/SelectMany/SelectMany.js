@@ -13,7 +13,18 @@ export default class SelectMany extends Component {
   }
 
   getOptions() {
-    axios.get(this.props.getOptions.endpoint)
+    if (this.props.customGet) {
+      this.props.customGet(this.props.token)
+        .then(res => {
+          if (!this._isMounted) return;
+          this.setState({
+            options: res.data
+          });
+        }).catch(err => {
+          alert(err);
+        });
+    } else {
+      axios.get(this.props.getOptions.endpoint)
       .then(res => {
         if (!this._isMounted) return;
         this.setState({
@@ -22,6 +33,7 @@ export default class SelectMany extends Component {
           })
         });
       });
+    }
   }
 
   addOption(option) {
@@ -39,7 +51,7 @@ export default class SelectMany extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    if (!this.props.options && this.props.getOptions) {
+    if (!this.props.options && (this.props.getOptions || this.props.customGet)) {
       this.getOptions();
     }
     if (!this.props.value || !Array.isArray(this.props.value)) {

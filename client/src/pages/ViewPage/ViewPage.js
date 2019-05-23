@@ -54,7 +54,7 @@ export default class ViewPage extends Component {
           <div className="card-body">
             {Object.keys(data).map(key => {
               if (!data[key]) return '';
-              return <p><u>{key}</u> = {data[key]}</p>
+              return <p><u>{key}</u> = {JSON.stringify(data[key])}</p>
             })}
           </div>
         </div>
