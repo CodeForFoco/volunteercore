@@ -32,6 +32,7 @@ Header example:
 
 ### Token
 #### Variables
+
 Name | Datatype | Request/Return | Example | Notes
 -----|----------|----------------|---------|------
 username | String | Request | See Authentication |
@@ -49,6 +50,7 @@ Endpoint | Method Type | Auth Required | Arguments | Description
 
 ### User
 #### Request Variables
+
 Name | Datatype | Request/Return | Example | Notes
 -----|----------|----------------|---------|------
 id | Integer | Both | id=345 | Auto-generated if left blank at POST
@@ -72,6 +74,7 @@ Endpoint | Method Type | Auth Required | Arguments | Description
 
 ### Partners
 #### Variables
+
 Name | Datatype | Request/Return | Example | Notes
 -----|----------|----------------|---------|------
 id | Integer | Both | id=34 | Auto-generated if left blank at POST
@@ -96,6 +99,7 @@ Endpoint | Method Type | Auth Required | Arguments | Description
 
 ### Opportunities
 #### Variables
+
 Name | Datatype | Request/Return | Example | Notes
 -----|----------|----------------|---------|------
 id | Integer | Both | id=34 | Auto-generated if left blank at POST
@@ -136,6 +140,7 @@ Endpoint | Method Type | Auth Required | Arguments | Description
 
 ### Tags
 #### Variables
+
 Name | Datatype | Request/Return | Example | Notes
 -----|----------|----------------|---------|------
 id | Integer | Both | id=42 | Auto-generated if left blank at POST
@@ -156,6 +161,7 @@ Endpoint | Method Type | Auth Required | Arguments | Description
 
 ### Tag Categories
 #### Variables
+
 Name | Datatype | Request/Return | Example | Notes
 -----|----------|----------------|---------|------
 id | Integer | Both | id=42 | Auto-generated if left blank at POST
