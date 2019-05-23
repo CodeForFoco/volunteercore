@@ -37,7 +37,7 @@ export default class ArrayInput extends Component {
     const { name, label, value, placeholder } = this.props;
 
     return (
-      <div>
+      <div className="form-group">
         <label>{ label || name }</label>
         <div className="array-input-items">
           {Array.isArray(value) ? value.map((elem, i) => {
@@ -49,6 +49,19 @@ export default class ArrayInput extends Component {
             );
           }): ''}
         </div>
+        <div className="input-group">
+          <input 
+            autoComplete={this.props.autoComplete || 'null'}
+            className="form-control"
+            placeholder={this.props.placeholder || 'Enter ' + (this.props.label || this.props.name)} 
+            value={this.state.text}
+            onChange={this.updateText.bind(this)}
+          />
+          <div className="input-group-append">
+            <div className="btn btn-info" onClick={this.addElement.bind(this)}>Add</div>
+          </div>
+        </div>
+      </div>
     );
   }
 }
