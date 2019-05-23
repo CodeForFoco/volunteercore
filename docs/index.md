@@ -48,6 +48,7 @@ Endpoint | Method Type | Auth Required | Arguments | Description
 ---------|-------------|---------------|-----------|------------
 /api/users/{id} | GET | Token and Admin role | include_email | Returns user data specified by id
 /api/users | GET | Token and Admin role | include_email | Returns all users data
+/api/users/authenticated_user | GET | Token | | Returns user data from given authenticated user token
 /api/users | POST | Token and Admin role | | Create a new user
 /api/users/{id} | PUT | Token and Admin role | | Update existing user specified by id
 /api/users/{id} | DELETE | Token and Admin role | | Delete user specified by id

@@ -49,20 +49,6 @@ export default class ArrayInput extends Component {
             );
           }): ''}
         </div>
-        <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            name={name}
-            onChange={this.updateText.bind(this)}
-            value={this.state.text}
-            placeholder={placeholder || ('Enter ' + ( label || name ))}
-          />
-          <div className="input-group-append">
-            <div className="btn btn-info" onClick={this.addElement.bind(this)}>Add</div>
-          </div>
-        </div>
-      </div>
     );
   }
 }
