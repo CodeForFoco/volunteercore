@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 // Ex: ['Admin', 'User'] -> User clicks 'Admin' -> returns ['Admin']
 export default class ArrayCheckBox extends Component {
   toggleItem(item) {
-    let myList = this.props.data[this.props.name];
+    let myList = this.props.data[this.props.name] || [];
     if (myList.indexOf(item) === -1) {
       myList.push(item);
     } else {
@@ -15,7 +15,7 @@ export default class ArrayCheckBox extends Component {
 
   render () {
     const list = this.props.list;
-    const myList = this.props.data[this.props.name]
+    let myList = this.props.data[this.props.name] || [];
 
     return (
       <div>
