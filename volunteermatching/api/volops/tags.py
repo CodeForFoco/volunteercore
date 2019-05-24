@@ -113,10 +113,12 @@ def update_tag_api(id):
 @requires_roles('Admin')
 def create_tag_api():
     data = request.get_json() or {}
-    if 'name' not in data:
-        return bad_request('must include tag name field')
+    if 'name' not in data or 'tag_category' not in data:
+        return bad_request('must include tag and tag category')
     if Tag.query.filter_by(name=data['name']).first():
         return bad_request('this tag already exists')
+    if not TagCategory.query.filter_by(name=data['tag_category']).first():
+        return bad_request('this tag category does not exist')
     tag = Tag()
     tag.from_dict(data, new_tag=True)
     db.session.add(tag)
