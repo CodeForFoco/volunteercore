@@ -27,7 +27,7 @@ export default class Opportunties extends Component {
       })
       .catch(err => {
         this.setState({ searchError: {
-          text: err.response.statusText,
+          text: err.status,
           type: 'alert-danger'
         }});
       });

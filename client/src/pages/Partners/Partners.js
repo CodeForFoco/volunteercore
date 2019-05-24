@@ -43,12 +43,6 @@ export default class Partners extends Component {
               <div>
                 <h4><u>{name}</u></h4>
                 <p>{opportunity_count} opportunities</p>
-                <div>
-                  <span className='badge badge-pill badge-primary'> Children </span>
-                  <span className='badge badge-pill badge-primary'> Art </span>
-                  <span className='badge badge-pill badge-primary'> Teaching </span>
-                  <span className='badge badge-pill badge-primary'> Cooking </span>       
-                </div>
                 <br/>
               </div>
             );
