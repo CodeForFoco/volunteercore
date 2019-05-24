@@ -10,6 +10,7 @@ export default {
           if (fields[name].type === 'date') {
             myData[name] = removeDashes(myData[name]);
           }
+
         }
       });
       return myData;
@@ -23,10 +24,25 @@ export default {
           if (fields[name].type === 'date') {
             myData[name] = formatUTC(myData[name]);
           }
+          if (name === 'tags') {
+            myData[name] = flattenTags(myData[name]);
+          }
         }
       });
       return myData;
     }
+}
+
+// {categoryB: [b], categoryA: [a] } => [a, b]
+function flattenTags(categories) {
+  if (!categories || Array.isArray(categories)) return categories;
+  let tags = [];
+  Object.keys(categories).forEach(key => {
+    categories[key].forEach(tag => {
+      tags.push(tag);
+    });
+  });
+  return tags;
 }
 
 function removeDashes(date) {

@@ -26,7 +26,7 @@ export default class PostPage extends Component {
         location_state: 'CO',
         location_zip: 55555,
         partner_name: 'Code For FoCo',
-        tags_string: 'coding, children, painting'
+        tags: []
       },
       response: {}
     };
@@ -48,6 +48,8 @@ export default class PostPage extends Component {
     if (data.end_date) {
       data.end_date = this.removeDashes(data.end_date);
     }
+
+    console.log(data.tags);
 
     axios.post(`/api/${endpoint}`, data, {
       headers: {

@@ -1,7 +1,9 @@
 // "metadata" for endpoints. Not sure if this
 // is the best way to handle separate pages.
-//import ArrayInput from '../objects/ArrayInput/ArrayInput';
+import axios from 'axios';
+import ArrayInput from '../objects/ArrayInput/ArrayInput';
 import Select from '../objects/Select/Select';
+import SelectMany from '../objects/SelectMany/SelectMany';
 import TextArea from '../objects/TextArea/TextArea';
 import ArrayCheckBox from '../objects/ArrayCheckBox/ArrayCheckBox';
 
@@ -75,10 +77,22 @@ const endpoints = {
       type: 'number'
     }, {
       name: 'tags',
-      component: Select,
-      getOptions: {
-        endpoint: '/api/tag_categories',
-        property: 'category_name'
+      component: SelectMany,
+      customGet(token) {
+        return new Promise((resolve, reject) => {
+          axios.get('/api/tag_categories', { headers: {
+            Authorization: 'Bearer ' + token
+          }}).then(res => {
+            let tags = [];
+            res.data.items.forEach(category => {
+              category.tags.forEach(tag => {
+                tags.push(tag);
+              });
+            });
+            res.data = tags;
+            resolve(res);
+          }).catch(reject);
+        });
       }
     }, {
       name: 'description',
@@ -104,7 +118,10 @@ const endpoints = {
     fields: [{
       name: 'category_name'
     }, {
-      name: 'tags'
+      name: 'tags',
+      label: 'Tags',
+      placeholder: 'Enter One Tag (Ex: "painting")',
+      component: ArrayInput
     }]
   },
   users: {

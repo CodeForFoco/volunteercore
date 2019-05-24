@@ -1,0 +1,34 @@
+@import '../../utils/variables';
+
+.array-input-items {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.array-input-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  margin: 10px 5px;
+  border-radius: 5px;
+  background: $gray-300;
+  color: $gray-700;
+  &:first-of-type {
+    margin-left: 0;  
+  }
+}
+
+.array-input-item-remove {
+  display: flex;
+  justify-content: center;
+  width: 20px;
+  margin: 0 5px;
+  background: $red;
+  color: $gray-100;
+  border-radius: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: darken($red, 10%);
+  }
+}

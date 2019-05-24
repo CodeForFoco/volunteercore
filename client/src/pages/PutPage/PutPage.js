@@ -58,8 +58,8 @@ export default class PostPage extends Component {
     axios.get(`/api/${this.props.match.params.endpoint}/${this.props.match.params.id}`, {
       headers: {
         Authorization: 'Bearer ' + this.props.token
-      }
-    }).then(res => {
+      }})
+      .then(res => {
         this.setState({ data: parse.formatData(res.data, this.props.match.params.endpoint) });
       })
       .catch(err => {
@@ -97,6 +97,7 @@ export default class PostPage extends Component {
               fields={endpoints[endpoint].fields}
               setValue={this.setValue.bind(this)}
               submitBtnClass='btn-warning'
+              token={this.props.token}
             />
             <br/>
             <Alert type={this.state.response.type} text={this.state.response.text}/>
