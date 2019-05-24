@@ -12,22 +12,7 @@ export default class PostPage extends Component {
     super(props);
 
     this.state = {
-      data: {
-        name: 'Code',
-        description: 'Code',
-        shift_hours: 5,
-        commitment_length_months: 5,
-        frequency_unit: '',
-        frequency_modifier: '',
-        training_time_hours: 5,
-        volunteers_needed: 5,
-        location_street: 555,
-        location_city: 'Fort Collins',
-        location_state: 'CO',
-        location_zip: 55555,
-        partner_name: 'Code For FoCo',
-        tags: []
-      },
+      data: {},
       response: {}
     };
   }
