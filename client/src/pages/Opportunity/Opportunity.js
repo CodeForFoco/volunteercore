@@ -39,18 +39,14 @@ export default class Opportunity extends Component {
           </div>
           <div className="card-body">
             <h2><u>{opp.name}</u> - {opp.partner_name}</h2>
-            <p>
-              {opp.location_street}, {opp.location_city}, {opp.location_zip}
-              - {opp.volunteers_needed} Volunteers needed
-            </p>
-            <p>{opp.description}</p>
-            <p>Shift: {opp.shift_hours}hrs +
-              {opp.training_time_hours ? (
-                ` ${opp.training_time_hours}hrs of training`
-              ) : ''}
-            </p>
-            <p>Date: {opp.start_date || 'Date?'} to {opp.end_date || 'Date?'}</p>
-            <p>Commitment length: {opp.commitment_length}</p>
+            {opp ? Object.keys(opp).map(key => {
+              if (!opp[key]) return '';
+              switch(key) {
+                case 'id': return '';
+                case 'partner_string': return '';
+              }
+              return <p><b>{key}:</b> {opp[key]}</p>;
+            }): ''}
           </div>
         </div>
       </Wrap>
