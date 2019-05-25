@@ -38,7 +38,7 @@ export default class Signin extends Component {
         });
       })
       .catch(err => {
-        this.setState({ response: { type: 'alert-danger', text: err.statusText }});
+        this.setState({ response: { type: 'alert-danger', text: err.response.data.message }});
       });
   }
 
