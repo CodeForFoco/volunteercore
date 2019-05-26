@@ -24,7 +24,6 @@ export default class SearchPage extends Component {
     const { search, page, per_page } = this.state;
     axios.get(`/api/${endpoint}?search=${search}&page=${page}&per_page=${per_page}`, { headers: { Authorization: 'Bearer ' + this.props.token }})
     .then(res => {
-      console.log(res.data);
       this.setState({ searchResult: res.data });
     })
     .catch(err => {
