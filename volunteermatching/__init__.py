@@ -1,4 +1,5 @@
-from flask import Flask
+import os
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -8,10 +9,12 @@ import flask_whooshalchemyplus
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
-
+template_folder = os.path.join('../client/build/')
 
 def create_app(config_class=Config):
     app = Flask(__name__)
+    app.static_folder = os.path.join(template_folder, 'static/')
+    app.template_folder = template_folder
     app.config.from_object(config_class)
     db.init_app(app)
     migrate.init_app(app, db)
@@ -27,5 +30,9 @@ def create_app(config_class=Config):
     app.register_blueprint(api_bp)
     from volunteermatching.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
+
+    @app.route('/')
+    def index():
+        return render_template('index.html')
 
     return app

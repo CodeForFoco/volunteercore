@@ -3,7 +3,8 @@ from dotenv import load_dotenv
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
-
+if not os.environ.get('SECRET_KEY'):
+    os.environ['SECRET_KEY'] = os.urandom(20).hex()
 if os.environ.get('DATABASE_SYSTEM') == "postgres":
     os.environ["DATABASE_URL"] = "postgresql://" + \
         os.environ.get('DATABASE_USER') + ":" + \
@@ -18,3 +19,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     WHOOSH_BASE = basedir + '/whoosh/'
     UPLOAD_FOLDER = 'uploads/'
+    if os.environ.get('FLASK_DEBUG'):
+        DEBUG = True
+    else:
+        DEBUG = False
