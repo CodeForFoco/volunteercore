@@ -30,10 +30,12 @@ export default class Signin extends Component {
       .then(res => {
         this.props.set({ token: res.data.token }, () => {
           window.localStorage.setItem('token', res.data.token);
-          axios.get('/api/users/1', { headers: {
+          axios.get('/api/users/authenticated_user', { headers: {
             Authorization: 'Bearer ' + res.data.token
-          }}).then(() => {
-            this.props.set({ user: { admin: true }});
+          }}).then(res => {
+            this.props.set({ user: res.data });
+          }).catch(err => {
+            this.setState({ response: { type: 'alert-danger', text: 'Error Getting credentials. Please reload the page.' }});
           });
         });
       })
