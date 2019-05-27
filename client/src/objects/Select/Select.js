@@ -19,7 +19,8 @@ export default class Select extends Component {
         this.setState({
           options: res.data.items.map(item => {
             return item[this.props.getOptions.property];
-          })
+          })}, () => {
+          this.props.setValue({ [this.props.name]: this.state.options[0] });
         });
       });
   }
