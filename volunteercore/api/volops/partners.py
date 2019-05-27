@@ -1,7 +1,7 @@
 from flask import jsonify, request, url_for
 from volunteercore import db
 from volunteercore.api import bp
-from volunteercore.volops.models import Partner
+from volunteercore.volops.models import Partner, Opportunity
 from volunteercore.api.errors import bad_request
 from volunteercore.api.auth import token_auth
 from flask_whooshalchemyplus import index_one_record
@@ -71,6 +71,10 @@ def delete_partner_api(id):
     if not Partner.query.filter_by(id=id).first():
         return bad_request('this partner does not exist')
     partner = Partner.query.get_or_404(id)
+    if Opportunity.query.filter_by(partner_id=id):
+        for opp in Opportunity.query.filter_by(partner_id=id):
+            db.session.delete(opp)
+            db.session.commit()
     db.session.delete(partner)
     db.session.commit()
     index_one_record(partner, delete=True)
