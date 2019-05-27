@@ -45,6 +45,9 @@ This documentation is currently aimed at hosting on Heroku but can be set up in 
     * In the final lines of the push to Heroku you should see a confirmation release number and a link to the deployed Heroku app.
 1. Go to the Heroku app url and login with the default admin account (user:admin, password:password). Go to the dashboard and edit the admin user to change the admin password.
 
+If you want to build the frontend yourself, rather than using the prebuilt heroku-production branch, you can make and checkout a branch and run `npm react-scripts build`. This will generate a build directory with the static frontend files. Alter the .gitignore file in client/ to allow git tracking of the build/ directory. Then commit the changes adding the build/ directory and files. Now push your branch `Heroku heroku addons:create your-branch-name:hobby-dev`
+
+
 ## Contributing
 
 We welcome new contributors.  Be sure to check out the guide on [contributing][contributing], which includes instructions on how to fork, clone, branch, commit, pull request and sync your fork.
