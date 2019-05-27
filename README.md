@@ -5,35 +5,45 @@ The Volunteer Matching project is a web app that assists in better management of
 ## Development Setup
 This setup is for use with local development only; production instructions will be included later. Do not use these instructions in production without turning off debug and resetting the SECRET_KEY in the .env variables.
 
-You will need [git](https://git-scm.com/downloads), [python 3](https://www.python.org/downloads/), pipenv, and SQLite installed. Depending where you get Python from, pipenv may already be included with Python.
+You will need [git](https://git-scm.com/downloads) to clone this repo.
 
-You will also need [NodeJS + npm](https://nodejs.org/en/download/) for the React client.
+For the backend you need [python 3](https://www.python.org/downloads/), pipenv, and SQLite installed. Depending where you get Python from, pipenv may already be included with Python.
+
+For the front end you need [NodeJS + npm](https://nodejs.org/en/download/)
+
 
 ### Prepare Development Enviornment
-##### Prepare Flask API
-1. Clone the repo and cd into the directory
-2. `pipenv install`
-3. `pipenv shell`
-4. `cp config.env.template .env`
-5. `flask db upgrade`
-6. Create the admin user: `flask create-admin`
+Clone the repo and cd into the created directory
 
-##### Prepare React Server
-1. Clone the repo and cd into the directory 
-2. cd into _your-dir_/client
-3. `npm install`
-
-### Start the App
-##### Start Flask API
+##### Prepare and start the Flask API
+1. `pipenv install`
+1. `pipenv shell`
+1. `cp config.env.template .env`
+1. `flask db upgrade`
+1. Create the admin user: `flask auto-setup`
 1. `flask run`
-2. End the app with ctrl + c.
+1. You can later end the app with ctrl + c.
 
-##### Start React Server
-1. cd into /client
-2. `npm start`
-3. End the app with ctrl + c.
+##### Prepare and start the React Server
+1. Open a second terminal and cd into into _your-dir_/client
+1. `npm install`
+1. `npm start`
+1. You can later end the app with ctrl + c.
 
+### Prepare Production Environment
+This repo includes both the backend and frontend source for simplification of server requirements. If you would like to split the two apart, the frontend is contained in the client/ directory.
 
+This documentation is currently aimed at hosting on Heroku but can be set up in other production environments. If you succeed in other production setups please document the process and make a pull request to add to this documentation.
+
+#### Heroku Setup
+1. Create an account on [Heroku](https://www.heroku.com/) and install and set up the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
+1. If you haven't already, clone ths repo and cd into the directory
+1. Create the Heroku Dyno `heroku create`
+    * You can specify the dyno name with `heroku create mydynoname`
+1. Add the free Heroku Postgres addon `heroku addons:create heroku-postgresql:hobby-dev`
+1. Push the heroku-production branch to your Heroku Dyno `git push heroku heroku-production:master`
+    * In the final lines of the push to Heroku you should see a confirmation release number and a link to the deployed Heroku app.
+1. Go to the Heroku app url and login with the default admin account (user:admin, password:password). Go to the dashboard and edit the admin user to change the admin password.
 
 ## Contributing
 
