@@ -88,7 +88,7 @@ export default class PostPage extends Component {
         </nav>
         <div className="card border-warning">
           <div className="card-header bg-warning border-warning text-light">
-            Thanks for using Volunteer Force!
+            Thanks for using Volunteer Core!
           </div>
           <div className="card-body">
             <Form

@@ -1,6 +1,6 @@
 from flask import jsonify, g
-from volunteermatching import db
-from volunteermatching.api import bp
+from volunteercore import db
+from volunteercore.api import bp
 from .auth import basic_auth, token_auth
 
 # API POST endpoint to set and receive a JWT access and refresh token and set

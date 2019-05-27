@@ -1,6 +1,6 @@
 import click
-from volunteermatching import db
-from volunteermatching.auth.models import User, Role
+from volunteercore import db
+from volunteercore.auth.models import User, Role
 from flask_whooshalchemyplus import index_all
 
 

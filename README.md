@@ -1,6 +1,6 @@
-# Volunteer Matching
+# Volunteer Core
 
-The Volunteer Matching project is a web app that assists in better management of volunteer matching operations. It will track and provide matching suggestions of volunteer partners, opportunities for volunteers, and volunteers. Later features could include communications to build out functionality similar to a CRM.
+The Volunteer Core project is a web app that assists in better management of Volunteer Core operations. It will track and provide matching suggestions of volunteer partners, opportunities for volunteers, and volunteers. Later features could include communications to build out functionality similar to a CRM.
 
 ## Development Setup
 This setup is for use with local development only; production instructions will be included later. Do not use these instructions in production without turning off debug and resetting the SECRET_KEY in the .env variables.
@@ -61,8 +61,8 @@ MIT, see [LICENSE](/LICENSE) for full license.
 [slack]: https://codeforfoco.slack.com/
 [slackinvite]: https://codeforfocoslack.herokuapp.com
 [fork]: https://help.github.com/articles/fork-a-repo/
-[forkthisrepo]: https://github.com/CodeForFoco/volunteermatching#fork-destination-box
+[forkthisrepo]: https://github.com/CodeForFoco/volunteercore#fork-destination-box
 [contributing]: https://github.com/CodeForFoco/org/blob/master/CONTRIBUTING.md
-[githubissue]: https://github.com/CodeForFoco/volunteermatching/issues
-[newissue]: https://github.com/CodeForFoco/volunteermatching/issues/new
-[pullrequest]: https://github.com/CodeForFoco/volunteermatching/pulls
+[githubissue]: https://github.com/CodeForFoco/volunteercore/issues
+[newissue]: https://github.com/CodeForFoco/volunteercore/issues/new
+[pullrequest]: https://github.com/CodeForFoco/volunteercore/pulls

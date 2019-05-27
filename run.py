@@ -1,6 +1,6 @@
-from volunteermatching import create_app, db, cli
-from volunteermatching.auth.models import Role, User
-from volunteermatching.volops.models import Partner, Opportunity, \
+from volunteercore import create_app, db, cli
+from volunteercore.auth.models import Role, User
+from volunteercore.volops.models import Partner, Opportunity, \
     TagCategory, Tag
 
 app = create_app()

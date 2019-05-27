@@ -30,7 +30,7 @@ export default class Nav extends Component {
   render () {
     return (
       <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-        <Link className='navbar-brand' to='/'>Volunteer Force</Link>
+        <Link className='navbar-brand' to='/'>Volunteer Core</Link>
         <button className='navbar-toggler' type='button' onClick={this.toggleOpen.bind(this)}>
           <span className='navbar-toggler-icon'></span>
         </button>

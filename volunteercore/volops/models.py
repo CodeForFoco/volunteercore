@@ -1,6 +1,6 @@
 from datetime import datetime
-from volunteermatching import db
-from volunteermatching.mixins import PagininatedAPIMixin
+from volunteercore import db
+from volunteercore.mixins import PagininatedAPIMixin
 import flask_whooshalchemyplus
 
 tags = db.Table(

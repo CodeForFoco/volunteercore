@@ -1,10 +1,10 @@
 from flask import jsonify, request, url_for, g
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
-from volunteermatching import db
-from volunteermatching.api import bp
-from volunteermatching.auth.models import User, Role
-from volunteermatching.api.errors import bad_request, error_response
-from volunteermatching.decorators import requires_roles
+from volunteercore import db
+from volunteercore.api import bp
+from volunteercore.auth.models import User, Role
+from volunteercore.api.errors import bad_request, error_response
+from volunteercore.decorators import requires_roles
 
 basic_auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth()

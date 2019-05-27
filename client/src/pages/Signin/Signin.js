@@ -56,7 +56,7 @@ export default class Signin extends Component {
       <Wrap {...this.props}>
         <div className="card">
           <div className="card-header">
-            Hello from Volunteer Force!
+            Hello from Volunteer Core!
           </div>
           <div className="card-body">
             <h2>Sign In</h2>

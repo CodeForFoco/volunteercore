@@ -1,7 +1,7 @@
 from flask import render_template, request
-from volunteermatching.errors import bp
-from volunteermatching import db
-from volunteermatching.api.errors import error_response as api_error_response
+from volunteercore.errors import bp
+from volunteercore import db
+from volunteercore.api.errors import error_response as api_error_response
 
 
 def wants_json_response():

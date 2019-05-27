@@ -50,7 +50,7 @@ export default class ViewPage extends Component {
         </nav>
         <div className="card">
           <div className="card-header">
-            Thank you for using Volunteer Force!
+            Thank you for using Volunteer Core!
           </div>
           <div className="card-body">
             {Object.keys(data).map(key => {
