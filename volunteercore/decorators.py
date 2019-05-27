@@ -1,6 +1,6 @@
 from flask import redirect, url_for, request, flash, g
 from functools import wraps
-from volunteermatching.api.errors import error_response
+from volunteercore.api.errors import error_response
 
 
 def requires_roles(*roles):

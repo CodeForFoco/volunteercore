@@ -4,13 +4,13 @@ from datetime import datetime
 from flask import request
 from werkzeug.utils import secure_filename
 from config import Config
-from volunteermatching import db
-from volunteermatching.api import bp
-from volunteermatching.volops.models import Partner, Opportunity, \
+from volunteercore import db
+from volunteercore.api import bp
+from volunteercore.volops.models import Partner, Opportunity, \
     Tag, TagCategory
-from volunteermatching.api.errors import bad_request
-from volunteermatching.api.auth import token_auth
-from volunteermatching.decorators import requires_roles
+from volunteercore.api.errors import bad_request
+from volunteercore.api.auth import token_auth
+from volunteercore.decorators import requires_roles
 from flask_whooshalchemyplus import index_one_record
 
 

@@ -1,9 +1,9 @@
 from flask import jsonify, request, url_for
-from volunteermatching import db
-from volunteermatching.api import bp
-from volunteermatching.volops.models import Partner
-from volunteermatching.api.errors import bad_request
-from volunteermatching.api.auth import token_auth
+from volunteercore import db
+from volunteercore.api import bp
+from volunteercore.volops.models import Partner
+from volunteercore.api.errors import bad_request
+from volunteercore.api.auth import token_auth
 from flask_whooshalchemyplus import index_one_record
 
 

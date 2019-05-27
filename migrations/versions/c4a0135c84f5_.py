@@ -8,8 +8,8 @@ Create Date: 2019-04-12 22:13:17.392991
 from alembic import op
 import sqlalchemy as sa
 from sqlalchemy import exists
-from volunteermatching import db
-from volunteermatching.auth.models import User
+from volunteercore import db
+from volunteercore.auth.models import User
 
 # revision identifiers, used by Alembic.
 revision = 'c4a0135c84f5'

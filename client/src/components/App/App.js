@@ -17,16 +17,14 @@ class App extends Component {
     this.setState(obj, cb);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const token = window.localStorage.getItem('token');
     if (token && token !== 'undefined') {
-      this.setState({ token });
-      axios.get('/api/users/1', { headers: {
-        Authorization: 'Bearer ' + token
-      }}).then(res => {
-          let user = this.state.user;
-          user.admin = true;
-          this.setState({ user: { admin: true }});
+      axios.get('/api/users/authenticated_user', { headers: {
+        Authorization: 'Bearer ' + token }})
+        .then(res => {
+          console.log(res.data);
+          this.setState({ token, user: res.data });
         });
     }
   }

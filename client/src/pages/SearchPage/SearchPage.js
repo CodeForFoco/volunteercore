@@ -12,8 +12,57 @@ export default class SearchPage extends Component {
 
     this.state = {
       searchResult: {},
-      searchError: {}
+      searchError: {},
+      page: 1,
+      per_page: 10,
+      search: '',
     };
+  }
+
+  search() {
+    const endpoint = this.props.match.params.endpoint;
+    const { search, page, per_page } = this.state;
+    axios.get(`/api/${endpoint}?search=${search}&page=${page}&per_page=${per_page}`, { headers: { Authorization: 'Bearer ' + this.props.token }})
+    .then(res => {
+      this.setState({ searchResult: res.data });
+    })
+    .catch(err => {
+      this.setState({ searchError: {
+        text: err.response.status + ' ' + err.response.statusText,
+        type: 'alert-danger'
+      }});
+    });
+  }
+
+  hasNextPage() {
+    let nextPage = this.state.page + 1;
+    const { searchResult } = this.state;
+    if (searchResult && searchResult._meta && searchResult._meta.total_pages) {
+      if (nextPage <= searchResult._meta.total_pages) {
+        return true;
+      }
+    }
+  }
+
+  hasLastPage() {
+    const lastPage = this.state.page - 1;
+    if (lastPage > 0) {
+      return true;
+    }
+  }
+
+  nextPage() {
+    const nextPage = this.state.page + 1;
+    if (this.hasNextPage()) {
+      this.setState({ page: nextPage}, this.search);
+    }
+  }
+
+  lastPage() {
+    const lastPage = this.state.page - 1;
+    if (this.hasLastPage()) {
+      this.setState({ page: lastPage }, this.search);
+    }
   }
 
   deleteItem(id, i) {
@@ -37,30 +86,13 @@ export default class SearchPage extends Component {
     this.setState(obj);
   }
 
-  defaultSearch() {
-    axios.get(`/api/${this.props.match.params.endpoint}`, {
-      headers: {
-        Authorization: 'Bearer ' + this.props.token
-      }
-    })
-      .then(res => {
-        this.setState({ searchResult: res.data, searchError: {} });
-      })
-      .catch(err => {
-        this.setState({ searchError: {
-          text: err.response.status + ' ' + err.response.statusText,
-          type: 'alert-danger'
-        }});
-      });
-  }
-
   componentDidMount() {
-    this.defaultSearch();
+    this.search();
   }
 
   componentWillReceiveProps(props) {
     if (props.match.params.endpoint !== this.props.match.params.endpoint) {
-      this.setState({ searchResult: {}, searchError: {}}, this.defaultSearch);
+      this.setState({ searchResult: {}, searchError: {}, search: ''}, this.search);
     }
   }
 
@@ -75,7 +107,9 @@ export default class SearchPage extends Component {
         <SearchBar
           title={endpoints[endpoint] ? endpoints[endpoint].title : ''}
           endpoint={endpoint}
-          set={this.set.bind(this)}
+          setValue={this.set.bind(this)}
+          search={this.state.search}
+          submitSearch={this.search.bind(this)}
           addBtn={true}
         />
         <br/>
@@ -93,6 +127,26 @@ export default class SearchPage extends Component {
             );
           }) : <p className="text-danger">None Found.</p>}
         </ul>
+        <br/>
+        <nav className="text-center row justify-content-center">
+          <ul className="pagination">
+            <li className="page-item">
+              <button className={`btn btn-${this.hasLastPage() ? 'info': 'primary'}`} disabled={!this.hasLastPage()} onClick={this.lastPage.bind(this)}>
+                <span aria-hidden="true">&laquo; </span>
+                <span className=""> Last</span>
+              </button>
+            </li>
+            <li className="page-item">
+              <button className="btn btn-info" disabled>{this.state.page}</button>
+            </li>
+            <li className="page-item">
+              <button className={`btn btn-${this.hasNextPage() ? 'info': 'primary'}`} disabled={!this.hasNextPage()} onClick={this.nextPage.bind(this)}>
+                <span>Next </span>
+                <span aria-hidden="true">&raquo;</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
       </Dash>
     );
   }

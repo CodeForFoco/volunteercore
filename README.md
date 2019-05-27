@@ -1,6 +1,6 @@
-# Volunteer Matching
+# Volunteer Core
 
-The Volunteer Matching project is a web app that assists in better management of volunteer matching operations. It will track and provide matching suggestions of volunteer partners, opportunities for volunteers, and volunteers. Later features could include communications to build out functionality similar to a CRM.
+The Volunteer Core project is a web app that assists in better management of Volunteer Core operations. It will track and provide matching suggestions of volunteer partners, opportunities for volunteers, and volunteers. Later features could include communications to build out functionality similar to a CRM.
 
 ## Development Setup
 This setup is for use with local development only; production instructions will be included later. Do not use these instructions in production without turning off debug and resetting the SECRET_KEY in the .env variables.
@@ -45,7 +45,7 @@ This documentation is currently aimed at hosting on Heroku but can be set up in 
     * In the final lines of the push to Heroku you should see a confirmation release number and a link to the deployed Heroku app.
 1. Go to the Heroku app url and login with the default admin account (user:admin, password:password). Go to the dashboard and edit the admin user to change the admin password.
 
-If you want to build the frontend yourself, rather than using the prebuilt heroku-production branch, you can make and checkout a branch and run `npm react-scripts build`. This will generate a build directory with the static frontend files. Alter the .gitignore file in client/ to allow git tracking of the build/ directory. Then commit the changes adding the build/ directory and files. Now push your branch `Heroku heroku addons:create your-branch-name:hobby-dev`
+If you want to build the frontend yourself, rather than using the prebuilt heroku-production branch, you can make and checkout a branch and run `npm run build`. This will generate a build directory with the static frontend files. Alter the .gitignore file in client/ to allow git tracking of the build/ directory. Then commit the changes adding the build/ directory and files. Now push your branch `Heroku heroku addons:create your-branch-name:hobby-dev`
 
 
 ## Contributing
@@ -74,8 +74,8 @@ MIT, see [LICENSE](/LICENSE) for full license.
 [slack]: https://codeforfoco.slack.com/
 [slackinvite]: https://codeforfocoslack.herokuapp.com
 [fork]: https://help.github.com/articles/fork-a-repo/
-[forkthisrepo]: https://github.com/CodeForFoco/volunteermatching#fork-destination-box
+[forkthisrepo]: https://github.com/CodeForFoco/volunteercore#fork-destination-box
 [contributing]: https://github.com/CodeForFoco/org/blob/master/CONTRIBUTING.md
-[githubissue]: https://github.com/CodeForFoco/volunteermatching/issues
-[newissue]: https://github.com/CodeForFoco/volunteermatching/issues/new
-[pullrequest]: https://github.com/CodeForFoco/volunteermatching/pulls
+[githubissue]: https://github.com/CodeForFoco/volunteercore/issues
+[newissue]: https://github.com/CodeForFoco/volunteercore/issues/new
+[pullrequest]: https://github.com/CodeForFoco/volunteercore/pulls

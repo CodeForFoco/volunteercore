@@ -59,7 +59,7 @@ class Sidebar extends Component {
             to="/dashboard/tag_categories/search">
             Tags
           </Link>
-          {this.props.user && this.props.user.admin ? (
+          {this.props.user && this.props.user.roles && this.props.user.roles.indexOf('Admin') !== -1 ? (
             <Link 
               className="btn btn-block text-left btn-secondary"
               to="/dashboard/users/search">

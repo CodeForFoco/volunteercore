@@ -38,7 +38,7 @@ export default class Signin extends Component {
         });
       })
       .catch(err => {
-        this.setState({ response: { type: 'alert-danger', text: err.statusText }});
+        this.setState({ response: { type: 'alert-danger', text: err.response.data.message }});
       });
   }
 
@@ -56,7 +56,7 @@ export default class Signin extends Component {
       <Wrap {...this.props}>
         <div className="card">
           <div className="card-header">
-            Hello from Volunteer Force!
+            Hello from Volunteer Core!
           </div>
           <div className="card-body">
             <h2>Sign In</h2>
@@ -65,7 +65,7 @@ export default class Signin extends Component {
               data={this.state}
               submitForm={this.submitForm.bind(this)}
               setValue={this.setValue.bind(this)}
-              color='info'
+              submitBtnClass='btn-info'
               fields={[{
                 name: 'username'
               }, {

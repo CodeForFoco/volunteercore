@@ -1,10 +1,10 @@
 from flask import jsonify, request, url_for
-from volunteermatching import db
-from volunteermatching.api import bp
-from volunteermatching.volops.models import TagCategory, Tag
-from volunteermatching.api.errors import bad_request
-from volunteermatching.api.auth import token_auth
-from volunteermatching.decorators import requires_roles
+from volunteercore import db
+from volunteercore.api import bp
+from volunteercore.volops.models import TagCategory, Tag
+from volunteercore.api.errors import bad_request
+from volunteercore.api.auth import token_auth
+from volunteercore.decorators import requires_roles
 
 
 # API GET endpoint returns individial tag category with given id

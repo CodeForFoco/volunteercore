@@ -1,11 +1,11 @@
 import base64
 from datetime import datetime, timedelta
 import os
-from volunteermatching.auth import login_manager
+from volunteercore.auth import login_manager
 from passlib.apps import custom_app_context as pwd_context
 from flask_login import UserMixin
-from volunteermatching.mixins import PagininatedAPIMixin
-from volunteermatching import db
+from volunteercore.mixins import PagininatedAPIMixin
+from volunteercore import db
 
 # Define models
 roles_users = db.Table('roles_users',
