@@ -53,10 +53,6 @@ def get_opportunities_api():
 def update_opportunity_api(id):
     opportunity = Opportunity.query.get_or_404(id)
     data = request.get_json() or {}
-    if 'name' in data and Opportunity.query.filter_by(
-            name=data['name'], partner_id=Partner.query.filter_by(
-            name=data['partner_name']).first().id).first():
-        return bad_request('please use a different opportunity name')
     if 'partner_name' in data:
         data['partner_id'] = Partner.query.filter_by(
             name=data['partner_name']).first().id
