@@ -37,8 +37,8 @@ export default class SelectMany extends Component {
   }
 
   addOption(option) {
-    let arr = this.props.value;
-    if (!arr || arr.indexOf(option) !== -1) return;
+    let arr = this.props.value || [];
+    if (arr.indexOf(option) !== -1) return;
     arr.push(option);
     this.props.setValue({ [this.props.name]: arr });
   }
@@ -53,9 +53,6 @@ export default class SelectMany extends Component {
     this._isMounted = true;
     if (!this.props.options && (this.props.getOptions || this.props.customGet)) {
       this.getOptions();
-    }
-    if (!this.props.value || !Array.isArray(this.props.value)) {
-      this.props.setValue({ [this.props.name]: [] });
     }
   }
 
