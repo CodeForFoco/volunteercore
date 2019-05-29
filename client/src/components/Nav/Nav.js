@@ -43,19 +43,28 @@ export default class Nav extends Component {
             <li className='nav-item'>
               <Link className='nav-link' to='/partners'>Partners</Link>
             </li>
+
             {this.props.token ? (
               <>
                 <li className='nav-item'>
                   <Link className='nav-link' to='/dashboard/opportunities/search'>Dashboard</Link>
                 </li>
                 <li className='nav-item'>
+                  <Link className='nav-link' to='/help'>Help</Link>
+                </li>
+                <li className='nav-item'>
                   <span className='nav-link' onClick={this.signout.bind(this)}>Sign Out</span>
                 </li>
               </>
             ): (
-              <li className='nav-item'>
-                <Link className='nav-link' to='/'>Sign In</Link>
-              </li>
+              <>
+                <li className='nav-item'>
+                  <Link className='nav-link' to='/help'>Help</Link>
+                </li>
+                <li className='nav-item'>
+                  <Link className='nav-link' to='/'>Sign In</Link>
+                </li>
+              </>
             )}
           </ul>
           {/*

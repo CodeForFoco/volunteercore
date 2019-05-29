@@ -71,7 +71,6 @@ class Sidebar extends Component {
             </span>
           )}
           <Link className="btn btn-block text-left btn-secondary text-muted" disabled to="/">Settings</Link>
-          <Link className="btn btn-block text-left btn-secondary text-muted" disabled to="/">Help</Link>
         </div>
       </div>
     );
