@@ -81,6 +81,7 @@ export default class SelectMany extends Component {
           className="form-control"
           name={name} 
           onChange={(e) => this.addOption(e.target.value)}>
+          <option disabled selected value>Choose Options</option>
           {options ? options.map(name => {
             return <option key={`option-${name}`} value={name}>{name}</option>
           }) : ''}
