@@ -35,8 +35,8 @@ export default class OpportunityThumb extends Component {
           })}
         </div>
         <div className="btn-group">
-          <Link className="btn btn-info btn-sm" to={`/partners/view/${id}`}>View</Link>
-          <Link className="btn btn-warning btn-sm" to={`/partners/edit/${id}`}>Edit</Link>
+          <Link className="btn btn-info btn-sm" to={`/opportunities/view/${id}`}>View</Link>
+          <Link className="btn btn-warning btn-sm" to={`/opportunities/edit/${id}`}>Edit</Link>
           <button className="btn btn-danger btn-sm" onClick={this.props.deleteOne.bind(this)}>Delete</button>
         </div>
       </div>
