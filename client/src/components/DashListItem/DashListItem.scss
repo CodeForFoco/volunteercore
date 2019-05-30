@@ -1,0 +1,10 @@
+@import '../../utils/variables';
+
+.dash-list-item {
+  flex-direction: column;
+  align-items: center;
+  @media screen and (min-width: $xs) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
