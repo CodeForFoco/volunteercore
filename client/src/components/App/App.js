@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import ROUTES from './routes.js';
 import axios from 'axios';
 import Page404 from '../../pages/Page404/Page404';
@@ -38,10 +38,15 @@ class App extends Component {
           {ROUTES.map((route) => {
             const C = route.component;
             route.component = (props) => {
+              const { user, token } = this.state;
               if (route.admin) {
-                const { user } = this.state;
                 if (!user || !user.roles || user.roles.indexOf('Admin') === -1) {
-                  return <Page404 key={'r-' + route.path} {...this.state} {...props}/>;
+                  return <Redirect to="/"/>;
+                }
+              }
+              if (route.token) {
+                if (!token || !user || !user.roles) {
+                  return <Redirect to="/"/>
                 }
               }
               return <C set={this.set.bind(this)} {...this.state} {...props}/>

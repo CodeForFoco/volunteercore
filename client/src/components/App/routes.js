@@ -6,25 +6,32 @@ module.exports = [{
   component: require('../../pages/Signin/Signin.js').default
 }, {
   path: '/opportunities',
-  component: require('../../pages/Opportunities/Opportunities').default
+  component: require('../../pages/Opportunities/Opportunities').default,
+  token: true
 }, {
   path: '/opportunities/view/:id',
-  component: require('../../pages/Opportunities/ViewOpportunity/ViewOpportunity').default
+  component: require('../../pages/Opportunities/ViewOpportunity/ViewOpportunity').default,
+  token: true
 }, {
   path: '/opportunities/post',
-  component: require('../../pages/Opportunities/PostOpportunity/PostOpportunity').default
+  component: require('../../pages/Opportunities/PostOpportunity/PostOpportunity').default,
+  token: true
 }, {
   path: '/opportunities/edit/:id',
-  component: require('../../pages/Opportunities/PutOpportunity/PutOpportunity').default
+  component: require('../../pages/Opportunities/PutOpportunity/PutOpportunity').default,
+  token: true
 }, {
   path: '/partners',
-  component: require('../../pages/Partners/Partners.js').default
+  component: require('../../pages/Partners/Partners.js').default,
+  token: true
 }, {
   path: '/partners/post',
-  component: require('../../pages/Partners/PostPartner/PostPartner.js').default
+  component: require('../../pages/Partners/PostPartner/PostPartner.js').default,
+  token: true
 }, {
   path: '/partners/edit/:id',
-  component: require('../../pages/Partners/PutPartner/PutPartner').default
+  component: require('../../pages/Partners/PutPartner/PutPartner').default,
+  token: true
 }, {
   path: '/help',
   component: require('../../pages/Help/Help.js').default
