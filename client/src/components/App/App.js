@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ROUTES from './routes.js';
-import './App.scss';
 import axios from 'axios';
+import Page404 from '../../pages/Page404/Page404';
+import './App.scss';
+
 
 class App extends Component {
   constructor(props) {
@@ -36,6 +38,12 @@ class App extends Component {
           {ROUTES.map((route) => {
             const C = route.component;
             route.component = (props) => {
+              if (route.admin) {
+                const { user } = this.state;
+                if (!user || !user.roles || user.roles.indexOf('Admin') === -1) {
+                  return <Page404 key={'r-' + route.path} {...this.state} {...props}/>;
+                }
+              }
               return <C set={this.set.bind(this)} {...this.state} {...props}/>
             };
             return (<Route exact {...route} key={'r-' + route.path}/>);
