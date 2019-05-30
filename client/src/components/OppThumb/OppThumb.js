@@ -17,19 +17,20 @@ export default class OpportunityThumb extends Component {
 
   render () {
     const tags = this.flattenTags(this.props.tags);
-    const { id } = this.props;
+    const { id, location_street, location_city, location_zip } = this.props;
     return (
       <div className='opp-thumb'>
         <Link to={`/opportunities/view/${this.props.id}`}>
           <h4><u>{this.props.name}</u> - {this.props.partner_name}</h4>
         </Link>
-        <p>{this.props.location_street} {this.props.location_city}, {this.props.location_state}, {this.props.location_zip}</p>
-        <p>
-          {this.props.shift_hours} Hours - 
-          {' ' + (this.props.commitment_length_months || 0) + ' Months' }
+        <span>{location_street || '? Street'} {location_city || '? City'}, {location_zip || '? Zip'}</span>
+        <br/>
+        <span>
+          {this.props.shift_hours || '?'} Hours - 
+          {' ' + (this.props.commitment_length_months || '?') + ' Months' }
           {this.props.volunteers_needed ? ' - ' + this.props.volunteers_needed + ' Volunteers Needed' : ''}
-        </p>
-        <div>
+        </span>
+        <div className="opp-thumb-tags">
           {tags.map(tag => {
             return <span className='badge badge-pill badge-primary'>{ tag }</span>
           })}
