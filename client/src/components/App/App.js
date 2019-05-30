@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
+import history from '../../utils/history';
 import ROUTES from './routes.js';
 import axios from 'axios';
 import Page404 from '../../pages/Page404/Page404';
 import './App.scss';
-
 
 class App extends Component {
   constructor(props) {
@@ -33,7 +33,7 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
+      <Router history={history}>
         <Switch>
           {ROUTES.map((route) => {
             const C = route.component;
