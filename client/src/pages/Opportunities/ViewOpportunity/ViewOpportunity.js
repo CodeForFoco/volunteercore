@@ -12,9 +12,24 @@ export default class ViewOpportunity extends Component {
     }
   }
 
+  // {categoryB: [b], categoryA: [a] } => [a, b]
+  flattenTags(categories) {
+    if (!categories || Array.isArray(categories)) return [];
+    let tags = [];
+    Object.keys(categories).forEach(key => {
+      categories[key].forEach(tag => {
+        tags.push(tag);
+      });
+    });
+    return tags;
+  }
+
   componentDidMount() {
     axios.get('/api/opportunities/' + this.props.match.params.id)
       .then(res => {
+        if (res.data.tags) {
+          res.data.tags = this.flattenTags(res.data.tags);
+        }
         this.setState({ opportunity: res.data });
       })
       .catch(err => {
@@ -45,7 +60,7 @@ export default class ViewOpportunity extends Component {
                 case 'id': return '';
                 case 'partner_string': return '';
               }
-              return <p><b>{key}:</b> {opp[key]}</p>;
+              return <p><b>{key}:</b> {JSON.stringify(opp[key])}</p>;
             }): ''}
           </div>
         </div>
