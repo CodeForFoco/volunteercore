@@ -18,16 +18,20 @@ module.exports = [{
   component: require('../../pages/Help/Help.js').default
 }, {
   path: '/dashboard/:endpoint/search',
-  component: require('../../pages/SearchPage/SearchPage.js').default
+  component: require('../../pages/SearchPage/SearchPage.js').default,
+  admin: true
 }, {
   path: '/dashboard/:endpoint/add',
-  component: require('../../pages/PostPage/PostPage.js').default
+  component: require('../../pages/PostPage/PostPage.js').default,
+  admin: true
 }, {
   path: '/dashboard/:endpoint/edit/:id',
-  component: require('../../pages/PutPage/PutPage.js').default
+  component: require('../../pages/PutPage/PutPage.js').default,
+  admin: true
 }, {
   path: '/dashboard/:endpoint/view/:id',
-  component: require('../../pages/ViewPage/ViewPage.js').default
+  component: require('../../pages/ViewPage/ViewPage.js').default,
+  admin: true
 }, {
   component: require('../../pages/Page404/Page404.js').default
 }];
