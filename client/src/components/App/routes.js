@@ -14,6 +14,9 @@ module.exports = [{
   path: '/partners',
   component: require('../../pages/Partners/Partners.js').default
 }, {
+  path: '/help',
+  component: require('../../pages/Help/Help.js').default
+}, {
   path: '/dashboard/:endpoint/search',
   component: require('../../pages/SearchPage/SearchPage.js').default
 }, {
