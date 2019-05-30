@@ -38,6 +38,20 @@ export default class Opportunties extends Component {
     this.setState(obj, cb);
   }
 
+  deleteOne(index) {
+    const token = this.props.token;
+    let searchResult = this.state.searchResult;
+    let id = searchResult.items[index].id;
+    axios.delete(`/api/opportunities/${id}`, { headers: { Authorization: `Bearer ${token}`}})
+      .then(res => {
+        searchResult.items.splice(index, 1);
+        this.setState({ searchResult });
+      })
+      .catch(err => {
+        alert('Delete Failed. Please try again.');
+      });
+  }
+
   componentDidMount() {
     this.search();
   }
@@ -57,8 +71,13 @@ export default class Opportunties extends Component {
         />
         <Alert {...this.state.searchError}/>
         <br/><br/>
-        {items && items.length > 0 ? items.map((val) => {
-          return <Thumb {...val}/>;
+        {items && items.length > 0 ? items.map((val, i) => {
+          return (
+            <Thumb
+              {...val}
+              deleteOne={() => { this.deleteOne(i) }}
+            />
+          );
         }): <p className="text-danger">No Opportunities found.</p>}
         <Pagination
           {...this.state}

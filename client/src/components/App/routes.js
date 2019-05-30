@@ -8,11 +8,23 @@ module.exports = [{
   path: '/opportunities',
   component: require('../../pages/Opportunities/Opportunities').default
 }, {
-  path: '/opportunities/:id',
-  component: require('../../pages/Opportunity/Opportunity.js').default
+  path: '/opportunities/view/:id',
+  component: require('../../pages/Opportunities/ViewOpportunity/ViewOpportunity').default
+}, {
+  path: '/opportunities/post',
+  component: require('../../pages/Opportunities/PostOpportunity/PostOpportunity').default
+}, {
+  path: '/opportunities/edit/:id',
+  component: require('../../pages/Opportunities/PutOpportunity/PutOpportunity').default
 }, {
   path: '/partners',
   component: require('../../pages/Partners/Partners.js').default
+}, {
+  path: '/partners/post',
+  component: require('../../pages/Partners/PostPartner/PostPartner.js').default
+}, {
+  path: '/partners/edit/:id',
+  component: require('../../pages/Partners/PutPartner/PutPartner').default
 }, {
   path: '/help',
   component: require('../../pages/Help/Help.js').default
