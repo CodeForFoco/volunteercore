@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   @media screen and (min-width: $xs) {
-    height: 100vh;
+    height: 100%;
   }
 }
 
@@ -12,7 +12,6 @@
   display: flex;
   flex-direction: column;
   @media screen and (min-width: $xs) {
-    height: 100%;
     flex-direction: row;
   }
 }
