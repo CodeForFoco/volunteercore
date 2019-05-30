@@ -53,6 +53,7 @@ export default class Opportunties extends Component {
           setValue={this.setValue.bind(this)}
           search={this.state.search}
           submitSearch={this.search.bind(this)}
+          postUrl="/opportunities/post"
         />
         <Alert {...this.state.searchError}/>
         <br/><br/>
