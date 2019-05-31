@@ -25,7 +25,8 @@ export default class ViewOpportunity extends Component {
   }
 
   componentDidMount() {
-    axios.get('/api/opportunities/' + this.props.match.params.id)
+    const token = this.props.token;
+    axios.get('/api/opportunities/' + this.props.match.params.id, { headers: { Authorization: 'Bearer ' + token}})
       .then(res => {
         if (res.data.tags) {
           res.data.tags = this.flattenTags(res.data.tags);
@@ -41,7 +42,6 @@ export default class ViewOpportunity extends Component {
     const opp = this.state.opportunity;
     return (
       <Wrap {...this.props}>
-        <h1>{opp.partner_name || 'Loading...'}</h1>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item"><Link to="/opportunities" className="text-info">Opportunities</Link></li>
