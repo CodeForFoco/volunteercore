@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './PartnerThumb.scss';
 
-export default class OpportunityThumb extends Component {
+export default class PartnerThumb extends Component {
   render () {
+    const { id } = this.props;
     return (
       <div className='opp-thumb'>
-        <h4><u>{this.props.name}</u> - {this.props.partner_name}</h4>
-        <p>{this.props.location_street} {this.props.location_city}, {this.props.location_state}, {this.props.location_zip}</p>
-        <p>{this.props.shift_hours} Hour - {this.props.frequency} - {this.props.commitment_length} - {this.props.commitment_length}</p>
-        <div>
-          <span className='badge badge-pill badge-primary'> Children </span>
-          <span className='badge badge-pill badge-primary'> Art </span>
-          <span className='badge badge-pill badge-primary'> Teaching </span>
-          <span className='badge badge-pill badge-primary'> Cooking </span>       
+        <h4>{this.props.name} - {this.props.opportunity_count}</h4>
+        <div className="btn-group">
+          {/*<Link className="btn btn-info btn-sm" to={`/partners/view/${id}`}>View</Link>
+          */}
+          <Link className="btn btn-warning btn-sm" to={`/partners/edit/${id}`}>Edit</Link>
+          <button className="btn btn-danger btn-sm" onClick={this.props.deleteOne.bind(this)}>Delete</button>
         </div>
       </div>
     );

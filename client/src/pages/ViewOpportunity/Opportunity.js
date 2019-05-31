@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Wrap from '../../components/Wrap/Wrap.js';
+import Wrap from '../../../components/Wrap/Wrap.js';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
