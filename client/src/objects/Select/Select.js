@@ -13,7 +13,8 @@ export default class Select extends Component {
   }
 
   getOptions() {
-    axios.get(this.props.getOptions.endpoint)
+    const token = this.props.token;
+    axios.get(this.props.getOptions.endpoint, { headers: { Authorization: 'Bearer ' + token }})
       .then(res => {
         if (!this._isMounted) return;
         this.setState({
