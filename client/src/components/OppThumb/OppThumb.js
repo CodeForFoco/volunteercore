@@ -25,7 +25,7 @@ export default class OpportunityThumb extends Component {
         </Link>
         <p>{this.props.location_street} {this.props.location_city}, {this.props.location_state}, {this.props.location_zip}</p>
         <p>
-          {this.props.shift_hours} Hours - 
+          {this.props.shift_hours} Hours -
           {' ' + (this.props.commitment_length_months || 0) + ' Months' }
           {this.props.volunteers_needed ? ' - ' + this.props.volunteers_needed + ' Volunteers Needed' : ''}
         </p>
@@ -35,8 +35,8 @@ export default class OpportunityThumb extends Component {
           })}
         </div>
         <div className="btn-group">
-          <Link className="btn btn-info btn-sm" to={`/partners/view/${id}`}>View</Link>
-          <Link className="btn btn-warning btn-sm" to={`/partners/edit/${id}`}>Edit</Link>
+          <Link className="btn btn-info btn-sm" to={`/opportunities/view/${id}`}>View</Link>
+          <Link className="btn btn-warning btn-sm" to={`/opportunities/edit/${id}`}>Edit</Link>
           <button className="btn btn-danger btn-sm" onClick={this.props.deleteOne.bind(this)}>Delete</button>
         </div>
       </div>
