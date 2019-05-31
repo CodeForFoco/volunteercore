@@ -32,7 +32,7 @@ export default class Form extends Component {
           }
           return this.renderItem(item, `item-${i}`);
         }) : <p className="text-danger">INVALID FORM</p>}
-        <input type="submit" className={(this.props.submitBtnClass || 'btn-secondary') + " btn btn-block"}></input>
+        <input type="submit" className={(this.props.submitBtnClass || 'btn-secondary') + " btn btn-block"} value="Submit"></input>
       </form>
     );
   }

@@ -13,13 +13,15 @@ export default class Select extends Component {
   }
 
   getOptions() {
-    axios.get(this.props.getOptions.endpoint)
+    const token = this.props.token;
+    axios.get(this.props.getOptions.endpoint, { headers: { Authorization: 'Bearer ' + token }})
       .then(res => {
         if (!this._isMounted) return;
         this.setState({
           options: res.data.items.map(item => {
             return item[this.props.getOptions.property];
-          })
+          })}, () => {
+          this.props.setValue({ [this.props.name]: this.state.options[0] });
         });
       });
   }

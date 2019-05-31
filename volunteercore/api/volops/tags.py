@@ -9,12 +9,14 @@ from volunteercore.decorators import requires_roles
 
 # API GET endpoint returns individial tag category with given id
 @bp.route('/api/tag_categories/<int:id>', methods=['GET'])
+@token_auth.login_required
 def get_tag_category_api(id):
     return jsonify(TagCategory.query.get_or_404(id).to_dict())
 
 # API GET endpoint returns all tag categories with tags, paginated with given
 # page and quantity per page
 @bp.route('/api/tag_categories', methods=['GET'])
+@token_auth.login_required
 def get_tag_categories_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
@@ -80,12 +82,14 @@ def delete_tag_categories_api(id):
 
 # API GET endpoint returns a single tag by id
 @bp.route('/api/tags/<int:id>', methods=['GET'])
+@token_auth.login_required
 def get_tag_api(id):
     return jsonify(Tag.query.get_or_404(id).to_dict())
 
 # API GET endpoint returns all tags, paginated with given page and quantity
 # per page
 @bp.route('/api/tags', methods=['GET'])
+@token_auth.login_required
 def get_tags_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)

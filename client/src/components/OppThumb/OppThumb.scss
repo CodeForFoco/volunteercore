@@ -1,6 +1,15 @@
 @import '../../utils/_variables.scss';
 
 .opp-thumb {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem !important;
   transition: 0.1s ease-in-out;
+  cursor: default !important;
+}
+
+.opp-thumb-tags {
+  margin: 7px 0;
+  .badge {
+    margin-left: 0;
+    margin-right: 5px;
+  }
 }

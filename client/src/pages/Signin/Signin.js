@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import history from '../../utils/history';
 import Wrap from '../../components/Wrap/Wrap';
 import Form from '../../objects/Form/Form.js';
 import Alert from '../../components/Alert/Alert.js';
@@ -30,10 +31,13 @@ export default class Signin extends Component {
       .then(res => {
         this.props.set({ token: res.data.token }, () => {
           window.localStorage.setItem('token', res.data.token);
-          axios.get('/api/users/1', { headers: {
+          axios.get('/api/users/authenticated_user', { headers: {
             Authorization: 'Bearer ' + res.data.token
-          }}).then(() => {
-            this.props.set({ user: { admin: true }});
+          }}).then(res => {
+            this.props.set({ user: res.data });
+          }).catch(err => {
+            const message = err && err.response && err.response.data && err.response.data.message ? err.reponse.data.message : 'Error signing in. Please reload the page.';
+            this.setState({ response: { type: 'alert-danger', text: message }});
           });
         });
       })
@@ -43,11 +47,13 @@ export default class Signin extends Component {
   }
 
   componentDidMount() {
-    if (this.props.token) {
-      this.setState({ response: { 
-        type: 'alert-success', 
-        text: <>You signed in! <Link to="/dashboard/opportunities/search">Click here</Link> to go to the dashboard.</>
-      }});
+    const { token, user } = this.props;
+    if (token && user && user.roles) {
+      if (user.roles.indexOf('Admin') !== -1) {
+        history.push('/dashboard/opportunities/search');
+      } else {
+        history.push('/opportunities');
+      }
     }
   }
 

@@ -99,6 +99,8 @@ def import_opportunities():
                     index_one_record(partner)
                 opportunity.partner_id = Partner.query.filter_by(
                     name=row['partner']).first().id
+                opportunity.partner_string = Partner.query.filter_by(
+                    name=row['partner']).first().name
                 db.session.add(opportunity)
                 db.session.commit()
                 index_one_record(opportunity)
@@ -139,6 +141,7 @@ def import_opportunity_tags():
                     name=row['tag']).first())
                 db.session.add(opportunity)
                 db.session.commit()
+                index_one_record(opportunity)
                 items_imported += 1
         open_csv.close()
         os.remove(os.path.join(Config.UPLOAD_FOLDER, import_filename))

@@ -9,12 +9,14 @@ from flask_whooshalchemyplus import index_one_record
 
 # API GET endpoint returns individual opportunity from given id
 @bp.route('/api/opportunities/<int:id>', methods=['GET'])
+@token_auth.login_required
 def get_opportunity_api(id):
     return jsonify(Opportunity.query.get_or_404(id).to_dict())
 
 # API GET endpoint returns all opportunities, paginated with given page and
 # quantity per page. Accepts search argument to filter with Whoosh search.
 @bp.route('/api/opportunities', methods=['GET'])
+@token_auth.login_required
 def get_opportunities_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
@@ -53,10 +55,6 @@ def get_opportunities_api():
 def update_opportunity_api(id):
     opportunity = Opportunity.query.get_or_404(id)
     data = request.get_json() or {}
-    if 'name' in data and Opportunity.query.filter_by(
-            name=data['name'], partner_id=Partner.query.filter_by(
-            name=data['partner_name']).first().id).first():
-        return bad_request('please use a different opportunity name')
     if 'partner_name' in data:
         data['partner_id'] = Partner.query.filter_by(
             name=data['partner_name']).first().id

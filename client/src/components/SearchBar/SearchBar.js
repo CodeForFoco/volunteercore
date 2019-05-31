@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import './SearchBar.scss';
 
 export default class SearchBar extends Component {
@@ -25,7 +24,11 @@ export default class SearchBar extends Component {
               <Link className="btn btn-info add-btn" to={`/dashboard/${this.props.endpoint}/add`}>
                 Add {this.props.endpoint}
               </Link>
-            ): ''}
+            ): this.props.postUrl ? (
+              <Link className="btn btn-info add-btn" to={this.props.postUrl}>
+                Add {this.props.endpoint}
+              </Link>
+            ) : ''}
           </div>
         </div>
       </form>

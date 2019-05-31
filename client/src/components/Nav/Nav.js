@@ -28,6 +28,9 @@ export default class Nav extends Component {
   }
 
   render () {
+    const { user, token } = this.props;
+    const isUser = token;
+    const isAdmin = token && user && user.roles && user.roles.indexOf('Admin') !== -1;
     return (
       <nav className='navbar navbar-expand-lg navbar-light bg-light'>
         <Link className='navbar-brand' to='/'>Volunteer Core</Link>
@@ -37,22 +40,29 @@ export default class Nav extends Component {
 
         <div className={this.state.open ? 'navbar-collapse' : 'collapse navbar-collapse'} id='navbarColor03'>
           <ul className='navbar-nav mr-auto'>
-            <li className='nav-item'>
-              <Link className='nav-link' to='/opportunities'>Opportunities</Link>
-            </li>
-            <li className='nav-item'>
-              <Link className='nav-link' to='/partners'>Partners</Link>
-            </li>
-            {this.props.token ? (
+            {isUser ? (
               <>
                 <li className='nav-item'>
-                  <Link className='nav-link' to='/dashboard/opportunities/search'>Dashboard</Link>
+                  <Link className='nav-link' to='/opportunities'>Opportunities</Link>
                 </li>
                 <li className='nav-item'>
-                  <span className='nav-link' onClick={this.signout.bind(this)}>Sign Out</span>
+                  <Link className='nav-link' to='/partners'>Partners</Link>
                 </li>
+                {isAdmin ? (
+                  <li className='nav-item'>
+                    <Link className='nav-link' to='/dashboard/opportunities/search'>Dashboard</Link>
+                  </li>
+                ): ''}
               </>
-            ): (
+            ): ''}
+            <li className='nav-item'>
+              <Link className='nav-link' to='/help'>Help</Link>
+            </li>
+            {isUser ? (
+              <li className='nav-item'>
+                <span className='nav-link' onClick={this.signout.bind(this)}>Sign Out</span>
+              </li>
+            ) : (
               <li className='nav-item'>
                 <Link className='nav-link' to='/'>Sign In</Link>
               </li>
