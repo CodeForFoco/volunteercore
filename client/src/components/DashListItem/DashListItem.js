@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import './DashListItem.scss';
 
 export default class DashListItem extends Component {
   render () {
     return (
-      <li className="list-group-item d-flex justify-content-between align-items-center">
+      <li className="dash-list-item list-group-item d-flex">
         {this.props.text}
-        <div>
+        <div className="dash-list-item-btns">
           <Link className="btn btn-info btn-sm" to={`/dashboard/${this.props.endpoint}/view/${this.props.id}`}>View</Link>
           <Link 
             className="btn btn-warning btn-sm" 
