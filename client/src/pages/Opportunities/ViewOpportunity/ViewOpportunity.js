@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Wrap from '../../../components/Wrap/Wrap.js';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import './ViewOpportunity.scss';
 
 export default class ViewOpportunity extends Component {
   constructor(props) {
@@ -53,15 +54,29 @@ export default class ViewOpportunity extends Component {
             Volunteer for {opp.partner_name || 'Loading...'}
           </div>
           <div className="card-body">
-            <h3><u>{opp.name}</u> - {opp.partner_name}</h3>
-            {opp ? Object.keys(opp).map(key => {
-              if (!opp[key]) return '';
-              switch(key) {
-                case 'id': return '';
-                case 'partner_string': return '';
-              }
-              return <p><b>{key}:</b> {JSON.stringify(opp[key])}</p>;
-            }): ''}
+            <h2>{opp.name}</h2>
+            <h5>Code For Foco</h5>
+            <span>{opp.location_street || '? Street'}, {opp.location_city || '? City'}, {opp.location_zip || '? Zip'}</span>
+            <br/>
+            <span>
+              {opp.shift_hours ? opp.shift_hours + ' Hours' : ''}
+              {opp.commitment_length_months ? ` | ${opp.commitment_length_months} Months` : ''}
+              {opp.volunteers_needed ? ' | ' + opp.volunteers_needed + ' Volunteers Needed' : ''}
+            </span>
+            <div className="opp-thumb-tags">
+              {opp.tags? opp.tags.map(tag => {
+                return <span className='badge badge-dark'>{ tag }</span>
+              }): ''}
+            </div>
+            <br/>
+            <p>{opp.description || 'No Description'}</p>
+            <span className="view-opp-bold">
+              {`${new Date(opp.start_date).toDateString()} to ${new Date(opp.end_date).toDateString()}`}
+            </span>
+            <br/>
+            <span className="view-opp-bold">
+                {`${opp.frequency_unit} ${opp.frequency_modifier}`}
+            </span>
           </div>
         </div>
       </Wrap>

@@ -23,7 +23,7 @@ export default class OpportunityThumb extends Component {
         <Link to={`/opportunities/view/${this.props.id}`}>
           <h4><u>{this.props.name}</u> - {this.props.partner_name}</h4>
         </Link>
-        <span>{location_street || '? Street'} {location_city || '? City'}, {location_zip || '? Zip'}</span>
+        <span>{location_street || '? Street'}, {location_city || '? City'}, {location_zip || '? Zip'}</span>
         <br/>
         <span>
           {this.props.shift_hours || '?'} Hours -
