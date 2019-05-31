@@ -3,7 +3,7 @@ import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import history from '../../utils/history';
 import ROUTES from './routes.js';
 import axios from 'axios';
-import Page404 from '../../pages/Page404/Page404';
+import LoadingPage from '../../pages/Loading/Loading';
 import './App.scss';
 
 class App extends Component {
@@ -11,7 +11,8 @@ class App extends Component {
     super(props);
     this.state = {
       user: {},
-      token: ''
+      token: '',
+      loading: true
     }
   }
 
@@ -25,8 +26,10 @@ class App extends Component {
       axios.get('/api/users/authenticated_user', { headers: {
         Authorization: 'Bearer ' + token }})
         .then(res => {
-          console.log(res.data);
-          this.setState({ token, user: res.data });
+          this.setState({ token, user: res.data, loading: false });
+        })
+        .catch(err => {
+          this.setState({ loading: false });
         });
     }
   }
@@ -38,7 +41,10 @@ class App extends Component {
           {ROUTES.map((route) => {
             const C = route.component;
             route.component = (props) => {
-              const { user, token } = this.state;
+              const { loading, user, token } = this.state;
+              if (loading) {
+                return <LoadingPage/>;
+              }
               if (route.admin) {
                 if (!user || !user.roles || user.roles.indexOf('Admin') === -1) {
                   return <Redirect to="/"/>;

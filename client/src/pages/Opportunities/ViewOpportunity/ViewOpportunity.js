@@ -65,7 +65,7 @@ export default class ViewOpportunity extends Component {
             </span>
             <div className="opp-thumb-tags">
               {opp.tags? opp.tags.map(tag => {
-                return <span className='badge badge-dark'>{ tag }</span>
+                return <span className='badge badge-dark' key={`o-${tag}`}>{ tag }</span>
               }): ''}
             </div>
             <br/>

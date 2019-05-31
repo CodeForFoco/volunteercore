@@ -5,6 +5,9 @@ module.exports = [{
   path: '/signin',
   component: require('../../pages/Signin/Signin.js').default
 }, {
+  path: '/help',
+  component: require('../../pages/Help/Help.js').default
+}, {
   path: '/opportunities',
   component: require('../../pages/Opportunities/Opportunities').default,
   token: true
@@ -32,9 +35,6 @@ module.exports = [{
   path: '/partners/edit/:id',
   component: require('../../pages/Partners/PutPartner/PutPartner').default,
   token: true
-}, {
-  path: '/help',
-  component: require('../../pages/Help/Help.js').default
 }, {
   path: '/dashboard/:endpoint/search',
   component: require('../../pages/SearchPage/SearchPage.js').default,

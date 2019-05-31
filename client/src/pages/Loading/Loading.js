@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Wrap from '../../components/Wrap/Wrap';
 
 export default class Loading extends Component {
   _isMounted = false;
@@ -12,7 +13,7 @@ export default class Loading extends Component {
   }
 
   runAnimation() {
-    if (_isMounted) {
+    if (this._isMounted) {
       let { dots } = this.state;
       if (dots < 3) {
         dots++;
@@ -22,6 +23,15 @@ export default class Loading extends Component {
       this.setState({ dots });
       window.setTimeout(this.runAnimation.bind(this), 300);
     }
+  }
+
+  displayDots() {
+    let { dots } = this.state;
+    let str = '';
+    while(str.length !== dots) {
+      str += '.';
+    }
+    return str;
   }
 
   componentDidMount() {
@@ -35,9 +45,9 @@ export default class Loading extends Component {
 
   render () {
     return (
-      <div>
-        <h3>Loading...</h3>
-      </div>
+      <Wrap>
+        <h3>Loading awesome content{this.displayDots()}</h3>
+      </Wrap>
     );
   }
 }
