@@ -25,7 +25,7 @@ export default class OpportunityThumb extends Component {
         </Link>
         <p>{this.props.location_street} {this.props.location_city}, {this.props.location_state}, {this.props.location_zip}</p>
         <p>
-          {this.props.shift_hours} Hours - 
+          {this.props.shift_hours} Hours -
           {' ' + (this.props.commitment_length_months || 0) + ' Months' }
           {this.props.volunteers_needed ? ' - ' + this.props.volunteers_needed + ' Volunteers Needed' : ''}
         </p>
