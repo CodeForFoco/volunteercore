@@ -21,6 +21,8 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log('Mounted App.');
+    console.log(JSON.stringify(this.state));
     const token = window.localStorage.getItem('token');
     if (token && token !== 'undefined') {
       axios.get('/api/users/authenticated_user', { headers: {
@@ -31,6 +33,8 @@ class App extends Component {
         .catch(err => {
           this.setState({ loading: false });
         });
+    } else {
+      this.setState({ loading: false });
     }
   }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import history from '../../utils/history.js';
 
 export default class Nav extends Component {
   constructor(props) {
@@ -16,7 +17,9 @@ export default class Nav extends Component {
       Authorization: 'Bearer ' + this.props.token
     }}).then(res => {
       window.localStorage.setItem('token', undefined);
-      window.location.href = '/';
+      this.props.set({ user: {}}, () => {
+        history.push('/');
+      });
     }).catch(err => {
       alert('Sign Out Failed. Please try refreshing the page.');
     });
