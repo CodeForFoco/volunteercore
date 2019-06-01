@@ -32,8 +32,8 @@ export default class Nav extends Component {
 
   render () {
     const { user, token } = this.props;
-    const isUser = token;
-    const isAdmin = token && user && user.roles && user.roles.indexOf('Admin') !== -1;
+    const isUser = token && user && user.roles;
+    const isAdmin = isUser && user.roles.indexOf('Admin') !== -1;
     return (
       <nav className='navbar navbar-expand-lg navbar-light bg-light'>
         <Link className='navbar-brand' to='/'>Volunteer Core</Link>
