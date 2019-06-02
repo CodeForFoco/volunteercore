@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import history from '../../utils/history.js';
 
 export default class Nav extends Component {
   constructor(props) {
@@ -16,7 +17,9 @@ export default class Nav extends Component {
       Authorization: 'Bearer ' + this.props.token
     }}).then(res => {
       window.localStorage.setItem('token', undefined);
-      window.location.href = '/';
+      this.props.set({ user: {}}, () => {
+        history.push('/');
+      });
     }).catch(err => {
       alert('Sign Out Failed. Please try refreshing the page.');
     });
@@ -29,8 +32,8 @@ export default class Nav extends Component {
 
   render () {
     const { user, token } = this.props;
-    const isUser = token;
-    const isAdmin = token && user && user.roles && user.roles.indexOf('Admin') !== -1;
+    const isUser = token && user && user.roles;
+    const isAdmin = isUser && user.roles.indexOf('Admin') !== -1;
     return (
       <nav className='navbar navbar-expand-lg navbar-light bg-light'>
         <Link className='navbar-brand' to='/'>Volunteer Core</Link>

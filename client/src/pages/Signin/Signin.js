@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import history from '../../utils/history';
 import Wrap from '../../components/Wrap/Wrap';
 import Form from '../../objects/Form/Form.js';
@@ -50,7 +49,7 @@ export default class Signin extends Component {
     const { token, user } = this.props;
     if (token && user && user.roles) {
       if (user.roles.indexOf('Admin') !== -1) {
-        history.push('/dashboard/opportunities/search');
+        history.push('/dashboard/tag_categories/search');
       } else {
         history.push('/opportunities');
       }

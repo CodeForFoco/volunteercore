@@ -32,7 +32,7 @@ export default class OpportunityThumb extends Component {
         </span>
         <div className="opp-thumb-tags">
           {tags.map(tag => {
-            return <span className='badge badge-dark'>{ tag }</span>
+            return <span className='badge badge-dark' key={'tag-' + tag}>{ tag }</span>
           })}
         </div>
         <div className="btn-group">

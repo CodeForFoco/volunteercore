@@ -75,6 +75,7 @@ export default class Opportunties extends Component {
           return (
             <Thumb
               {...val}
+              key={'thumb-' + i}
               deleteOne={() => { this.deleteOne(i) }}
             />
           );

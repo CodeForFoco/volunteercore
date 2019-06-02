@@ -53,7 +53,7 @@ export default class ArrayInput extends Component {
           <input 
             autoComplete={this.props.autoComplete || 'null'}
             className="form-control"
-            placeholder={this.props.placeholder || 'Enter ' + (this.props.label || this.props.name)} 
+            placeholder={placeholder || 'Enter ' + (this.props.label || this.props.name)} 
             value={this.state.text}
             onChange={this.updateText.bind(this)}
           />

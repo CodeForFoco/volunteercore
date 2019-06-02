@@ -31,6 +31,8 @@ class App extends Component {
         .catch(err => {
           this.setState({ loading: false });
         });
+    } else {
+      this.setState({ loading: false });
     }
   }
 
