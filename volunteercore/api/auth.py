@@ -1,7 +1,7 @@
 from flask import jsonify, request, url_for, g
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
 from flask_login import current_user, login_user, logout_user, login_required
-from volunteercore import db
+from volunteercore import db, login_manager
 from volunteercore.api import bp
 from volunteercore.auth.models import User, Role
 from volunteercore.api.errors import bad_request, error_response
@@ -36,6 +36,10 @@ def verify_token(token):
 @token_auth.error_handler
 def token_error_handler():
     return error_response(401)
+
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return error_response(401, message='please log in')
 
 
 @bp.route('/api/auth/login', methods=['GET', 'POST'])
