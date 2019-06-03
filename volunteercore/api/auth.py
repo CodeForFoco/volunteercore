@@ -1,5 +1,6 @@
 from flask import jsonify, request, url_for, g
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
+from flask_login import current_user, login_user, logout_user, login_required
 from volunteercore import db
 from volunteercore.api import bp
 from volunteercore.auth.models import User, Role
@@ -36,6 +37,22 @@ def verify_token(token):
 def token_error_handler():
     return error_response(401)
 
+
+@bp.route('/api/auth/login', methods=['GET', 'POST'])
+@basic_auth.login_required
+def login():
+    if g.current_user is None:
+        return error_response(401)
+    login_user(g.current_user)
+    return 'You\'re a wizard Harry', 201
+
+
+@bp.route('/api/auth/logout', methods=['POST'])
+def logout():
+    logout_user()
+    return 'It\'s Summer Harry', 201
+
+
 # API GET endpoint returns an individual user. The users email is only
 # returned when the include_email argument is pass as True.
 @bp.route('/api/users/<int:id>', methods=['GET'])
@@ -47,9 +64,10 @@ def get_user_api(id):
 
 # API GET endpoint return all users, paginated with given page and quantity
 # per page.
+# @token_auth.login_required
+# @requires_roles('Admin')
 @bp.route('/api/users', methods=['GET'])
-@token_auth.login_required
-@requires_roles('Admin')
+@login_required
 def get_users_api():
     include_email = request.args.get('include_email', False)
     page = request.args.get('page', 1, type=int)

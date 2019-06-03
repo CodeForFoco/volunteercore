@@ -7,7 +7,7 @@ from .auth import basic_auth, token_auth
 # as cookies.
 @bp.route('/api/token/auth', methods=['POST'])
 @basic_auth.login_required
-def login():
+def token_login():
     token = g.current_user.get_token()
     db.session.commit()
     resp = jsonify({'token': token})
@@ -17,7 +17,7 @@ def login():
 # API POST endpoint to clear a users access and refresh token cookies.
 @bp.route('/api/token/logout', methods=['POST'])
 @token_auth.login_required
-def logout():
+def token_logout():
     g.current_user.revoke_token()
     db.session.commit()
     return '', 204
