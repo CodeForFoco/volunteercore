@@ -18,15 +18,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const token = window.localStorage.getItem('token');
-    if (token && token !== 'undefined') {
-      axios.get('/api/users/authenticated_user', { headers: {
-        Authorization: 'Bearer ' + token }})
-        .then(res => {
-          console.log(res.data);
-          this.setState({ token, user: res.data });
-        });
-    }
+    axios.get('/api/users/authenticated_user')
+      .then(res => {
+        console.log(res.data);
+        this.setState({ user: res.data });
+      });
   }
 
   render() {

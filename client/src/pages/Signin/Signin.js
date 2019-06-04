@@ -23,32 +23,15 @@ export default class Signin extends Component {
   submitForm(e) {
     e.preventDefault();
     const { username, password } = this.state;
-    axios.post('/api/token/auth', {}, 
-      { headers: { 
-        Authorization: 'Basic ' + window.btoa(username + ':' + password)
-      }})
+    axios.post('/api/auth/login', {}, 
+      { headers: { Authorization: 'Basic ' + window.btoa(username + ':' + password) }})
       .then(res => {
-        this.props.set({ token: res.data.token }, () => {
-          window.localStorage.setItem('token', res.data.token);
-          axios.get('/api/users/1', { headers: {
-            Authorization: 'Bearer ' + res.data.token
-          }}).then(() => {
-            this.props.set({ user: { admin: true }});
-          });
-        });
+        alert(JSON.stringify(res));
+        this.props.set({ user: {}});
       })
       .catch(err => {
         this.setState({ response: { type: 'alert-danger', text: err.response.data.message }});
       });
-  }
-
-  componentDidMount() {
-    if (this.props.token) {
-      this.setState({ response: { 
-        type: 'alert-success', 
-        text: <>You signed in! <Link to="/dashboard/opportunities/search">Click here</Link> to go to the dashboard.</>
-      }});
-    }
   }
 
   render () {
