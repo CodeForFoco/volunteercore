@@ -1,20 +1,22 @@
 from flask import jsonify, request, url_for
+from flask_login import login_required
 from volunteercore import db
 from volunteercore.api import bp
 from volunteercore.volops.models import TagCategory, Tag
 from volunteercore.api.errors import bad_request
-from volunteercore.api.auth import token_auth
 from volunteercore.decorators import requires_roles
 
 
 # API GET endpoint returns individial tag category with given id
 @bp.route('/api/tag_categories/<int:id>', methods=['GET'])
+@login_required
 def get_tag_category_api(id):
     return jsonify(TagCategory.query.get_or_404(id).to_dict())
 
 # API GET endpoint returns all tag categories with tags, paginated with given
 # page and quantity per page
 @bp.route('/api/tag_categories', methods=['GET'])
+@login_required
 def get_tag_categories_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
@@ -24,7 +26,7 @@ def get_tag_categories_api():
 
 # API PUSH endpoint to update a tag category
 @bp.route('/api/tag_categories/<int:id>', methods=['PUT'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def update_tag_category_api(id):
     tag_category = TagCategory.query.get_or_404(id)
@@ -43,7 +45,7 @@ def update_tag_category_api(id):
 
 # API POST endpost to create a new tag category
 @bp.route('/api/tag_categories', methods=['POST'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def create_tag_category_api():
     data = request.get_json() or {}
@@ -68,7 +70,7 @@ def create_tag_category_api():
 
 # API DELETE endpoint to delete a tag category
 @bp.route('/api/tag_categories/<int:id>', methods=['DELETE'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def delete_tag_categories_api(id):
     if not TagCategory.query.filter_by(id=id).first():
@@ -80,12 +82,14 @@ def delete_tag_categories_api(id):
 
 # API GET endpoint returns a single tag by id
 @bp.route('/api/tags/<int:id>', methods=['GET'])
+@login_required
 def get_tag_api(id):
     return jsonify(Tag.query.get_or_404(id).to_dict())
 
 # API GET endpoint returns all tags, paginated with given page and quantity
 # per page
 @bp.route('/api/tags', methods=['GET'])
+@login_required
 def get_tags_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
@@ -95,7 +99,7 @@ def get_tags_api():
 
 # API PUSH endpoint to update a tag
 @bp.route('/api/tags/<int:id>', methods=['PUT'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def update_tag_api(id):
     tag = Tag.query.get_or_404(id)
@@ -109,7 +113,7 @@ def update_tag_api(id):
 
 # API POST endpoint to create a new tag
 @bp.route('/api/tags', methods=['POST'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def create_tag_api():
     data = request.get_json() or {}
@@ -131,7 +135,7 @@ def create_tag_api():
 
 # API DELETE endpoint to delete a tag
 @bp.route('/api/tags/<int:id>', methods=['DELETE'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def delete_tag_api(id):
     if not Tag.query.filter_by(id=id).first():

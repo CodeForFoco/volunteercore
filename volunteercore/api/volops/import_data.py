@@ -3,20 +3,20 @@ import csv
 from datetime import datetime
 from flask import request
 from werkzeug.utils import secure_filename
+from flask_login import login_required
 from config import Config
 from volunteercore import db
 from volunteercore.api import bp
 from volunteercore.volops.models import Partner, Opportunity, \
     Tag, TagCategory
 from volunteercore.api.errors import bad_request
-from volunteercore.api.auth import token_auth
 from volunteercore.decorators import requires_roles
 from flask_whooshalchemyplus import index_one_record
 
 
 # API POST endpoint for importing Tag data
 @bp.route('/api/import/tags', methods=['POST'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def import_tags():
     if 'file' not in request.files:
@@ -55,7 +55,7 @@ def import_tags():
 
 # API POST endpoint for importing Opportunity data
 @bp.route('/api/import/opportunities', methods=['POST'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def import_opportunities():
     if 'file' not in request.files:
@@ -110,7 +110,7 @@ def import_opportunities():
 
 # API POST endpoint for importing Opportunity Tags data
 @bp.route('/api/import/opportunity_tags', methods=['POST'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def import_opportunity_tags():
     if 'file' not in request.files:
