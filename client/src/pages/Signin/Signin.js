@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import history from '../../utils/history';
 import Wrap from '../../components/Wrap/Wrap';
 import Form from '../../objects/Form/Form.js';
 import Alert from '../../components/Alert/Alert.js';

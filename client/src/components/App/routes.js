@@ -5,26 +5,52 @@ module.exports = [{
   path: '/signin',
   component: require('../../pages/Signin/Signin.js').default
 }, {
-  path: '/opportunities',
-  component: require('../../pages/Opportunities/Opportunities').default
+  path: '/help',
+  component: require('../../pages/Help/Help.js').default
 }, {
-  path: '/opportunities/:id',
-  component: require('../../pages/Opportunity/Opportunity.js').default
+  path: '/opportunities',
+  component: require('../../pages/Opportunities/Opportunities').default,
+  token: true
+}, {
+  path: '/opportunities/view/:id',
+  component: require('../../pages/Opportunities/ViewOpportunity/ViewOpportunity').default,
+  token: true
+}, {
+  path: '/opportunities/post',
+  component: require('../../pages/Opportunities/PostOpportunity/PostOpportunity').default,
+  token: true
+}, {
+  path: '/opportunities/edit/:id',
+  component: require('../../pages/Opportunities/PutOpportunity/PutOpportunity').default,
+  token: true
 }, {
   path: '/partners',
-  component: require('../../pages/Partners/Partners.js').default
+  component: require('../../pages/Partners/Partners.js').default,
+  token: true
+}, {
+  path: '/partners/post',
+  component: require('../../pages/Partners/PostPartner/PostPartner.js').default,
+  token: true
+}, {
+  path: '/partners/edit/:id',
+  component: require('../../pages/Partners/PutPartner/PutPartner').default,
+  token: true
 }, {
   path: '/dashboard/:endpoint/search',
-  component: require('../../pages/SearchPage/SearchPage.js').default
+  component: require('../../pages/SearchPage/SearchPage.js').default,
+  admin: true
 }, {
   path: '/dashboard/:endpoint/add',
-  component: require('../../pages/PostPage/PostPage.js').default
+  component: require('../../pages/PostPage/PostPage.js').default,
+  admin: true
 }, {
   path: '/dashboard/:endpoint/edit/:id',
-  component: require('../../pages/PutPage/PutPage.js').default
+  component: require('../../pages/PutPage/PutPage.js').default,
+  admin: true
 }, {
   path: '/dashboard/:endpoint/view/:id',
-  component: require('../../pages/ViewPage/ViewPage.js').default
+  component: require('../../pages/ViewPage/ViewPage.js').default,
+  admin: true
 }, {
   component: require('../../pages/Page404/Page404.js').default
 }];
