@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import history from '../../utils/history.js';
+import { isUser, isAdmin } from '../../utils/validation';
 
 export default class Nav extends Component {
   constructor(props) {
@@ -13,9 +14,8 @@ export default class Nav extends Component {
   }
 
   signout() {
-    axios.post('/api/token/logout', {}, { headers: {
-      Authorization: 'Bearer ' + this.props.token
-    }}).then(res => {
+    axios.post('/api/auth/logout')
+    .then(res => {
       window.localStorage.setItem('token', undefined);
       this.props.set({ user: {}}, () => {
         history.push('/');
@@ -31,9 +31,7 @@ export default class Nav extends Component {
   }
 
   render () {
-    const { user, token } = this.props;
-    const isUser = token && user && user.roles;
-    const isAdmin = isUser && user.roles.indexOf('Admin') !== -1;
+    const { user } = this.props;
     return (
       <nav className='navbar navbar-expand-lg navbar-light bg-light'>
         <Link className='navbar-brand' to='/'>Volunteer Core</Link>
@@ -43,7 +41,7 @@ export default class Nav extends Component {
 
         <div className={this.state.open ? 'navbar-collapse' : 'collapse navbar-collapse'} id='navbarColor03'>
           <ul className='navbar-nav mr-auto'>
-            {isUser ? (
+            {isUser(user) ? (
               <>
                 <li className='nav-item'>
                   <Link className='nav-link' to='/opportunities'>Opportunities</Link>
@@ -51,9 +49,9 @@ export default class Nav extends Component {
                 <li className='nav-item'>
                   <Link className='nav-link' to='/partners'>Partners</Link>
                 </li>
-                {isAdmin ? (
+                {isAdmin(user) ? (
                   <li className='nav-item'>
-                    <Link className='nav-link' to='/dashboard/opportunities/search'>Dashboard</Link>
+                    <Link className='nav-link' to='/dashboard/tag_categories/search'>Dashboard</Link>
                   </li>
                 ): ''}
               </>
@@ -61,7 +59,7 @@ export default class Nav extends Component {
             <li className='nav-item'>
               <Link className='nav-link' to='/help'>Help</Link>
             </li>
-            {isUser ? (
+            {isUser(user) ? (
               <li className='nav-item'>
                 <span className='nav-link' onClick={this.signout.bind(this)}>Sign Out</span>
               </li>

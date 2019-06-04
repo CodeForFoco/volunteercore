@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import history from '../../utils/history';
+import { isAdmin, isUser } from '../../utils/validation';
 import Wrap from '../../components/Wrap/Wrap';
 import Form from '../../objects/Form/Form.js';
 import Alert from '../../components/Alert/Alert.js';
@@ -23,20 +24,33 @@ export default class Signin extends Component {
   submitForm(e) {
     e.preventDefault();
     const { username, password } = this.state;
-    axios.post('/api/auth/login', {}, 
-      { headers: { Authorization: 'Basic ' + window.btoa(username + ':' + password) }})
+    const Authorization = 'Basic ' + window.btoa(username + ':' + password);
+    axios.post('/api/auth/login', {}, { headers: { Authorization }})
       .then(res => {
         axios.get('/api/users/authenticated_user')
           .then(res => {
-            this.props.set({ user: res.data });
+            console.log('setting user...');
+            const user = res.data;
+            this.props.set({ user }, () => {
+              if (isAdmin(user)) {
+                return history.push('/dashboard/tags/search');
+              }
+              return history.push('/opportunities');
+            });
           })
           .catch(err => {
-            this.setState({ response: { type: 'alert-danger', text: err.response.data.message }});
+            this.setState({ response: { type: 'alert-danger', text: 'Bad Login. Please try again.' }});
           });
       })
       .catch(err => {
         this.setState({ response: { type: 'alert-danger', text: err.response.data.message }});
       });
+  }
+
+  componentDidMount() {
+    const { user } = this.props;
+    if (isUser(user)) return history.push('/opportunities');
+    if (isAdmin(user)) return history.push('/dashboard/tag_categories/search');
   }
 
   render () {
