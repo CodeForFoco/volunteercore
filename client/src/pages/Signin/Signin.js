@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Wrap from '../../components/Wrap/Wrap';
 import Form from '../../objects/Form/Form.js';
 import Alert from '../../components/Alert/Alert.js';
@@ -26,8 +25,13 @@ export default class Signin extends Component {
     axios.post('/api/auth/login', {}, 
       { headers: { Authorization: 'Basic ' + window.btoa(username + ':' + password) }})
       .then(res => {
-        alert(JSON.stringify(res));
-        this.props.set({ user: {}});
+        axios.get('/api/users/authenticated_user')
+          .then(res => {
+            this.props.set({ user: res.data });
+          })
+          .catch(err => {
+            this.setState({ response: { type: 'alert-danger', text: err.response.data.message }});
+          });
       })
       .catch(err => {
         this.setState({ response: { type: 'alert-danger', text: err.response.data.message }});
