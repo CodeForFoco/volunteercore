@@ -1,22 +1,22 @@
 from flask import jsonify, request, url_for
+from flask_login import login_required
 from volunteercore import db
 from volunteercore.api import bp
 from volunteercore.volops.models import Partner, Opportunity
 from volunteercore.api.errors import bad_request
-from volunteercore.api.auth import token_auth
 from flask_whooshalchemyplus import index_one_record
 
 
 # API GET endpoint returns individual opportunity from given id
 @bp.route('/api/opportunities/<int:id>', methods=['GET'])
-@token_auth.login_required
+@login_required
 def get_opportunity_api(id):
     return jsonify(Opportunity.query.get_or_404(id).to_dict())
 
 # API GET endpoint returns all opportunities, paginated with given page and
 # quantity per page. Accepts search argument to filter with Whoosh search.
 @bp.route('/api/opportunities', methods=['GET'])
-@token_auth.login_required
+@login_required
 def get_opportunities_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
@@ -51,7 +51,7 @@ def get_opportunities_api():
 
 # API PUT endpoint to update an opportunity
 @bp.route('/api/opportunities/<int:id>', methods=['PUT'])
-@token_auth.login_required
+@login_required
 def update_opportunity_api(id):
     opportunity = Opportunity.query.get_or_404(id)
     data = request.get_json() or {}
@@ -68,7 +68,7 @@ def update_opportunity_api(id):
 
 # API POST endpoint to create a new opportunity
 @bp.route('/api/opportunities', methods=['POST'])
-@token_auth.login_required
+@login_required
 def create_opportunity_api():
     data = request.get_json() or {}
     if 'name' not in data or 'partner_name' not in data:
@@ -95,7 +95,7 @@ def create_opportunity_api():
 
 # API DELETE endpoint to delete an opportunity
 @bp.route('/api/opportunities/<int:id>', methods=['DELETE'])
-@token_auth.login_required
+@login_required
 def delete_opportunity_api(id):
     if not Opportunity.query.filter_by(id=id).first():
         return bad_request('this opportunity does not exist')

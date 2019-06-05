@@ -1,6 +1,7 @@
 from flask import jsonify, request, url_for, g
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
-from volunteercore import db
+from flask_login import current_user, login_user, logout_user, login_required
+from volunteercore import db, login_manager
 from volunteercore.api import bp
 from volunteercore.auth.models import User, Role
 from volunteercore.api.errors import bad_request, error_response
@@ -36,10 +37,31 @@ def verify_token(token):
 def token_error_handler():
     return error_response(401)
 
+# Defines the error response if @login_required failes
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return error_response(401, message='please log in')
+
+# API POST endpoint for logging in a user. Requires username:password and
+# returns HTTP-Only cookie. Sets session user, current_user.
+@bp.route('/api/auth/login', methods=['POST'])
+@basic_auth.login_required
+def login():
+    if g.current_user is None:
+        return error_response(401)
+    login_user(g.current_user)
+    return 'user logged in', 201
+
+# API POST endpoint for logging out a user.
+@bp.route('/api/auth/logout', methods=['POST'])
+def logout():
+    logout_user()
+    return 'user logged out', 201
+
 # API GET endpoint returns an individual user. The users email is only
 # returned when the include_email argument is pass as True.
 @bp.route('/api/users/<int:id>', methods=['GET'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def get_user_api(id):
     include_email = request.args.get('include_email', False)
@@ -48,7 +70,7 @@ def get_user_api(id):
 # API GET endpoint return all users, paginated with given page and quantity
 # per page.
 @bp.route('/api/users', methods=['GET'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def get_users_api():
     include_email = request.args.get('include_email', False)
@@ -59,18 +81,16 @@ def get_users_api():
             include_email=include_email)
     return jsonify(data)
 
-
 # API GET endpoint to return the authenticated user
 @bp.route('/api/users/authenticated_user', methods=['GET'])
-@token_auth.login_required
+@login_required
 def get_authenticated_user_api():
     return jsonify(
-        User.query.filter_by(username=g.current_user.username).first().to_dict(include_email=True))
-
+        User.query.filter_by(username=current_user.username).first().to_dict(include_email=True))
 
 # API POST endpoint to create a new user
 @bp.route('/api/users', methods=['POST'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def create_user_api():
     data = request.get_json() or {}
@@ -93,7 +113,7 @@ def create_user_api():
 
 # API PUT endpoint to update a user
 @bp.route('/api/users/<int:id>', methods=['PUT'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def update_user_api(id):
     user = User.query.get_or_404(id)
@@ -112,7 +132,7 @@ def update_user_api(id):
 
 # API DELETE endpoint to delete a user
 @bp.route('/api/users/<int:id>', methods=['DELETE'])
-@token_auth.login_required
+@login_required
 @requires_roles('Admin')
 def delete_user_api(id):
     if not User.query.filter_by(id=id).first():

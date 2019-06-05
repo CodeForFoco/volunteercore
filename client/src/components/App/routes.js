@@ -10,47 +10,47 @@ module.exports = [{
 }, {
   path: '/opportunities',
   component: require('../../pages/Opportunities/Opportunities').default,
-  token: true
+  role: 'user'
 }, {
   path: '/opportunities/view/:id',
   component: require('../../pages/Opportunities/ViewOpportunity/ViewOpportunity').default,
-  token: true
+  role: 'user'
 }, {
   path: '/opportunities/post',
   component: require('../../pages/Opportunities/PostOpportunity/PostOpportunity').default,
-  token: true
+  role: 'user'
 }, {
   path: '/opportunities/edit/:id',
   component: require('../../pages/Opportunities/PutOpportunity/PutOpportunity').default,
-  token: true
+  role: 'user'
 }, {
   path: '/partners',
   component: require('../../pages/Partners/Partners.js').default,
-  token: true
+  role: 'user'
 }, {
   path: '/partners/post',
   component: require('../../pages/Partners/PostPartner/PostPartner.js').default,
-  token: true
+  role: 'user'
 }, {
   path: '/partners/edit/:id',
   component: require('../../pages/Partners/PutPartner/PutPartner').default,
-  token: true
+  role: 'user'
 }, {
   path: '/dashboard/:endpoint/search',
   component: require('../../pages/SearchPage/SearchPage.js').default,
-  admin: true
+  role: 'admin'
 }, {
   path: '/dashboard/:endpoint/add',
   component: require('../../pages/PostPage/PostPage.js').default,
-  admin: true
+  role: 'admin'
 }, {
   path: '/dashboard/:endpoint/edit/:id',
   component: require('../../pages/PutPage/PutPage.js').default,
-  admin: true
+  role: 'admin'
 }, {
   path: '/dashboard/:endpoint/view/:id',
   component: require('../../pages/ViewPage/ViewPage.js').default,
-  admin: true
+  role: 'admin'
 }, {
   component: require('../../pages/Page404/Page404.js').default
 }];
