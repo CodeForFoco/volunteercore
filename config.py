@@ -23,3 +23,5 @@ class Config(object):
         DEBUG = True
     else:
         DEBUG = False
+    REMEMBER_COOKIE_HTTPONLY = True
+    REMEMBER_COOKIE_DURATION = 1440

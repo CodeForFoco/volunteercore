@@ -44,7 +44,7 @@ class Sidebar extends Component {
         <h4 className="text-center">Dashboard</h4>
         <br/>
         <div className="dash-side-bar-items">
-          <Link 
+          {/*<Link 
             className="btn btn-block text-left btn-secondary"
             to="/dashboard/opportunities/search">
             Opportunities
@@ -53,7 +53,7 @@ class Sidebar extends Component {
             className="btn btn-block text-left btn-secondary"
             to="/dashboard/partners/search">
             Partners
-          </Link>
+          </Link>*/}
           <Link 
             className="btn btn-block text-left btn-secondary"
             to="/dashboard/tag_categories/search">

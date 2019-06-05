@@ -22,7 +22,7 @@ export default class Opportunties extends Component {
 
   search() {
     const { search, page, per_page } = this.state;
-    axios.get(`/api/opportunities?search=${search}&page=${page}&per_page=${per_page}`, { headers: { Authorization: 'Bearer ' + this.props.token }})
+    axios.get(`/api/opportunities?search=${search}&page=${page}&per_page=${per_page}`)
     .then(res => {
       this.setState({ searchResult: res.data });
     })
@@ -39,10 +39,9 @@ export default class Opportunties extends Component {
   }
 
   deleteOne(index) {
-    const token = this.props.token;
     let searchResult = this.state.searchResult;
     let id = searchResult.items[index].id;
-    axios.delete(`/api/opportunities/${id}`, { headers: { Authorization: `Bearer ${token}`}})
+    axios.delete(`/api/opportunities/${id}`)
       .then(res => {
         searchResult.items.splice(index, 1);
         this.setState({ searchResult });
@@ -75,6 +74,7 @@ export default class Opportunties extends Component {
           return (
             <Thumb
               {...val}
+              key={'thumb-' + i}
               deleteOne={() => { this.deleteOne(i) }}
             />
           );

@@ -1,22 +1,22 @@
 from flask import jsonify, request, url_for
+from flask_login import login_required
 from volunteercore import db
 from volunteercore.api import bp
 from volunteercore.volops.models import Partner, Opportunity
 from volunteercore.api.errors import bad_request
-from volunteercore.api.auth import token_auth
 from flask_whooshalchemyplus import index_one_record
 
 
 # API GET endpoint returns individual partner from given id
 @bp.route('/api/partners/<int:id>', methods=['GET'])
-@token_auth.login_required
+@login_required
 def get_partner_api(id):
     return jsonify(Partner.query.get_or_404(id).to_dict())
 
 # API GET endpoint returns all partners, paginated with given page and
 # quantity per page. Accepts search argument to filter with Whoosh search.
 @bp.route('/api/partners', methods=['GET'])
-@token_auth.login_required
+@login_required
 def get_partners_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
@@ -32,7 +32,7 @@ def get_partners_api():
 
 # API POST endpoint to create a new partner
 @bp.route('/api/partners', methods=['POST'])
-@token_auth.login_required
+@login_required
 def create_partner_api():
     data = request.get_json() or {}
     if 'name' not in data or data['name'] == "":
@@ -52,7 +52,7 @@ def create_partner_api():
 
 # API PUT endpoint to update a partner
 @bp.route('/api/partners/<int:id>', methods=['PUT'])
-@token_auth.login_required
+@login_required
 def update_partner_api(id):
     partner = Partner.query.get_or_404(id)
     data = request.get_json() or {}
@@ -68,7 +68,7 @@ def update_partner_api(id):
 
 # API DELETE endpoint to delete a partner
 @bp.route('/api/partners/<int:id>', methods=['DELETE'])
-@token_auth.login_required
+@login_required
 def delete_partner_api(id):
     if not Partner.query.filter_by(id=id).first():
         return bad_request('this partner does not exist')

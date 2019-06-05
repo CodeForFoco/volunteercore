@@ -9,6 +9,7 @@ import flask_whooshalchemyplus
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
+login_manager.login_view = 'api.login'
 template_folder = os.path.join('../client/build/')
 
 def create_app(config_class=Config):
