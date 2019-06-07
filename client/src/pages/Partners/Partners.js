@@ -20,7 +20,8 @@ export default class Partners extends Component {
     }
   }
 
-  search() {
+  search(e) {
+    if (e && e.preventDefault) e.preventDefault();
     const { search, page, per_page } = this.state;
     axios.get(`/api/partners?search=${search}&page=${page}&per_page=${per_page}`, { headers: { Authorization: 'Bearer ' + this.props.token }})
     .then(res => {
