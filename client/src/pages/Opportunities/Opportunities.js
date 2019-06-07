@@ -20,7 +20,8 @@ export default class Opportunties extends Component {
     }
   }
 
-  search() {
+  search(e) {
+    if (e && e.preventDefault) e.preventDefault();
     const { search, page, per_page } = this.state;
     axios.get(`/api/opportunities?search=${search}&page=${page}&per_page=${per_page}`)
     .then(res => {
