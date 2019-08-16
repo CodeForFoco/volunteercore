@@ -37,8 +37,7 @@ class Partner(PagininatedAPIMixin, db.Model):
 
 class Opportunity(PagininatedAPIMixin, db.Model):
     __tablename__ = 'opportunity'
-    __searchable__ = ['name', 'location_city', 'location_zip',
-                      'tags_string', 'partner_string']
+    __searchable__ = ['tags_string']
 
     id = db.Column(db.Integer(), primary_key=True, index=True)
     active = db.Column(db.Boolean())

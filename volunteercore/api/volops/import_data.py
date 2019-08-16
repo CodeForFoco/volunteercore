@@ -139,6 +139,7 @@ def import_opportunity_tags():
                 opportunity.tags.append(Tag.query.filter_by(
                     tag_category_id=tag_category_id,
                     name=row['tag']).first())
+                opportunity.update_tag_strings()
                 db.session.add(opportunity)
                 db.session.commit()
                 index_one_record(opportunity)
@@ -146,3 +147,14 @@ def import_opportunity_tags():
         open_csv.close()
         os.remove(os.path.join(Config.UPLOAD_FOLDER, import_filename))
         return str(items_imported) + ' opportunity tags imported'
+
+
+@bp.route('/api/import/set_tags_string', methods=['POST'])
+@login_required
+@requires_roles('Admin')
+def set_tags_string():
+    for opportunity in Opportunity.query.all():
+        opportunity.update_tag_strings()
+        db.session.add(opportunity)
+        db.session.commit()
+    return 'opportunity tags strings set', 201
