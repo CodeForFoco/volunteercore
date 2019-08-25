@@ -20,7 +20,8 @@ export default class Opportunties extends Component {
     }
   }
 
-  search() {
+  search(e) {
+    if (e && e.preventDefault) e.preventDefault();
     const { search, page, per_page } = this.state;
     axios.get(`/api/opportunities?search=${search}&page=${page}&per_page=${per_page}`)
     .then(res => {
@@ -78,7 +79,8 @@ export default class Opportunties extends Component {
               deleteOne={() => { this.deleteOne(i) }}
             />
           );
-        }): <p className="text-danger">No Opportunities found.</p>}
+        }): 
+        <p className="text-danger">No Opportunities found.</p>}
         <Pagination
           {...this.state}
           setValue={this.setValue.bind(this)}
