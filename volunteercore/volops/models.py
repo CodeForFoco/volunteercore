@@ -53,7 +53,7 @@ class Opportunity(PagininatedAPIMixin, db.Model):
     location_city = db.Column(db.String(50))
     location_state = db.Column(db.String(20))
     location_zip = db.Column(db.String(10))
-    tags_string = db.Column(db.String(400))
+    tags_string = db.Column(db.String(2000))
     partner_string = db.Column(db.String(100))
     frequency_unit = db.Column(db.String(25))
     frequency_modifier = db.Column(db.String(5))
