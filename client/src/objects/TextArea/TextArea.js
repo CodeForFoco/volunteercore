@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 export default class TextArea extends Component {
   render () {
-    const { label, name } = this.props;
+    const { label, name, required } = this.props;
     
     return (
       <div className="form-group">
-        <label>{label || name}</label>
+        <label>{(required ? '* ' : '' ) + (label || name)}</label>
         <textarea
           className="form-control"
           name={name}

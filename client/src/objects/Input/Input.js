@@ -21,7 +21,7 @@ export default class Input extends Component {
 
     return (
       <div className={`form-group ${modified ? valid ? 'has-success' : 'has-danger' : ''}`}>
-        <label className="control-label">{(this.props.optional ? '' : '* ') + (this.props.label || this.props.name) + (this.props.ex ? ` (${this.props.ex})` : '')}</label>
+        <label className="control-label">{(this.props.required ? '* ' : '') + (this.props.label || this.props.name) + (this.props.ex ? ` (${this.props.ex})` : '')}</label>
         <input 
           autoComplete={this.props.autoComplete || 'null'}
           className={`form-control ${modified ? valid ? 'is-valid' : 'is-invalid' : ''}`}

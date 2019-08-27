@@ -23,10 +23,6 @@ const frequency_unit = [
   '4th'
 ];
 
-//const roles = [
-
-//];
-
 const endpoints = {
   opportunities: {
     title: 'Opportunities',
@@ -40,7 +36,15 @@ const endpoints = {
       getOptions: {
         endpoint: '/api/partners',
         property: 'name'
-      }
+      },
+      required: true
+    }, {
+      name: 'name',
+      required: true
+    }, {
+      name: 'description',
+      component: TextArea,
+      required: true
     }, [{
         name: 'location_street'
       }, {
@@ -48,8 +52,6 @@ const endpoints = {
     }], {
       name: 'location_zip',
       type: 'number'
-    }, {
-      name: 'name'
     }, {
       name: 'shift_hours',
       type: 'number'
@@ -92,9 +94,6 @@ const endpoints = {
           }).catch(reject);
         });
       }
-    }, {
-      name: 'description',
-      component: TextArea
     }],
   },
   partners: {
