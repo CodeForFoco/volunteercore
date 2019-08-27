@@ -74,9 +74,6 @@ const endpoints = {
       name: 'training_hours_required',
       type: 'number'
     }, {
-      name: 'volunteers_needed',
-      type: 'number'
-    }, {
       name: 'tags',
       component: SelectMany,
       customGet(token) {
