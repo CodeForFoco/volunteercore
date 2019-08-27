@@ -11,7 +11,11 @@ For the backend you need [python 3](https://www.python.org/downloads/), pipenv, 
 
 For the front end you need [NodeJS + npm](https://nodejs.org/en/download/)
 
-**NOTE:** If running on Ubuntu (as of 9-2019), the built-in python is broken. You must follow [these instructions](https://github.com/pypa/pipenv/issues/2922) to fix it.
+**NOTE:** If running on Ubuntu (as of 9-2019), the built-in python appears broken. Read the links below to install everything correctly:
+[Ubuntu Python Broken?](https://github.com/pypa/pipenv/issues/2922) to fix it.
+[pg_config error](https://stackoverflow.com/questions/11618898/pg-config-executable-not-found)
+[Python Dev Tools](https://stackoverflow.com/questions/26053982/setup-script-exited-with-error-command-x86-64-linux-gnu-gcc-failed-with-exit)
+
 
 ### Prepare Development Enviornment
 Clone the repo and cd into the created directory
