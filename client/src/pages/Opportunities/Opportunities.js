@@ -15,7 +15,7 @@ export default class Opportunties extends Component {
       searchResult: {},
       searchError: {},
       page: 1,
-      per_page: 10,
+      per_page: 2,
       search: '',
     }
   }
@@ -30,7 +30,8 @@ export default class Opportunties extends Component {
     .catch(err => {
       this.setState({ searchError: {
         text: err.response.status + ' ' + err.response.statusText,
-        type: 'alert-danger'
+        type: 'alert-danger',
+        page: 1
       }});
     });
   }
@@ -66,7 +67,10 @@ export default class Opportunties extends Component {
           endpoint='opportunities'
           setValue={this.setValue.bind(this)}
           search={this.state.search}
-          submitSearch={this.search.bind(this)}
+          submitSearch={(e) => {
+            this.setState({ page: 1 });
+            this.search(e);
+          }}
           postUrl="/opportunities/post"
         />
         <Alert {...this.state.searchError}/>
