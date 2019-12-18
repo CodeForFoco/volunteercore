@@ -7,23 +7,17 @@ This setup is for use with local development only; production instructions will 
 
 You will need [git](https://git-scm.com/downloads) to clone this repo.
 
-For the backend you need [python 3](https://www.python.org/downloads/), pipenv, and SQLite installed. Depending where you get Python from, pipenv may already be included with Python.
+For the backend you need [python 3](https://www.python.org/downloads/), venv, pip, and SQLite installed. Depending where you get Python from, venv may already be included with Python.
 
 For the front end you need [NodeJS + npm](https://nodejs.org/en/download/)
-
-**NOTE:** If running on Ubuntu (as of 9-2019), the built-in python appears broken. Read the links below to install everything correctly:
-
-* [Ubuntu Python Broken?](https://github.com/pypa/pipenv/issues/2922)
-* [pg_config error](https://stackoverflow.com/questions/11618898/pg-config-executable-not-found)
-* [Python Dev Tools](https://stackoverflow.com/questions/26053982/setup-script-exited-with-error-command-x86-64-linux-gnu-gcc-failed-with-exit)
-
 
 ### Prepare Development Enviornment
 Clone the repo and cd into the created directory
 
 ##### Prepare and start the Flask API
-1. `pipenv install`
-1. `pipenv shell`
+1. `python3 -m venv venv`
+1. `source venv/bin/active`
+1. `pip install -r requirements.txt`
 1. `cp config.env.template .env`
 1. `flask db upgrade`
 1. Create the admin user: `flask auto-setup`
